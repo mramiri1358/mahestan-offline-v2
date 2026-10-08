@@ -60,26 +60,15 @@ jobs:
 
           mkdir -p "$VENDOR/vazirmatn"
 
-          npm pack vazirmatn@33.0.3 --silent
-
-          PKG="vazirmatn-33.0.3.tgz"
-
-          tar -xzf "$PKG"
-
-          CSS="$(find package -type f -name 'Vazirmatn-font-face.css' | head -n 1)"
-
-          if [ -z "$CSS" ]; then
-            echo "Vazirmatn CSS not found"
-            exit 1
+          if [ -f "$VENDOR/NotoSansArabic-Regular.ttf" ]; then
+            cp "$VENDOR/NotoSansArabic-Regular.ttf" \
+              "$VENDOR/vazirmatn/NotoSansArabic-Regular.ttf"
           fi
 
-          cp "$CSS" "$VENDOR/vazirmatn/Vazirmatn-font-face.css"
-
-          CSSDIR="$(dirname "$CSS")"
-
-          cp "$CSSDIR"/*.woff2 "$VENDOR/vazirmatn/" 2>/dev/null || true
-          cp "$CSSDIR"/*.woff "$VENDOR/vazirmatn/" 2>/dev/null || true
-          cp "$CSSDIR"/*.ttf "$VENDOR/vazirmatn/" 2>/dev/null || true
+          if [ -f "$VENDOR/NotoSansArabic-Bold.ttf" ]; then
+            cp "$VENDOR/NotoSansArabic-Bold.ttf" \
+              "$VENDOR/vazirmatn/NotoSansArabic-Bold.ttf"
+          fi
 
           python3 - <<'PY'
           from pathlib import Path
@@ -89,7 +78,7 @@ jobs:
 
           replacements = {
               "https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css":
-                  "vendor/vazirmatn/Vazirmatn-font-face.css",
+                  "vendor/vazirmatn/fonts.css",
 
               "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js":
                   "vendor/xlsx.full.min.js",
@@ -110,80 +99,26 @@ jobs:
           for old, new in replacements.items():
               s = s.replace(old, new)
 
-          # Remove only a standalone rrweb script tag.
-          marker_start = '<script'
-          marker_end = '</script>'
-
-          while True:
-              start = s.lower().find(marker_start)
-              if start == -1:
-                  break
-
-              end = s.lower().find(marker_end, start)
-              if end == -1:
-                  break
-
-              end += len(marker_end)
-
-              block = s[start:end]
-
-              if "rrweb" in block.lower():
-                  s = s[:start] + s[end:]
-              else:
-                  start = end
-
-          # Remove only explicit rrweb CDN URL occurrences.
-          rrweb_prefix = "https://cdn.jsdelivr.net/npm/rrweb@"
-
-          while rrweb_prefix in s:
-              start = s.find(rrweb_prefix)
-
-              end = start
-
-              while end < len(s):
-                  ch = s[end]
-                  if ch in "\"' <>\r\n":
-                      break
-                  end += 1
-
-              s = s[:start] + s[end:]
-
-          # Restore the real manifest link if the placeholder exists.
-          placeholder = '<link rel="manifest" href="manifest.webmanifest">'
-
-          if 'id="manifest-placeholder"' in s:
-              lines = s.splitlines()
-
-              for i, line in enumerate(lines):
-                  if 'id="manifest-placeholder"' in line:
-                      lines[i] = placeholder
-
-              s = "\n".join(lines)
-
           p.write_text(s, encoding="utf-8")
           PY
 
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
+          cat > "$VENDOR/vazirmatn/fonts.css" <<'EOF'
+          @font-face {
+            font-family: 'Vazirmatn';
+            src: url('NotoSansArabic-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+          }
 
-          p = Path(
-              "app/src/main/assets/www/vendor/vazirmatn/"
-              "Vazirmatn-font-face.css"
-          )
-
-          if p.exists():
-              s = p.read_text(encoding="utf-8")
-
-              s = re.sub(
-                  r'url\((["\']?)([^)"\']+)\1\)',
-                  lambda m:
-                      f'url({m.group(1)}{Path(m.group(2)).name}{m.group(1)})',
-                  s
-              )
-
-              p.write_text(s, encoding="utf-8")
-          PY
+          @font-face {
+            font-family: 'Vazirmatn';
+            src: url('NotoSansArabic-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+          }
+          EOF
 
       - name: Verify offline web files
         shell: bash
@@ -196,7 +131,7 @@ jobs:
           test -f "app/src/main/assets/www/vendor/jspdf.umd.min.js"
           test -f "app/src/main/assets/www/vendor/jszip.min.js"
           test -f "app/src/main/assets/www/vendor/tailwind.cdn.js"
-          test -f "app/src/main/assets/www/vendor/vazirmatn/Vazirmatn-font-face.css"
+          test -f "app/src/main/assets/www/vendor/vazirmatn/fonts.css"
 
       - name: Verify HTML integrity
         shell: bash
@@ -209,17 +144,18 @@ jobs:
           p = Path("app/src/main/assets/www/index.html")
           s = p.read_text(encoding="utf-8")
 
-          if "<html" not in s.lower():
-              raise SystemExit("ERROR: <html> tag is missing")
+          required = [
+              "<html",
+              "</html>",
+              "<body",
+              "</body>"
+          ]
 
-          if "</html>" not in s.lower():
-              raise SystemExit("ERROR: </html> tag is missing")
-
-          if "<body" not in s.lower():
-              raise SystemExit("ERROR: <body> tag is missing")
-
-          if "</body>" not in s.lower():
-              raise SystemExit("ERROR: </body> tag is missing")
+          for item in required:
+              if item.lower() not in s.lower():
+                  raise SystemExit(
+                      "ERROR: HTML integrity check failed: " + item
+                  )
 
           print("HTML integrity check passed")
           PY
