@@ -110,6 +110,7 @@ jobs:
           for old, new in replacements.items():
               s = s.replace(old, new)
 
+          # Remove rrweb script tags.
           s = re.sub(
               r'<script[^>]+src=["\']https://cdn\.jsdelivr\.net/npm/rrweb@[^"\']+["\'][^>]*>\s*</script>',
               '',
@@ -117,6 +118,23 @@ jobs:
               flags=re.I
           )
 
+          # Remove dynamically-created rrweb CDN loading code.
+          s = re.sub(
+              r'(?s)<script[^>]*>.*?script\.src\s*=\s*["\']https://cdn\.jsdelivr\.net/npm/rrweb@.*?</script>',
+              '',
+              s,
+              flags=re.I
+          )
+
+          # Remove any remaining literal rrweb CDN URL.
+          s = re.sub(
+              r'https://cdn\.jsdelivr\.net/npm/rrweb@[^\s"\']+',
+              '',
+              s,
+              flags=re.I
+          )
+
+          # Replace DesignArena manifest placeholder.
           s = re.sub(
               r'<link[^>]+id=["\']manifest-placeholder["\'][^>]*>',
               '<link rel="manifest" href="manifest.webmanifest">',
