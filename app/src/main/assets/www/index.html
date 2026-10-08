@@ -569,6 +569,18 @@ function openBackupModal(){switchBackupSub('export');document.getElementById('ba
 function closeBackupModal(){document.getElementById('backupModal').classList.remove('open');}
 function switchBackupSub(sub){document.getElementById('btnSubBkExport').classList.toggle('active',sub==='export');document.getElementById('btnSubBkImport').classList.toggle('active',sub==='import');document.getElementById('bkSubExport').classList.toggle('hidden',sub!=='export');document.getElementById('bkSubImport').classList.toggle('hidden',sub!=='export');}
 async function saveBlob(blob,name,desc,mime){
+ if(window.AndroidFileSaver && window.AndroidFileSaver.saveFile){
+  try{
+   const buffer=await blob.arrayBuffer();
+   const bytes=new Uint8Array(buffer);
+   let binary='';
+   const chunk=0x8000;
+   for(let i=0;i<bytes.length;i+=chunk){binary+=String.fromCharCode.apply(null,bytes.subarray(i,Math.min(i+chunk,bytes.length)));}
+   window.AndroidFileSaver.saveFile(btoa(binary),name,mime||blob.type||'application/octet-stream');
+   toast('محل ذخیره فایل را انتخاب کنید…');
+   return true;
+  }catch(e){console.error('Android save error',e);}
+ }
  if(window.showSaveFilePicker){
   try{
    const h=await window.showSaveFilePicker({suggestedName:name,types:[{description:desc,accept:{[mime]:[name.substring(name.lastIndexOf('.'))]}}]});
