@@ -62,7 +62,8 @@ jobs:
 
           npm pack vazirmatn@33.0.3 --silent
 
-          PKG="$(ls vazirmatn-33.0.3.tgz)"
+          PKG="vazirmatn-33.0.3.tgz"
+
           tar -xzf "$PKG"
 
           CSS="$(find package -type f -name 'Vazirmatn-font-face.css' | head -n 1)"
@@ -82,7 +83,6 @@ jobs:
 
           python3 - <<'PY'
           from pathlib import Path
-          import re
 
           p = Path("app/src/main/assets/www/index.html")
           s = p.read_text(encoding="utf-8")
@@ -110,34 +110,55 @@ jobs:
           for old, new in replacements.items():
               s = s.replace(old, new)
 
-          s = re.sub(
-              r'<script[^>]+src=["\']https://cdn\.jsdelivr\.net/npm/rrweb@[^"\']+["\'][^>]*>\s*</script>',
-              '',
-              s,
-              flags=re.I
-          )
+          # Remove only a standalone rrweb script tag.
+          marker_start = '<script'
+          marker_end = '</script>'
 
-          s = re.sub(
-              r'(?s)<script[^>]*>.*?script\.src\s*=\s*["\']https://cdn\.jsdelivr\.net/npm/rrweb@.*?</script>',
-              '',
-              s,
-              flags=re.I
-          )
+          while True:
+              start = s.lower().find(marker_start)
+              if start == -1:
+                  break
 
-          s = re.sub(
-              r'https://cdn\.jsdelivr\.net/npm/rrweb@[^\s"\']+',
-              '',
-              s,
-              flags=re.I
-          )
+              end = s.lower().find(marker_end, start)
+              if end == -1:
+                  break
 
-          s = re.sub(
-              r'<link[^>]+id=["\']manifest-placeholder["\'][^>]*>',
-              '<link rel="manifest" href="manifest.webmanifest">',
-              s,
-              count=1,
-              flags=re.I
-          )
+              end += len(marker_end)
+
+              block = s[start:end]
+
+              if "rrweb" in block.lower():
+                  s = s[:start] + s[end:]
+              else:
+                  start = end
+
+          # Remove only explicit rrweb CDN URL occurrences.
+          rrweb_prefix = "https://cdn.jsdelivr.net/npm/rrweb@"
+
+          while rrweb_prefix in s:
+              start = s.find(rrweb_prefix)
+
+              end = start
+
+              while end < len(s):
+                  ch = s[end]
+                  if ch in "\"' <>\r\n":
+                      break
+                  end += 1
+
+              s = s[:start] + s[end:]
+
+          # Restore the real manifest link if the placeholder exists.
+          placeholder = '<link rel="manifest" href="manifest.webmanifest">'
+
+          if 'id="manifest-placeholder"' in s:
+              lines = s.splitlines()
+
+              for i, line in enumerate(lines):
+                  if 'id="manifest-placeholder"' in line:
+                      lines[i] = placeholder
+
+              s = "\n".join(lines)
 
           p.write_text(s, encoding="utf-8")
           PY
@@ -176,6 +197,32 @@ jobs:
           test -f "app/src/main/assets/www/vendor/jszip.min.js"
           test -f "app/src/main/assets/www/vendor/tailwind.cdn.js"
           test -f "app/src/main/assets/www/vendor/vazirmatn/Vazirmatn-font-face.css"
+
+      - name: Verify HTML integrity
+        shell: bash
+        run: |
+          set -e
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path("app/src/main/assets/www/index.html")
+          s = p.read_text(encoding="utf-8")
+
+          if "<html" not in s.lower():
+              raise SystemExit("ERROR: <html> tag is missing")
+
+          if "</html>" not in s.lower():
+              raise SystemExit("ERROR: </html> tag is missing")
+
+          if "<body" not in s.lower():
+              raise SystemExit("ERROR: <body> tag is missing")
+
+          if "</body>" not in s.lower():
+              raise SystemExit("ERROR: </body> tag is missing")
+
+          print("HTML integrity check passed")
+          PY
 
       - name: Verify no runtime CDN dependencies
         shell: bash
