@@ -70,8 +70,27 @@ jobs:
               "$VENDOR/vazirmatn/NotoSansArabic-Bold.ttf"
           fi
 
+          cat > "$VENDOR/vazirmatn/fonts.css" <<'EOF'
+          @font-face {
+            font-family: 'Vazirmatn';
+            src: url('NotoSansArabic-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+          }
+
+          @font-face {
+            font-family: 'Vazirmatn';
+            src: url('NotoSansArabic-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+          }
+          EOF
+
           python3 - <<'PY'
           from pathlib import Path
+          import re
 
           p = Path("app/src/main/assets/www/index.html")
           s = p.read_text(encoding="utf-8")
@@ -99,26 +118,40 @@ jobs:
           for old, new in replacements.items():
               s = s.replace(old, new)
 
+          # Remove only script tags whose content/src contains rrweb.
+          s = re.sub(
+              r'<script\b[^>]*rrweb[^>]*>\s*</script>',
+              '',
+              s,
+              flags=re.IGNORECASE
+          )
+
+          # Remove only a script tag whose body contains an rrweb URL.
+          s = re.sub(
+              r'<script\b[^>]*>\s*[^<]*rrweb[^<]*</script>',
+              '',
+              s,
+              flags=re.IGNORECASE
+          )
+
+          # Remove only the dynamic rrweb script.src assignment.
+          s = re.sub(
+              r'^[ \t]*script\.src\s*=\s*[^;]*rrweb[^;]*;\s*$',
+              '',
+              s,
+              flags=re.IGNORECASE | re.MULTILINE
+          )
+
+          # Also remove the exact rrweb URL if it remains inside a string.
+          s = re.sub(
+              r'https://cdn\.jsdelivr\.net/npm/rrweb@[^"\')\s<]+',
+              '',
+              s,
+              flags=re.IGNORECASE
+          )
+
           p.write_text(s, encoding="utf-8")
           PY
-
-          cat > "$VENDOR/vazirmatn/fonts.css" <<'EOF'
-          @font-face {
-            font-family: 'Vazirmatn';
-            src: url('NotoSansArabic-Regular.ttf') format('truetype');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-          }
-
-          @font-face {
-            font-family: 'Vazirmatn';
-            src: url('NotoSansArabic-Bold.ttf') format('truetype');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-          }
-          EOF
 
       - name: Verify offline web files
         shell: bash
@@ -144,14 +177,14 @@ jobs:
           p = Path("app/src/main/assets/www/index.html")
           s = p.read_text(encoding="utf-8")
 
-          required = [
+          checks = [
               "<html",
               "</html>",
               "<body",
               "</body>"
           ]
 
-          for item in required:
+          for item in checks:
               if item.lower() not in s.lower():
                   raise SystemExit(
                       "ERROR: HTML integrity check failed: " + item
@@ -159,6 +192,18 @@ jobs:
 
           print("HTML integrity check passed")
           PY
+
+      - name: Verify rrweb removed
+        shell: bash
+        run: |
+          set -e
+
+          if grep -ni "rrweb" app/src/main/assets/www/index.html; then
+            echo "ERROR: rrweb reference remains in index.html"
+            exit 1
+          fi
+
+          echo "rrweb check passed"
 
       - name: Verify no runtime CDN dependencies
         shell: bash
@@ -172,6 +217,8 @@ jobs:
             echo "External runtime dependency remains in index.html"
             exit 1
           fi
+
+          echo "Offline dependency check passed"
 
       - name: Build APK
         shell: bash
