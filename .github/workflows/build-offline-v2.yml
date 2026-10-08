@@ -1,1 +1,148 @@
+name: Build Offline APK v2
 
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Gradle 8.7
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.7"
+
+      - name: Prepare offline web dependencies
+        shell: bash
+        run: |
+          set -e
+          WEB="app/src/main/assets/www"
+          VENDOR="$WEB/vendor"
+          mkdir -p "$VENDOR"
+
+          curl -L --fail --retry 3 -o "$VENDOR/xlsx.full.min.js" \
+            "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+
+          curl -L --fail --retry 3 -o "$VENDOR/html2canvas.min.js" \
+            "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+
+          curl -L --fail --retry 3 -o "$VENDOR/jspdf.umd.min.js" \
+            "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+
+          curl -L --fail --retry 3 -o "$VENDOR/jszip.min.js" \
+            "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+
+          curl -L --fail --retry 3 -o "$VENDOR/tailwind.cdn.js" \
+            "https://cdn.tailwindcss.com"
+
+          mkdir -p "$VENDOR/vazirmatn"
+          npm pack vazirmatn@33.003 --silent
+          PKG="$(ls vazirmatn-33.003.tgz)"
+          tar -xzf "$PKG"
+          CSS="$(find package -type f -name 'Vazirmatn-font-face.css' | head -n 1)"
+          if [ -z "$CSS" ]; then
+            echo "Vazirmatn CSS not found"
+            exit 1
+          fi
+          cp "$CSS" "$VENDOR/vazirmatn/Vazirmatn-font-face.css"
+          CSSDIR="$(dirname "$CSS")"
+          cp "$CSSDIR"/*.woff2 "$VENDOR/vazirmatn/" 2>/dev/null || true
+          cp "$CSSDIR"/*.woff "$VENDOR/vazirmatn/" 2>/dev/null || true
+          cp "$CSSDIR"/*.ttf "$VENDOR/vazirmatn/" 2>/dev/null || true
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path("app/src/main/assets/www/index.html")
+          s = p.read_text(encoding="utf-8")
+
+          replacements = {
+              "https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css":
+                  "vendor/vazirmatn/Vazirmatn-font-face.css",
+              "https://cdn.tailwindcss.com":
+                  "vendor/tailwind.cdn.js",
+              "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js":
+                  "vendor/xlsx.full.min.js",
+              "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js":
+                  "vendor/html2canvas.min.js",
+              "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js":
+                  "vendor/jspdf.umd.min.js",
+              "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js":
+                  "vendor/jszip.min.js",
+          }
+
+          for old, new in replacements.items():
+              s = s.replace(old, new)
+
+          # rrweb is not required by the application runtime. Remove only its
+          # external script tag so the APK has no runtime web dependency.
+          s = re.sub(
+              r'<script[^>]+src=["\']https://cdn\.jsdelivr\.net/npm/rrweb@[^"\']+["\'][^>]*>\s*</script>',
+              '',
+              s,
+              flags=re.I
+          )
+
+          # The DesignArena blob manifest cannot work inside an offline APK.
+          # Use the bundled manifest from the reference project instead.
+          s = re.sub(
+              r'<link[^>]+id=["\']manifest-placeholder["\'][^>]*>',
+              '<link rel="manifest" href="manifest.webmanifest">',
+              s,
+              count=1,
+              flags=re.I
+          )
+
+          p.write_text(s, encoding="utf-8")
+          PY
+
+          # Make Vazirmatn font-face URLs resolve locally.
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path("app/src/main/assets/www/vendor/vazirmatn/Vazirmatn-font-face.css")
+          if p.exists():
+              s = p.read_text(encoding="utf-8")
+              s = re.sub(r'url\((["\']?)([^)"\']+)\1\)', lambda m: f'url({m.group(1)}{Path(m.group(2)).name}{m.group(1)})', s)
+              p.write_text(s, encoding="utf-8")
+          PY
+
+      - name: Verify no runtime CDN dependencies
+        shell: bash
+        run: |
+          set -e
+          if grep -nE 'https?://(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.tailwindcss\.com)' \
+            app/src/main/assets/www/index.html; then
+            echo "External runtime dependency remains in index.html"
+            exit 1
+          fi
+
+      - name: Build APK
+        run: gradle assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: MahestanOffline-v2-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
