@@ -49,8 +49,8 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(500px 3
 .badge-tenant{background:#cffafe;color:#0e7490;border:1px solid #67e8f9}
 .badge-paid{background:#d1fae5;color:#047857;border:1px solid #6ee7b7;box-shadow:0 0 8px rgba(16,185,129,.3)}
 .badge-unpaid{background:#ffe4e6;color:#be123c;border:1px solid #fda4af}
-.toast-box{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(220%);transition:transform .35s cubic-bezier(.18,.89,.32,1.28);z-index:400;max-width:90%}
-.toast-box.show{transform:translateX(-50%) translateY(0)}
+.toast-box{position:fixed;left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%) scale(.92);transition:transform .25s ease,opacity .25s ease;z-index:5000;max-width:88%;text-align:center;justify-content:center;opacity:0;pointer-events:none}.toast-box.show{transform:translate(-50%,-50%) scale(1);opacity:1}.toast-box{min-width:190px;box-shadow:0 12px 40px rgba(15,23,42,.25)}
+
 .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.68);backdrop-filter:blur(6px);z-index:250;display:none;align-items:center;justify-content:center;padding:14px;animation:fadeIn .25s ease}
 .modal-backdrop.open{display:flex}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -152,7 +152,7 @@ main{max-width:100%;overflow-x:hidden;}
 <body dir="rtl">
 <div class="phone-container" id="phoneContainer" style="background: linear-gradient(rgb(255, 251, 235) 0%, rgb(253, 230, 138) 30%, rgb(245, 158, 11) 65%, rgb(146, 64, 14) 100%) local;">
 <div id="sharedReceiptBanner" class="hidden bg-emerald-600 text-white px-3.5 py-2.5 text-xs font-bold flex items-center justify-between shadow-lg sticky top-0 z-50">
-<div class="flex items-center gap-2"><span class="text-base">📥</span><span>رسید جدید دریافت شد! قبض را پیدا کرده و دکمه <b>الصاق</b> را بزنید.</span></div>
+<div class="flex items-center gap-2"><span class="text-base">📥</span><span>رسید از برنامه دیگر دریافت شد؛ قبض‌های پرداخت‌نشده آماده انتخاب هستند.</span></div>
 <div class="flex items-center gap-1.5"><button onclick="applySharedReceiptDirectly()" class="bg-white text-emerald-800 hover:bg-emerald-50 px-2 py-0.5 rounded text-[11px] font-black">انتخاب قبض</button><button onclick="dismissSharedReceiptBanner()" class="bg-black/20 hover:bg-black/30 px-2 py-0.5 rounded text-[10px]">بستن</button></div>
 </div>
 <header class="px-3.5 pt-3 pb-2.5 border-b border-white/60 bg-white/75 backdrop-blur-md relative z-10">
@@ -172,6 +172,7 @@ main{max-width:100%;overflow-x:hidden;}
 <button onclick="openApkBuildModal()" class="hdr-btn apk">📦 <span>پکیج نصب APK</span></button>
 <button onclick="handleInstallApp()" class="hdr-btn">📲 <span>نصب</span></button>
 <button onclick="handleWipeAllData()" class="hdr-btn danger">🗑️ <span>حذف دیتا</span></button>
+<button onclick="exitApp()" class="hdr-btn danger">🚪 <span>خروج</span></button>
 </div>
 </div>
 <div class="mt-2.5 grid grid-cols-4 gap-1.5 text-center">
@@ -513,7 +514,7 @@ function setupPwaManifest(){
 setupPwaManifest();
 const STORAGE_RESIDENTS='blok_res_v8',STORAGE_BILLS='blok_bills_v8',STORAGE_EXPENSES='blok_exp_v8',STORAGE_THEME='blok_theme_v8';
 let currentTheme={bgIdx:0,tabIdx:0,glowIdx:0,boxIdx:0};
-const App={residents:[],bills:[],expenses:[],selectedResidentType:'مالک',selectedBillType:'آب',modalBillId:null,editId:null,currentReceiptImageBase64:null,pendingSharedReceipt:null,excelResidentsRows:[],excelResidentsHeaders:[],excelBillsRows:[],excelBillsHeaders:[],resMap:{},billMap:{}};
+const App={residents:[],bills:[],expenses:[],selectedResidentType:'مالک',selectedBillType:'آب',modalBillId:null,editId:null,currentReceiptImageBase64:null,pendingSharedReceipt:null,pendingSharedReceiptImage:null,excelResidentsRows:[],excelResidentsHeaders:[],excelBillsRows:[],excelBillsHeaders:[],resMap:{},billMap:{}};
 let activeMainTab='residents',activeFinanceSub='bill',overviewFilter='all',deferredInstallPrompt=null,reportMode='overview';
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;});
 function safeGet(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
@@ -893,13 +894,29 @@ function deleteBill(id){if(confirm('حذف قبض؟')){App.bills=App.bills.filte
 function openReceiptModal(id){
  App.modalBillId=id;
  const b=App.bills.find(x=>x.id==id);if(!b)return;
+ // When opened from Android Share, prepare the received receipt immediately for this selected bill.
+ if(App.pendingSharedReceipt || App.pendingSharedReceiptImage){
+   b.receiptText=App.pendingSharedReceipt||b.receiptText||'';
+   b.receiptImage=App.pendingSharedReceiptImage||b.receiptImage||null;
+   persistStorage();
+   renderBillsList();
+   App.pendingSharedReceipt=null;
+   App.pendingSharedReceiptImage=null;
+   dismissSharedReceiptBanner();
+   App.modalBillId=null;
+   toast('رسید پرداخت به قبض واحد '+toPersianDigits(b.unit)+' الصاق شد ✓');
+   return;
+ }
  document.getElementById('receiptModalInfo').textContent='قبض واحد '+toPersianDigits(b.unit)+' | طبقه '+toPersianDigits(b.floor||'-')+' - '+b.type+' - '+formatToman(b.amount);
- document.getElementById('inpReceiptModalVal').value=b.receiptText||'';
- App.currentReceiptImageBase64=b.receiptImage||null;
- if(b.receiptImage){document.getElementById('receiptImagePreview').src=b.receiptImage;document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');}
+ const sharedText=App.pendingSharedReceipt||'';
+ const sharedImage=App.pendingSharedReceiptImage||null;
+ document.getElementById('inpReceiptModalVal').value=sharedText||b.receiptText||'';
+ App.currentReceiptImageBase64=sharedImage||b.receiptImage||null;
+ if(App.currentReceiptImageBase64){document.getElementById('receiptImagePreview').src=App.currentReceiptImageBase64;document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');}
  else document.getElementById('receiptImagePreviewContainer').classList.add('hidden');
- document.getElementById('insertSharedReceiptBtnContainer').classList.toggle('hidden',!App.pendingSharedReceipt);
+ document.getElementById('insertSharedReceiptBtnContainer').classList.toggle('hidden',!App.pendingSharedReceipt && !App.pendingSharedReceiptImage);
  document.getElementById('receiptModal').classList.add('open');
+ if(sharedText||sharedImage) toast('رسید دریافت‌شده آماده الصاق به این قبض است ✓');
 }
 function closeReceiptModal(){document.getElementById('receiptModal').classList.remove('open');App.modalBillId=null;App.currentReceiptImageBase64=null;try{document.getElementById('inpReceiptFile').value='';}catch(e){}document.getElementById('receiptImagePreviewContainer').classList.add('hidden');}
 function clearReceiptImage(){App.currentReceiptImageBase64=null;document.getElementById('receiptImagePreviewContainer').classList.add('hidden');try{document.getElementById('inpReceiptFile').value='';}catch(e){}}
@@ -927,13 +944,31 @@ function saveReceiptModal(){
  const b=App.bills.find(x=>x.id==App.modalBillId);if(!b)return;
  b.receiptText=document.getElementById('inpReceiptModalVal').value.trim();
  b.receiptImage=App.currentReceiptImageBase64;
- persistStorage();renderBillsList();closeReceiptModal();toast('رسید ذخیره شد ✓');
+ persistStorage();renderBillsList();App.pendingSharedReceipt=null;App.pendingSharedReceiptImage=null;closeReceiptModal();dismissSharedReceiptBanner();toast('رسید ذخیره شد ✓');
 }
-function pasteSharedReceiptText(){document.getElementById('inpReceiptModalVal').value=App.pendingSharedReceipt||'';document.getElementById('insertSharedReceiptBtnContainer').classList.add('hidden');App.pendingSharedReceipt=null;dismissSharedReceiptBanner();}
+function pasteSharedReceiptText(){
+ document.getElementById('inpReceiptModalVal').value=App.pendingSharedReceipt||'';
+ if(App.pendingSharedReceiptImage){App.currentReceiptImageBase64=App.pendingSharedReceiptImage;document.getElementById('receiptImagePreview').src=App.pendingSharedReceiptImage;document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');}
+ document.getElementById('insertSharedReceiptBtnContainer').classList.add('hidden');
+ App.pendingSharedReceipt=null;App.pendingSharedReceiptImage=null;dismissSharedReceiptBanner();
+}
+function handleIncomingSharedData(text,imageData){
+ try{
+  App.pendingSharedReceipt=(text||'').trim();
+  App.pendingSharedReceiptImage=imageData||null;
+  toggleMainTab('finance');
+  toggleFinanceSub('confirm');
+  const st=document.getElementById('filterConfirmStatus');if(st)st.value='unpaid';
+  renderBillsList();
+  const banner=document.getElementById('sharedReceiptBanner');if(banner)banner.classList.remove('hidden');
+  toast('رسید دریافت شد؛ قبض‌های پرداخت‌نشده نمایش داده شد ✓');
+ }catch(e){toast('دریافت رسید انجام نشد',false);}
+}
 function viewReceiptImage(id){const b=App.bills.find(x=>x.id==id);if(b&&b.receiptImage){document.getElementById('fullReceiptImage').src=b.receiptImage;document.getElementById('viewReceiptTitle').textContent='رسید واحد '+toPersianDigits(b.unit)+' - '+b.type;document.getElementById('viewReceiptImageModal').classList.add('open');}}
 function closeReceiptImageViewModal(){document.getElementById('viewReceiptImageModal').classList.remove('open');}
 function checkSharedReceipt(){
  try{
+  App.pendingSharedReceiptImage=null;
   const p=new URLSearchParams(location.search);
   const t=p.get('receipt')||p.get('text')||p.get('title')||p.get('url');
   if(t){App.pendingSharedReceipt=t;document.getElementById('sharedReceiptBanner').classList.remove('hidden');}
@@ -941,6 +976,11 @@ function checkSharedReceipt(){
 }
 function applySharedReceiptDirectly(){toggleMainTab('finance');toggleFinanceSub('confirm');document.getElementById('filterConfirmStatus').value='unpaid';renderBillsList();toast('روی دکمه 📎 رسید قبض مورد نظر بزنید');}
 function dismissSharedReceiptBanner(){document.getElementById('sharedReceiptBanner').classList.add('hidden');}
+function exitApp(){
+ try{persistStorage();}catch(e){}
+ if(window.AndroidApp&&AndroidApp.exitApp){try{AndroidApp.exitApp();return;}catch(e){}}
+ toast('تغییرات ذخیره شد ✓');
+}
 function renderExpenseList(){
  const list=document.getElementById('expenseItemsList');if(!list)return;
  document.getElementById('expTotalBadge').textContent=formatToman(App.expenses.reduce((s,e)=>s+(+e.amount||0),0))+' تومان';
