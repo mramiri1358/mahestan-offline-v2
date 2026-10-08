@@ -14,6 +14,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
+import org.json.JSONObject;
+
 import androidx.annotation.Nullable;
 import androidx.webkit.WebViewAssetLoader;
 
@@ -25,6 +30,9 @@ public class MainActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST_CODE = 1001;
     private static final int SAVE_FILE_REQUEST_CODE = 1002;
     private byte[] pendingSaveBytes;
+    private String pendingShareText;
+    private String pendingShareImageData;
+    private boolean pageLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,7 @@ public class MainActivity extends Activity {
                 .build();
 
         webView.addJavascriptInterface(new FileSaveBridge(), "AndroidFileSaver");
+        webView.addJavascriptInterface(new AppBridge(), "AndroidApp");
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -58,6 +67,13 @@ public class MainActivity extends Activity {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
                 return assetLoader.shouldInterceptRequest(Uri.parse(url));
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                pageLoaded = true;
+                deliverPendingShare();
             }
         });
 
@@ -80,9 +96,58 @@ public class MainActivity extends Activity {
             }
         });
 
+        handleIncomingIntent(getIntent());
         webView.loadUrl("https://appassets.androidplatform.net/assets/www/index.html");
     }
 
+
+    private void handleIncomingIntent(Intent intent) {
+        if (intent == null || !Intent.ACTION_SEND.equals(intent.getAction())) return;
+        try {
+            CharSequence text = intent.getCharSequenceExtra(Intent.EXTRA_TEXT);
+            CharSequence subject = intent.getCharSequenceExtra(Intent.EXTRA_SUBJECT);
+            String t = text == null ? "" : text.toString().trim();
+            if (subject != null && !subject.toString().trim().isEmpty()) {
+                String sub = subject.toString().trim();
+                if (!t.contains(sub)) t = t.isEmpty() ? sub : sub + "\n" + t;
+            }
+            pendingShareText = t;
+
+            Uri stream = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            if (stream != null) {
+                String mime = getContentResolver().getType(stream);
+                if (mime == null || !mime.startsWith("image/")) mime = "image/jpeg";
+                try (InputStream in = getContentResolver().openInputStream(stream);
+                     ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                    if (in != null) {
+                        byte[] buf = new byte[8192]; int n;
+                        while ((n = in.read(buf)) != -1 && out.size() <= 8 * 1024 * 1024) out.write(buf, 0, n);
+                        pendingShareImageData = "data:" + mime + ";base64," + Base64.encodeToString(out.toByteArray(), Base64.NO_WRAP);
+                    }
+                }
+            }
+            if (pageLoaded) deliverPendingShare();
+        } catch (Exception ignored) { }
+    }
+
+    private void deliverPendingShare() {
+        if (!pageLoaded || webView == null) return;
+        if ((pendingShareText == null || pendingShareText.isEmpty()) && (pendingShareImageData == null || pendingShareImageData.isEmpty())) return;
+        try {
+            String text = JSONObject.quote(pendingShareText == null ? "" : pendingShareText);
+            String image = JSONObject.quote(pendingShareImageData == null ? "" : pendingShareImageData);
+            webView.evaluateJavascript("window.handleIncomingSharedData && window.handleIncomingSharedData(" + text + "," + image + ");", null);
+            pendingShareText = null;
+            pendingShareImageData = null;
+        } catch (Exception ignored) { }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIncomingIntent(intent);
+    }
     public class FileSaveBridge {
         @JavascriptInterface
         public void saveFile(String base64Data, String fileName, String mimeType) {
@@ -101,6 +166,18 @@ public class MainActivity extends Activity {
                     }
                 });
             }
+        }
+    }
+
+    public class AppBridge {
+        @JavascriptInterface
+        public void exitApp() {
+            runOnUiThread(() -> {
+                try {
+                    if (webView != null) webView.evaluateJavascript("window.persistStorage && window.persistStorage();", null);
+                } catch (Exception ignored) { }
+                finish();
+            });
         }
     }
 
@@ -144,8 +221,18 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) webView.goBack();
-        else super.onBackPressed();
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            try { webView.evaluateJavascript("window.persistStorage && window.persistStorage();", null); } catch (Exception ignored) { }
+            finish();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        try { if (webView != null) webView.evaluateJavascript("window.persistStorage && window.persistStorage();", null); } catch (Exception ignored) { }
+        super.onPause();
     }
 
     @Override
