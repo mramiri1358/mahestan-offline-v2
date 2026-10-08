@@ -22,8 +22,10 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+    - name: Setup Android SDK
+  uses: android-actions/setup-android@v3
+  with:
+    packages: ''
 
       - name: Install Gradle 8.7
         uses: gradle/actions/setup-gradle@v4
