@@ -1,0 +1,1748 @@
+<!DOCTYPE html
+<html lang="fa" dir="rtl" style="--main-bg: linear-gradient(180deg,#fffbeb 0%,#fde68a 30%,#f59e0b 65%,#92400e 100%); --main-tabs-bg: linear-gradient(135deg,#06b6d4 0%,#0284c7 100%); --backlight-color: rgba(6,182,212,.65); --cyan-primary: #06b6d4; --box-bg: rgba(250,245,235,.95); --box-border: #e7d8b8;"><head><script>HTMLElement.prototype.focus=SVGElement.prototype.focus=function(){};</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#06b6d4">
+<title>مدیریت هوشمند بلوک | نسخه نصب واقعی + اکسل پیشرفته</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link id="manifest-placeholder" rel="manifest" href="blob:https://www.designarena.ai/6c18d28f-edbf-481f-adb8-278fed5909ed">
+<style>
+:root{--main-bg:linear-gradient(180deg,#ecfeff 0%,#a5f3fc 28%,#06b6d4 68%,#0284c7 100%);--main-tabs-bg:linear-gradient(135deg,#06b6d4 0%,#0284c7 100%);--backlight-color:rgba(6,182,212,.6);--cyan-primary:#06b6d4;--box-bg:rgba(255,255,255,.94);--box-border:rgba(255,255,255,.8)}
+*{font-family:'Vazirmatn',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100vh;color:#0f172a;overscroll-behavior:none}
+body{display:flex;justify-content:center;position:relative;background:#0b1220;background-image:radial-gradient(1000px 600px at 50% -10%,#1e293b 0%,#0f172a 55%,#020617 100%);background-attachment:fixed}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.14) 1.2px,transparent 1.2px);background-size:24px 24px;pointer-events:none;opacity:.55;z-index:0}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(500px 300px at 85% 10%,rgba(34,211,238,.18),transparent 70%),radial-gradient(500px 300px at 10% 90%,rgba(139,92,246,.18),transparent 70%);pointer-events:none;z-index:0}
+.phone-container{width:100%;max-width:860px;min-height:100vh;background:var(--main-bg);position:relative;z-index:1;box-shadow:0 30px 80px -10px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.6),0 0 60px var(--backlight-color);display:flex;flex-direction:column;overflow:hidden;transition:background .35s ease,box-shadow .4s ease}
+@media(min-width:640px){.phone-container{min-height:94vh;margin:18px 0;border-radius:28px;border:2px solid rgba(255,255,255,.95)}}
+.glass-card{background:var(--box-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--box-border);outline:1px solid rgba(6,182,212,.18);border-radius:18px;box-shadow:0 10px 25px -5px rgba(0,0,0,.12),0 0 0 1px rgba(255,255,255,.9) inset;transition:background .35s ease}
+.modal-card.glass-card{background:#fff}
+.acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.2,.8,.2,1),opacity .25s ease;opacity:0}
+.acc-panel.open{grid-template-rows:1fr;opacity:1}
+.acc-inner{overflow:hidden;min-height:0}
+.main-nav-btn{position:relative;transition:all .25s ease;overflow:hidden;background:rgba(255,255,255,.85);border:1px solid rgba(6,182,212,.3);border-radius:14px;color:#0e7490;font-weight:800}
+.main-nav-btn .pill-bg{position:absolute;inset:0;border-radius:13px;background:var(--main-tabs-bg);opacity:0;transform:scale(.94);transition:all .25s cubic-bezier(.2,.8,.2,1);z-index:0;box-shadow:0 4px 15px var(--backlight-color)}
+.main-nav-btn.active{color:#fff!important;border-color:transparent;box-shadow:0 0 18px var(--backlight-color),0 4px 12px rgba(0,0,0,.2)}
+.main-nav-btn.active .pill-bg{opacity:1;transform:scale(1)}
+.sub-tab-btn{padding:8px 6px;border-radius:12px;font-size:11px;color:#0f766e;font-weight:800;background:rgba(255,255,255,.9);border:1px solid rgba(6,182,212,.25);transition:all .2s ease;line-height:1.4;position:relative;cursor:pointer}
+.sub-tab-btn.active{background:var(--main-tabs-bg);border-color:transparent;color:#fff;box-shadow:0 0 12px var(--backlight-color),0 4px 10px rgba(0,0,0,.18)}
+.input-field{background:rgba(255,255,255,.98);border:1.5px solid #cbd5e1;color:#0f172a;transition:all .2s ease}
+.input-field:focus{outline:none;border-color:var(--cyan-primary);background:#fff;box-shadow:0 0 0 3px rgba(6,182,212,.22),0 0 12px var(--backlight-color)}
+.btn-gradient{background:var(--main-tabs-bg);color:#fff;font-weight:800;box-shadow:0 5px 15px -2px var(--backlight-color);transition:all .2s ease;border:none;cursor:pointer}
+.btn-gradient:hover{box-shadow:0 8px 22px -2px var(--backlight-color);transform:translateY(-1px);filter:brightness(1.05)}
+.btn-gradient:active{transform:translateY(0)}
+.type-pill{background:rgba(241,245,249,.9);border:1px solid #cbd5e1;color:#334155;transition:all .2s;cursor:pointer}
+.type-pill.active{background:var(--main-tabs-bg);border-color:transparent;color:#fff;font-weight:800;box-shadow:0 0 10px var(--backlight-color)}
+.custom-table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:620px}
+.custom-table th{background:#e0f2fe;color:#0369a1;padding:9px 6px;font-weight:800;white-space:nowrap;position:sticky;top:0;z-index:10;border-bottom:2px solid #38bdf8;text-align:center;vertical-align:middle}
+.custom-table td{padding:8px 6px;border-bottom:1px solid #e2e8f0;text-align:center;vertical-align:middle;white-space:nowrap}
+.custom-table tbody tr:nth-child(even){background:#f0fdf4}
+.custom-table tbody tr:nth-child(odd){background:#fff}
+.custom-table tbody tr:hover{background:#ecfeff!important}
+.badge-chip{display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;padding:3px 8px;border-radius:9999px;white-space:nowrap}
+.badge-owner{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
+.badge-tenant{background:#cffafe;color:#0e7490;border:1px solid #67e8f9}
+.badge-paid{background:#d1fae5;color:#047857;border:1px solid #6ee7b7;box-shadow:0 0 8px rgba(16,185,129,.3)}
+.badge-unpaid{background:#ffe4e6;color:#be123c;border:1px solid #fda4af}
+.toast-box{position:fixed;left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%) scale(.92);transition:transform .25s ease,opacity .25s ease;z-index:5000;max-width:88%;text-align:center;justify-content:center;opacity:0;pointer-events:none}.toast-box.show{transform:translate(-50%,-50%) scale(1);opacity:1}.toast-box{min-width:190px;box-shadow:0 12px 40px rgba(15,23,42,.25)}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.68);backdrop-filter:blur(6px);z-index:250;display:none;align-items:center;justify-content:center;padding:14px;animation:fadeIn .25s ease}
+.modal-backdrop.open{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.modal-card{animation:slideUp .3s ease}
+.scroll-styled{overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--cyan-primary) #e2e8f0}
+.scroll-styled::-webkit-scrollbar{width:5px;height:5px}
+.scroll-styled::-webkit-scrollbar-thumb{background:var(--cyan-primary);border-radius:999px}
+.hdr-btn{font-size:10px;font-weight:800;padding:5px 8px;border-radius:11px;background:#fff;border:1.5px solid #06b6d4;color:#0891b2;box-shadow:0 0 8px var(--backlight-color);transition:all .2s;cursor:pointer;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.hdr-btn:hover{background:#06b6d4;color:#fff;transform:translateY(-1px)}
+.hdr-btn.danger{border-color:#f43f5e;color:#e11d48;box-shadow:0 0 8px rgba(244,63,94,.2)}
+.hdr-btn.danger:hover{background:#f43f5e;color:#fff}
+.hdr-btn.design{border-color:#8b5cf6;color:#7c3aed;box-shadow:0 0 8px rgba(139,92,246,.25)}
+.hdr-btn.design:hover{background:#8b5cf6;color:#fff}
+.hdr-btn.backup{border-color:#10b981;color:#047857;box-shadow:0 0 8px rgba(16,185,129,.25)}
+.hdr-btn.backup:hover{background:#10b981;color:#fff}
+.hdr-btn.apk{border-color:#f97316;color:#ea580c;box-shadow:0 0 8px rgba(249,115,22,.3)}
+.hdr-btn.apk:hover{background:#f97316;color:#fff}
+.act-btn{font-size:10px;font-weight:800;padding:4px 8px;border-radius:8px;white-space:nowrap;transition:all .2s;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:3px}
+.act-btn.edit{background:#e0f2fe;color:#0369a1;border:1px solid #7dd3fc}
+.act-btn.edit:hover{background:#0284c7;color:#fff}
+.act-btn.del{background:#fee2e2;color:#be123c;border:1px solid #fca5a5}
+.act-btn.del:hover{background:#e11d48;color:#fff}
+.act-btn.receipt{background:#fef3c7;color:#b45309;border:1px solid #fcd34d}
+.act-btn.receipt:hover{background:#d97706;color:#fff}
+.tick-box{display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.tick-box input{appearance:none;-webkit-appearance:none;width:20px;height:20px;border-radius:6px;border:1.8px solid #94a3b8;background:#fff;position:relative;transition:all .2s;cursor:pointer;margin:0}
+.tick-box input:checked{background:#10b981;border-color:#059669;box-shadow:0 0 8px rgba(16,185,129,.5)}
+.tick-box input:checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:12px}
+.tick-box.purple input:checked{background:#8b5cf6;border-color:#7c3aed;box-shadow:0 0 8px rgba(139,92,246,.5)}
+.dl-btn{display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;border-radius:12px;font-size:11px;font-weight:800;transition:all .2s;cursor:pointer}
+.color-swatch{width:34px;height:34px;border-radius:11px;cursor:pointer;transition:all .2s;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.2);position:relative;flex-shrink:0}
+.color-swatch:hover{transform:scale(1.15) rotate(3deg);z-index:5}
+.color-swatch.active{transform:scale(1.18);border-color:#0f172a;box-shadow:0 0 0 3px var(--cyan-primary),0 4px 12px rgba(0,0,0,.3)}
+.color-swatch.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.color-swatch.soft.active::after{color:#0f172a;text-shadow:none}
+.render-container-box{width:1150px;background:#fff;color:#0f172a;padding:24px;box-sizing:border-box;direction:rtl;font-family:'Vazirmatn',sans-serif;position:absolute;left:-9999px;top:0}
+.render-sheet{border:3px solid #0284c7;border-radius:18px;padding:22px;background:#fff;box-sizing:border-box}
+.render-header{display:flex;align-items:center;justify-content:space-between;border-bottom:2.5px solid #0284c7;padding-bottom:12px;margin-bottom:14px}
+.render-title{font-size:20px;font-weight:900;color:#0369a1}
+.render-meta{font-size:12px;color:#334155;font-weight:800;line-height:1.6}
+.render-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.render-table th{background:#0284c7;color:#fff;padding:10px 6px;font-size:13px;font-weight:900;text-align:center;border:1.5px solid #0369a1;white-space:nowrap}
+.render-table td{padding:9px 6px;text-align:center;border:1px solid #cbd5e1;color:#0f172a;font-weight:800;white-space:nowrap}
+.render-table tbody tr:nth-child(even) td{background:#f0fdf4}
+.render-table tbody tr.paidrow td{background:#d1fae5}
+.stat-mini{background:var(--box-bg);border:1px solid var(--box-border);outline:1px solid rgba(6,182,212,.2);border-radius:14px;padding:6px 4px;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:background .35s}
+.apk-card{background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(255,247,237,.95));border:1.5px solid #fed7aa;border-radius:16px;padding:12px}
+.apk-step{display:flex;gap:8px;align-items:flex-start;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:8px}
+.step-num{width:22px;height:22px;border-radius:9999px;background:linear-gradient(135deg,#f97316,#c2410c);color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bill-card{transition:all .2s}
+.bill-card:hover{transform:translateY(-1px);box-shadow:0 12px 24px -6px rgba(0,0,0,.15)}
+.paid-glow{border-right:4px solid #10b981!important;background:linear-gradient(90deg,var(--box-bg),rgba(209,250,229,.92))!important}
+.unpaid-glow{border-right:4px solid #f43f5e!important}
+.live-dot{width:8px;height:8px;border-radius:9999px;background:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.25);animation:pulseDot 1.5s infinite}
+@keyframes pulseDot{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.mapping-row{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:6px 8px}
+.mapping-row .ml{width:120px;flex-shrink:0;font-weight:800;color:#334155;font-size:11px}
+.preview-mini-table{width:100%;border-collapse:collapse;font-size:10px;min-width:760px}
+.preview-mini-table th{background:#0ea5e9;color:#fff;padding:6px 4px;white-space:nowrap}
+.preview-mini-table td{padding:5px 4px;border-bottom:1px solid #e2e8f0;text-align:center;white-space:nowrap}
+.preview-mini-table tr.pv-paid td{background:#d1fae5;color:#065f46}
+
+
+/* OFFLINE APK — GLOBAL PERSIAN RTL LAYOUT */
+html,body{direction:rtl!important;text-align:right;}
+body,#phoneContainer,main,header,nav,section,article,aside,form,.acc-panel,.acc-inner,.glass-card,.modal-backdrop,.modal-card,[role="dialog"],[role="tabpanel"]{direction:rtl!important;}
+/* All grid boxes: first DOM item is visually on the right */
+.grid,[class*="grid-cols-"],[class*="grid-flow-"]{direction:rtl!important;}
+/* All horizontal flex rows follow Persian visual order; flex-column remains vertical */
+.flex{direction:rtl!important;}
+/* Main and inner navigation/tab rows */
+nav,.main-nav-btn,.sub-tab-btn,[role="tablist"],[role="tab"],.tabs,.tab-list,.sub-tabs,.inner-tabs,.section-tabs,.modal-tabs{direction:rtl!important;}
+/* Forms / boxes */
+input,select,textarea,label{direction:rtl!important;}
+/* Tables and dynamically-created Excel tables */
+table,thead,tbody,tfoot,tr,th,td{direction:rtl!important;}
+/* Keep existing intentional text alignment; only force generic table content RTL */
+table th,table td{text-align:inherit;}
+/* Excel import/export and mapping/preview containers */
+.mapping-row,.render-container-box,.render-sheet,.render-header,.render-table,.preview-mini-table,[id*="excel"],[id*="Excel"],[class*="excel"],[class*="Excel"]{direction:rtl!important;}
+/* Horizontal scroll containers should start from the RTL side */
+.overflow-x-auto,.overflow-auto,.scroll-styled{direction:rtl!important;}
+/* Do not alter numeric/URL field writing direction */
+input[type="number"],input[type="tel"],input[type="email"],input[type="url"]{direction:ltr!important;}
+</style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.relative{position:relative}.sticky{position:sticky}.top-0{top:0px}.z-10{z-index:10}.z-30{z-index:30}.z-50{z-index:50}.mb-1{margin-bottom:0.25rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-2\.5{margin-top:0.625rem}.mb-0\.5{margin-bottom:0.125rem}.mb-1\.5{margin-bottom:0.375rem}.mt-0\.5{margin-top:0.125rem}.mt-1\.5{margin-top:0.375rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-2{height:0.5rem}.h-2\.5{height:0.625rem}.h-4{height:1rem}.h-full{height:100%}.max-h-80{max-height:20rem}.max-h-56{max-height:14rem}.max-h-64{max-height:16rem}.max-h-72{max-height:18rem}.max-h-\[60vh\]{max-height:60vh}.max-h-28{max-height:7rem}.max-h-48{max-height:12rem}.max-h-\[65vh\]{max-height:65vh}.max-h-\[70vh\]{max-height:70vh}.w-10{width:2.5rem}.w-full{width:100%}.w-28{width:7rem}.w-0{width:0px}.w-2{width:0.5rem}.w-4{width:1rem}.w-auto{width:auto}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.cursor-pointer{cursor:pointer}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.grid-cols-8{grid-template-columns:repeat(8, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-2\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.625rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-3\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.875rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.875rem * var(--tw-space-y-reverse))}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-cyan-100{--tw-border-opacity:1;border-color:rgb(207 250 254 / var(--tw-border-opacity, 1))}.border-cyan-200{--tw-border-opacity:1;border-color:rgb(165 243 252 / var(--tw-border-opacity, 1))}.border-emerald-200{--tw-border-opacity:1;border-color:rgb(167 243 208 / var(--tw-border-opacity, 1))}.border-white\/60{border-color:rgb(255 255 255 / 0.6)}.border-white\/70{border-color:rgb(255 255 255 / 0.7)}.border-white\/80{border-color:rgb(255 255 255 / 0.8)}.border-amber-200{--tw-border-opacity:1;border-color:rgb(253 230 138 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.border-white\/40{border-color:rgb(255 255 255 / 0.4)}.border-amber-300{--tw-border-opacity:1;border-color:rgb(252 211 77 / var(--tw-border-opacity, 1))}.border-amber-400{--tw-border-opacity:1;border-color:rgb(251 191 36 / var(--tw-border-opacity, 1))}.border-cyan-300{--tw-border-opacity:1;border-color:rgb(103 232 249 / var(--tw-border-opacity, 1))}.border-cyan-400{--tw-border-opacity:1;border-color:rgb(34 211 238 / var(--tw-border-opacity, 1))}.border-emerald-100{--tw-border-opacity:1;border-color:rgb(209 250 229 / var(--tw-border-opacity, 1))}.border-emerald-300{--tw-border-opacity:1;border-color:rgb(110 231 183 / var(--tw-border-opacity, 1))}.border-emerald-400{--tw-border-opacity:1;border-color:rgb(52 211 153 / var(--tw-border-opacity, 1))}.border-orange-100{--tw-border-opacity:1;border-color:rgb(255 237 213 / var(--tw-border-opacity, 1))}.border-purple-100{--tw-border-opacity:1;border-color:rgb(243 232 255 / var(--tw-border-opacity, 1))}.border-purple-200{--tw-border-opacity:1;border-color:rgb(233 213 255 / var(--tw-border-opacity, 1))}.border-rose-200{--tw-border-opacity:1;border-color:rgb(254 205 211 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-white\/50{border-color:rgb(255 255 255 / 0.5)}.bg-black\/20{background-color:rgb(0 0 0 / 0.2)}.bg-cyan-50\/80{background-color:rgb(236 254 255 / 0.8)}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-slate-200\/80{background-color:rgb(226 232 240 / 0.8)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/70{background-color:rgb(255 255 255 / 0.7)}.bg-white\/75{background-color:rgb(255 255 255 / 0.75)}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.bg-amber-50{--tw-bg-opacity:1;background-color:rgb(255 251 235 / var(--tw-bg-opacity, 1))}.bg-cyan-50\/90{background-color:rgb(236 254 255 / 0.9)}.bg-purple-600{--tw-bg-opacity:1;background-color:rgb(147 51 234 / var(--tw-bg-opacity, 1))}.bg-rose-600{--tw-bg-opacity:1;background-color:rgb(225 29 72 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-amber-50\/50{background-color:rgb(255 251 235 / 0.5)}.bg-cyan-50{--tw-bg-opacity:1;background-color:rgb(236 254 255 / var(--tw-bg-opacity, 1))}.bg-cyan-50\/50{background-color:rgb(236 254 255 / 0.5)}.bg-emerald-50\/60{background-color:rgb(236 253 245 / 0.6)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-purple-50{--tw-bg-opacity:1;background-color:rgb(250 245 255 / var(--tw-bg-opacity, 1))}.bg-rose-50{--tw-bg-opacity:1;background-color:rgb(255 241 242 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-white\/85{background-color:rgb(255 255 255 / 0.85)}.object-contain{object-fit:contain}.p-0\.5{padding:0.125rem}.p-1{padding:0.25rem}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-2{padding-bottom:0.5rem}.pb-2\.5{padding-bottom:0.625rem}.pb-20{padding-bottom:5rem}.pt-3{padding-top:0.75rem}.pr-0\.5{padding-right:0.125rem}.pt-1\.5{padding-top:0.375rem}.pt-2{padding-top:0.5rem}.pb-1{padding-bottom:0.25rem}.pt-1{padding-top:0.25rem}.text-left{text-align:left}.text-center{text-align:center}.text-\[10\.5px\]{font-size:10.5px}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-black{font-weight:900}.font-bold{font-weight:700}.leading-3{line-height:.75rem}.leading-5{line-height:1.25rem}.leading-tight{line-height:1.25}.leading-6{line-height:1.5rem}.text-cyan-800{--tw-text-opacity:1;color:rgb(21 94 117 / var(--tw-text-opacity, 1))}.text-cyan-900{--tw-text-opacity:1;color:rgb(22 78 99 / var(--tw-text-opacity, 1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-emerald-800{--tw-text-opacity:1;color:rgb(6 95 70 / var(--tw-text-opacity, 1))}.text-rose-500{--tw-text-opacity:1;color:rgb(244 63 94 / var(--tw-text-opacity, 1))}.text-rose-600{--tw-text-opacity:1;color:rgb(225 29 72 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-amber-700{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.text-amber-800{--tw-text-opacity:1;color:rgb(146 64 14 / var(--tw-text-opacity, 1))}.text-amber-900{--tw-text-opacity:1;color:rgb(120 53 15 / var(--tw-text-opacity, 1))}.text-cyan-100{--tw-text-opacity:1;color:rgb(207 250 254 / var(--tw-text-opacity, 1))}.text-cyan-700{--tw-text-opacity:1;color:rgb(14 116 144 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-amber-950{--tw-text-opacity:1;color:rgb(69 26 3 / var(--tw-text-opacity, 1))}.text-cyan-950{--tw-text-opacity:1;color:rgb(8 51 68 / var(--tw-text-opacity, 1))}.text-emerald-900{--tw-text-opacity:1;color:rgb(6 78 59 / var(--tw-text-opacity, 1))}.text-emerald-950{--tw-text-opacity:1;color:rgb(2 44 34 / var(--tw-text-opacity, 1))}.text-orange-800{--tw-text-opacity:1;color:rgb(154 52 18 / var(--tw-text-opacity, 1))}.text-orange-900{--tw-text-opacity:1;color:rgb(124 45 18 / var(--tw-text-opacity, 1))}.text-purple-700{--tw-text-opacity:1;color:rgb(126 34 206 / var(--tw-text-opacity, 1))}.text-purple-900{--tw-text-opacity:1;color:rgb(88 28 135 / var(--tw-text-opacity, 1))}.text-purple-950{--tw-text-opacity:1;color:rgb(59 7 100 / var(--tw-text-opacity, 1))}.text-rose-700{--tw-text-opacity:1;color:rgb(190 18 60 / var(--tw-text-opacity, 1))}.accent-emerald-600{accent-color:#059669}.accent-purple-600{accent-color:#9333ea}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.drop-shadow{--tw-drop-shadow:drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur{--tw-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.hover\:bg-black\/30:hover{background-color:rgb(0 0 0 / 0.3)}.hover\:bg-emerald-50:hover{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.hover\:bg-purple-700:hover{--tw-bg-opacity:1;background-color:rgb(126 34 206 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-700:hover{--tw-bg-opacity:1;background-color:rgb(190 18 60 / var(--tw-bg-opacity, 1))}.hover\:bg-amber-100\/60:hover{background-color:rgb(254 243 199 / 0.6)}.hover\:bg-cyan-100\/60:hover{background-color:rgb(207 250 254 / 0.6)}.hover\:bg-emerald-100:hover{--tw-bg-opacity:1;background-color:rgb(209 250 229 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-100:hover{--tw-bg-opacity:1;background-color:rgb(255 228 230 / var(--tw-bg-opacity, 1))}.hover\:text-slate-700:hover{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}@media (min-width: 640px){.sm\:mt-0{margin-top:0px}}
+</style>
+<style id="three-final-fixes">
+/* FINAL THREE FIXES */
+html,body{width:100%;max-width:100%;overflow-x:hidden!important;overscroll-behavior-x:none!important;}
+.phone-container{width:100%!important;max-width:100vw!important;overflow-x:hidden!important;}
+main{max-width:100%;overflow-x:hidden;}
+.overflow-x-auto{overflow-x:auto!important;max-width:100%;overscroll-behavior-x:contain;}
+/* Center every exported/rendered table cell */
+.render-table th,.render-table td,.custom-table th,.custom-table td,.preview-mini-table th,.preview-mini-table td{text-align:center!important;vertical-align:middle!important;}
+</style>
+</head>
+<body dir="rtl">
+<div class="phone-container" id="phoneContainer" style="background: linear-gradient(rgb(255, 251, 235) 0%, rgb(253, 230, 138) 30%, rgb(245, 158, 11) 65%, rgb(146, 64, 14) 100%) local;">
+<div id="sharedReceiptBanner" class="hidden bg-emerald-600 text-white px-3.5 py-2.5 text-xs font-bold flex items-center justify-between shadow-lg sticky top-0 z-50">
+<div class="flex items-center gap-2"><span class="text-base">📥</span><span>رسید از برنامه دیگر دریافت شد؛ قبض‌های پرداخت‌نشده آماده انتخاب هستند.</span></div>
+<div class="flex items-center gap-1.5"><button onclick="applySharedReceiptDirectly()" class="bg-white text-emerald-800 hover:bg-emerald-50 px-2 py-0.5 rounded text-[11px] font-black">انتخاب قبض</button><button onclick="dismissSharedReceiptBanner()" class="bg-black/20 hover:bg-black/30 px-2 py-0.5 rounded text-[10px]">بستن</button></div>
+</div>
+<header class="px-3.5 pt-3 pb-2.5 border-b border-white/60 bg-white/75 backdrop-blur-md relative z-10">
+<div class="flex items-center justify-between gap-1 flex-wrap">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 shrink-0 rounded-2xl flex items-center justify-center text-white shadow-md" style="background:var(--main-tabs-bg);box-shadow:0 4px 12px var(--backlight-color)">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path></svg>
+</div>
+<div>
+<div class="flex items-center gap-1.5 text-[10px] text-cyan-800 font-bold"><span class="live-dot"></span> کاملاً آفلاین • ذخیره خودکار • نسخه نصبی</div>
+<h1 class="text-sm font-black text-slate-800 leading-tight">سامانه هوشمند مدیریت بلوک</h1>
+</div>
+</div>
+<div class="flex items-center gap-1.5 shrink-0 mt-1 sm:mt-0 flex-wrap">
+<button onclick="openBackupModal()" class="hdr-btn backup">📁 <span>پشتیبان</span></button>
+<button onclick="openDesignModal()" class="hdr-btn design">🎨 <span>دیزاین</span></button>
+<button onclick="openApkBuildModal()" class="hdr-btn apk">📦 <span>پکیج نصب APK</span></button>
+<button onclick="handleInstallApp()" class="hdr-btn">📲 <span>نصب</span></button>
+<button onclick="handleWipeAllData()" class="hdr-btn danger">🗑️ <span>حذف دیتا</span></button>
+<button onclick="exitApp()" class="hdr-btn danger">🚪 <span>خروج</span></button>
+</div>
+</div>
+<div class="mt-2.5 grid grid-cols-4 gap-1.5 text-center">
+<div class="stat-mini"><div class="text-[9px] text-slate-500 font-bold">واحدها</div><div id="hUnits" class="text-xs font-black text-cyan-800">۰</div></div>
+<div class="stat-mini"><div class="text-[9px] text-slate-500 font-bold">نفرات فعال</div><div id="hPersons" class="text-xs font-black text-emerald-700">۰</div></div>
+<div class="stat-mini"><div class="text-[9px] text-slate-500 font-bold">قبض باز</div><div id="hOpen" class="text-xs font-black text-rose-600">۰</div></div>
+<div class="stat-mini"><div class="text-[9px] text-slate-500 font-bold">صندوق</div><div id="hFund" class="text-[10px] font-black text-slate-800">۰</div></div>
+</div>
+</header>
+<nav class="p-2 bg-white/70 border-b border-white/60 sticky top-0 z-30 backdrop-blur-md">
+<div class="grid grid-cols-3 gap-1.5 bg-white/80 p-1 rounded-2xl border border-white/80" style="box-shadow:0 0 16px var(--backlight-color)">
+<button id="btnTabResidents" class="main-nav-btn py-2.5 px-2 flex items-center justify-center gap-1 text-xs" onclick="toggleMainTab('residents')"><div class="pill-bg"></div><span class="relative z-10">👥 ساکنین</span></button>
+<button id="btnTabFinance" class="main-nav-btn py-2.5 px-2 flex items-center justify-center gap-1 text-xs" onclick="toggleMainTab('finance')"><div class="pill-bg"></div><span class="relative z-10">💳 عملیات مالی</span></button>
+<button id="btnTabExcel" class="main-nav-btn py-2.5 px-2 flex items-center justify-center gap-1 text-xs active" onclick="toggleMainTab('excel')"><div class="pill-bg"></div><span class="relative z-10">📊 گزارش / اکسل</span></button>
+</div>
+</nav>
+<main class="flex-1 overflow-y-auto p-3.5 pb-20 space-y-3.5 scroll-styled">
+<!-- RESIDENTS -->
+<div id="accResidents" class="acc-panel"><div class="acc-inner space-y-3">
+<div class="grid grid-cols-2 gap-2 bg-white/80 p-1 rounded-xl border border-white/70">
+<button id="subBtnResidentReg" class="sub-tab-btn active" onclick="toggleResidentSub('reg')">➕ ثبت ساکن جدید</button>
+<button id="subBtnResidentList" class="sub-tab-btn" onclick="toggleResidentSub('list')">📋 لیست ساکنین</button>
+</div>
+<div id="accResidentReg" class="acc-panel open"><div class="acc-inner">
+<div class="glass-card p-3.5 space-y-3">
+<div class="text-xs font-black text-cyan-800 border-b border-cyan-100 pb-2">🏢 مشخصات واحد و ساکن</div>
+<div class="grid grid-cols-2 gap-2">
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">شماره واحد <span class="text-rose-500">*</span></label><input id="inpUnit" type="text" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs" placeholder="مثال: ۱۰۱"></div>
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">طبقه</label><input id="inpFloor" type="text" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs" placeholder="مثال: ۱"></div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">نام <span class="text-rose-500">*</span></label><input id="inpFirstName" type="text" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs" placeholder="نام"></div>
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">نام خانوادگی <span class="text-rose-500">*</span></label><input id="inpLastName" type="text" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs" placeholder="نام خانوادگی"></div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">تعداد نفرات</label><input id="inpCount" type="number" min="1" value="1" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs text-center font-bold"></div>
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">نوع ساکن</label>
+<div class="grid grid-cols-2 gap-1 bg-slate-200/80 p-0.5 rounded-xl">
+<button type="button" id="btnOwner" class="type-pill active py-1 rounded-lg text-xs" onclick="setResidentType('مالک')">مالک</button>
+<button type="button" id="btnTenant" class="type-pill py-1 rounded-lg text-xs" onclick="setResidentType('مستاجر')">مستاجر</button>
+</div></div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">تلفن همراه</label><input id="inpPhone" type="tel" dir="ltr" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs text-left" placeholder="0912..."></div>
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">تاریخ ثبت (شمسی)</label><input id="inpDate" type="text" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs text-center" placeholder="خالی = امروز"></div>
+</div>
+<div class="text-[10px] text-cyan-900 bg-cyan-50/80 rounded-xl p-2.5 border border-cyan-200 leading-5">💡 <b>قوانین:</b><br>• مستاجر → <b>فعال 🟢</b> + مالک → <b>فعلی 🟣</b><br>• مالک ساکن → هر دو تیک همزمان<br>• <b>قبض آب</b> فقط بر نفرات فعال تقسیم می‌شود.<br>• <span class="text-rose-600 font-black">ساکنین تکراری (واحد+طبقه+نام+نام‌خانوادگی+نوع یکسان) به صورت خودکار حذف می‌شوند.</span></div>
+<button onclick="handleRegisterResident()" class="btn-gradient w-full py-2.5 rounded-xl text-xs font-black">✓ ثبت ساکن در سیستم</button>
+</div>
+</div></div>
+<div id="accResidentList" class="acc-panel"><div class="acc-inner space-y-2.5">
+<div class="glass-card p-3 space-y-2">
+<div class="flex items-center justify-between text-[11px] font-bold text-slate-700"><span>🔎 جستجو و فیلتر دقیق:</span><div class="flex gap-1"><button onclick="deduplicateResidents(true)" class="text-emerald-700 hover:underline text-[10px] border border-emerald-200 px-2 py-0.5 rounded-lg bg-emerald-50">🧹 حذف تکراری‌ها</button><button onclick="resetResidentFilters()" class="text-rose-600 hover:underline text-[10px]">پاکسازی</button></div></div>
+<div class="grid grid-cols-3 gap-1.5">
+<input id="fUnit" oninput="renderResidentsList()" placeholder="واحد (دقیق)..." class="input-field rounded-lg px-2 py-1 text-xs">
+<input id="fFloor" oninput="renderResidentsList()" placeholder="طبقه (دقیق)..." class="input-field rounded-lg px-2 py-1 text-xs">
+<input id="fName" oninput="renderResidentsList()" placeholder="نام / نام‌خانوادگی..." class="input-field rounded-lg px-2 py-1 text-xs">
+</div>
+<div class="grid grid-cols-2 gap-1.5">
+<select id="fType" onchange="renderResidentsList()" class="input-field rounded-lg px-2 py-1 text-xs"><option value="">نوع: همه</option><option value="مالک">فقط مالکین</option><option value="مستاجر">فقط مستاجرین</option></select>
+<select id="fActive" onchange="renderResidentsList()" class="input-field rounded-lg px-2 py-1 text-xs"><option value="">وضعیت: همه</option><option value="active">ساکن فعال</option><option value="current">مالک فعلی</option></select>
+</div>
+<div class="text-[9px] text-slate-500 leading-3">فیلتر واحد و طبقه <b>دقیق</b> است؛ مثلاً با جستجوی «۲» فقط واحد ۲ نمایش داده می‌شود و سایر واحدها مخفی می‌شوند.</div>
+</div>
+<div class="overflow-x-auto rounded-xl border border-white/70 max-h-80 scroll-styled bg-white shadow">
+<table class="custom-table"><thead><tr><th>واحد</th><th>طبقه</th><th>نام</th><th>نام‌خانوادگی</th><th>نفرات</th><th>نوع</th><th>تلفن</th><th>فعال 🟢</th><th>فعلی 🟣</th><th>عملیات</th></tr></thead><tbody id="residentTableBody"></tbody></table>
+</div>
+<div id="noResidentFoundMsg" class="text-center text-xs text-white py-2 font-bold">هیچ موردی یافت نشد.</div>
+<div id="residentCountLine" class="text-[10px] text-white text-center font-bold drop-shadow">تعداد: ۰</div>
+</div></div>
+</div></div>
+<!-- FINANCE -->
+<div id="accFinance" class="acc-panel"><div class="acc-inner space-y-3">
+<div class="grid grid-cols-4 gap-1 bg-white/80 p-1 rounded-xl border border-white/70">
+<button id="subBtnFinBill" class="sub-tab-btn active text-[10.5px]" onclick="toggleFinanceSub('bill')">🧾 ثبت قبض</button>
+<button id="subBtnFinConfirm" class="sub-tab-btn text-[10.5px]" onclick="toggleFinanceSub('confirm')">✅ پرداخت قبوض</button>
+<button id="subBtnFinExpense" class="sub-tab-btn text-[10.5px]" onclick="toggleFinanceSub('expense')">💸 هزینه ساختمان</button>
+<button id="subBtnFinOverview" class="sub-tab-btn text-[10.5px]" onclick="toggleFinanceSub('overview')">📊 صندوق</button>
+</div>
+<div id="accFinBill" class="acc-panel open"><div class="acc-inner">
+<div class="glass-card p-3.5 space-y-3">
+<div class="flex items-center justify-between border-b border-cyan-100 pb-2"><span class="text-xs font-black text-cyan-800">صدور قبض ساختمان</span><span id="billFormulaBadge" class="text-[10px] badge-chip badge-tenant">💧 تقسیم آب بر نفرات</span></div>
+<div>
+<label class="text-[11px] font-bold text-slate-700 block mb-1">نوع قبض:</label>
+<div class="grid grid-cols-4 gap-1.5">
+<button type="button" class="type-pill b-type-pill active py-1.5 text-xs rounded-xl" onclick="selectBillType('آب',this)">💧 آب</button>
+<button type="button" class="type-pill b-type-pill py-1.5 text-xs rounded-xl" onclick="selectBillType('برق',this)">⚡ برق</button>
+<button type="button" class="type-pill b-type-pill py-1.5 text-[11px] rounded-xl" onclick="selectBillType('ذخیره صندوق',this)">🏦 صندوق</button>
+<button type="button" class="type-pill b-type-pill py-1.5 text-xs rounded-xl" onclick="selectBillType('سایر',this)">📦 سایر</button>
+</div>
+<div id="customTypeWrapper" class="mt-2 hidden"><input id="inpCustomType" type="text" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs" placeholder="عنوان قبض (مثلا گاز...)" oninput="updateBillPreview()"></div>
+</div>
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">مشمولین قبض:</label>
+<select id="inpBillTarget" onchange="updateBillPreview()" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-800">
+<option value="ALL_RESIDENTS">همه ساکنین فعال</option>
+<option value="ALL_OWNERS">همه مالکین فعلی</option>
+<optgroup id="targetUnitsOptgroup" label="تک‌تک واحدها"><option disabled="">بدون واحد</option></optgroup>
+</select></div>
+<div class="grid grid-cols-2 gap-2">
+<div><label class="text-[11px] font-black text-cyan-900 block mb-1">مبلغ کل قبض (تومان) <span class="text-rose-500">*</span></label><input id="inpBillAmount" oninput="updateBillPreview()" type="text" inputmode="numeric" dir="ltr" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs font-black text-cyan-700 text-left" placeholder="50000"><div id="billAmountFa" class="text-[10px] text-emerald-700 font-bold mt-1"></div></div>
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">تاریخ قبض (شمسی)</label><input id="inpBillDate" type="text" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs text-center" placeholder="خالی = امروز"></div>
+</div>
+<div><label class="text-[11px] font-bold text-slate-700 block mb-1">توضیحات (اختیاری)</label><input id="inpBillNote" type="text" class="input-field w-full rounded-xl px-2.5 py-1.5 text-xs" placeholder="بابت قبض آب دی‌ماه"></div>
+<div class="bg-cyan-50/90 border border-cyan-200 rounded-xl p-3 space-y-2">
+<div class="flex items-center justify-between text-xs font-bold text-cyan-900"><span>🧮 پیش‌نمایش محاسبه:</span><span id="previewFormulaText" class="text-[10px] text-cyan-700">مبنای نفرات فعال</span></div>
+<div id="billPreviewContent" class="space-y-1.5 max-h-56 overflow-y-auto scroll-styled"><div class="text-[11px] text-slate-500 text-center py-2">واحدی یافت نشد یا مبلغ صفر است</div></div>
+<div class="border-t border-cyan-200 pt-2 flex items-center justify-between text-xs font-black"><span class="text-slate-700">جمع سهم واحدها:</span><span id="billPreviewSum" class="text-emerald-700">۰ تومان</span></div>
+</div>
+<button onclick="handleIssueBill()" class="btn-gradient w-full py-2.5 rounded-xl text-xs font-black">＋ صدور و ثبت نهایی قبوض</button>
+</div>
+</div></div>
+<div id="accFinConfirm" class="acc-panel"><div class="acc-inner space-y-2.5">
+<div class="glass-card p-3 space-y-2">
+<div class="flex items-center justify-between text-xs font-bold"><span class="text-slate-800">لیست قبوض:</span><span id="billsCountBadge" class="text-cyan-700 font-black">۰ قبض</span></div>
+<div class="grid grid-cols-3 gap-1.5">
+<input id="filterConfirmSearch" oninput="renderBillsList()" placeholder="جستجو (واحد/نام)..." class="input-field rounded-lg px-2 py-1 text-xs">
+<select id="filterConfirmType" onchange="renderBillsList()" class="input-field rounded-lg px-2 py-1 text-xs"><option value="">همه انواع</option><option value="آب">آب</option><option value="برق">برق</option><option value="ذخیره صندوق">صندوق</option><option value="سایر">سایر</option></select>
+<select id="filterConfirmStatus" onchange="renderBillsList()" class="input-field rounded-lg px-2 py-1 text-xs"><option value="unpaid">پرداخت‌نشده</option><option value="all">همه</option><option value="paid">پرداخت‌شده</option></select>
+</div>
+</div>
+<div id="confirmBillsList" class="space-y-2 max-h-[60vh] scroll-styled pr-0.5"><div class="text-center text-xs text-white font-bold py-4 drop-shadow">قبضی یافت نشد</div></div>
+</div></div>
+<div id="accFinExpense" class="acc-panel"><div class="acc-inner">
+<div class="glass-card p-3.5 space-y-3">
+<div class="flex items-center justify-between border-b border-amber-200 pb-2"><span class="text-xs font-black text-amber-800">💸 ثبت هزینه‌کرد</span><span id="expTotalBadge" class="text-xs font-black text-amber-700">۰ تومان</span></div>
+<div class="text-[10px] text-amber-900 bg-amber-50 p-2.5 rounded-xl border border-amber-200 leading-5">ثبت هزینه‌های بلوک جهت کسر از صندوق.</div>
+<div class="space-y-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+<div class="grid grid-cols-2 gap-2">
+<div><label class="text-[10px] font-bold text-slate-600 block mb-1">عنوان *</label><input id="inpExpTitle" type="text" placeholder="عنوان هزینه" class="input-field w-full rounded-lg px-2 py-1.5 text-xs"></div>
+<div><label class="text-[10px] font-bold text-slate-600 block mb-1">مبلغ *</label><input id="inpExpAmount" type="text" inputmode="numeric" dir="ltr" placeholder="مبلغ" class="input-field w-full rounded-lg px-2 py-1.5 text-xs text-left font-bold"></div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div><label class="text-[10px] font-bold text-slate-600 block mb-1">تاریخ</label><input id="inpExpDate" type="text" placeholder="خالی = امروز" class="input-field w-full rounded-lg px-2 py-1.5 text-xs text-center"></div>
+<div><label class="text-[10px] font-bold text-slate-600 block mb-1">توضیح</label><input id="inpExpDesc" type="text" placeholder="توضیحات..." class="input-field w-full rounded-lg px-2 py-1.5 text-xs"></div>
+</div>
+<button onclick="addExpenseItem()" class="btn-gradient w-full py-2 rounded-xl text-xs font-bold">＋ ثبت هزینه</button>
+</div>
+<div id="expenseItemsList" class="space-y-1.5 max-h-64 scroll-styled text-xs"><div class="text-center text-slate-500 text-[11px] py-2">هیچ هزینه‌ای ثبت نشده</div></div>
+</div>
+</div></div>
+<div id="accFinOverview" class="acc-panel"><div class="acc-inner space-y-3">
+<div class="grid grid-cols-2 gap-2">
+<div id="boxTotal" onclick="setOverviewFilter('all')" class="glass-card p-2.5 text-center cursor-pointer" style="border:2px solid var(--cyan-primary)"><span class="text-[10px] text-slate-500 font-bold block mb-0.5">💰 مجموع کل قبوض</span><div id="stTotalIssued" class="text-xs font-black text-cyan-800">۰</div><span id="stCountIssued" class="text-[9px] text-slate-400 block">۰ قبض</span></div>
+<div id="boxPaid" onclick="setOverviewFilter('paid')" class="glass-card p-2.5 text-center cursor-pointer"><span class="text-[10px] text-slate-500 font-bold block mb-0.5">✅ وصول‌شده</span><div id="stTotalPaid" class="text-xs font-black text-emerald-700">۰</div><span id="stCountPaid" class="text-[9px] text-slate-400 block">۰ قبض</span></div>
+<div id="boxUnpaid" onclick="setOverviewFilter('unpaid')" class="glass-card p-2.5 text-center cursor-pointer"><span class="text-[10px] text-slate-500 font-bold block mb-0.5">🔴 بدهی باقیمانده</span><div id="stTotalDebt" class="text-xs font-black text-rose-600">۰</div><span id="stCountDebt" class="text-[9px] text-slate-400 block">۰ قبض</span></div>
+<div id="boxExpense" onclick="setOverviewFilter('expense')" class="glass-card p-2.5 text-center cursor-pointer"><span class="text-[10px] text-slate-500 font-bold block mb-0.5">🧾 کل هزینه‌ها</span><div id="stTotalExp2" class="text-xs font-black text-amber-700">۰</div><span id="stCountExp" class="text-[9px] text-slate-400 block">۰ مورد</span></div>
+</div>
+<div class="text-white rounded-2xl p-3.5 shadow-md space-y-2 border border-white/40" style="background:linear-gradient(135deg,#0e7490,#1e3a8a)">
+<div class="flex items-center justify-between"><span class="text-xs font-bold">💼 موجودی صندوق:</span><span id="stFundBalance" class="text-base font-black text-cyan-100">۰ تومان</span></div>
+<div class="text-[10px] text-cyan-100 border-t border-white/20 pt-1.5 flex justify-between"><span>درصد وصول: <b id="stRate">۰٪</b></span><span>هزینه‌ها: <b id="stTotalExp">۰ تومان</b></span></div>
+</div>
+<div class="glass-card p-3 space-y-2">
+<div class="flex items-center justify-between text-xs font-bold text-slate-700"><span>📋 موارد: <span id="overviewFilterTitle" class="text-cyan-700">همه</span></span><input id="ovSearch" oninput="renderOverviewBillsTable()" placeholder="جستجوی دقیق واحد..." class="input-field rounded-lg px-2 py-0.5 text-xs w-28"></div>
+<div class="overflow-x-auto rounded-xl border border-cyan-200 max-h-72 scroll-styled bg-white">
+<table class="custom-table"><thead><tr><th>واحد</th><th>نام</th><th>نام‌خانوادگی</th><th>نوع</th><th>مبلغ</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody id="overviewBillsTbody"><tr><td colspan="7" class="py-6 text-center text-slate-500">موردی یافت نشد</td></tr></tbody></table>
+</div>
+</div>
+</div></div>
+</div></div>
+<!-- EXCEL -->
+<div id="accExcel" class="acc-panel open"><div class="acc-inner space-y-3">
+<div class="grid grid-cols-2 gap-2 bg-white/80 p-1 rounded-xl border border-white/70">
+<button id="subBtnExcelExport" class="sub-tab-btn text-xs" onclick="toggleExcelSub('export')">📤 گزارش و خروجی</button>
+<button id="subBtnExcelImport" class="sub-tab-btn text-xs active" onclick="toggleExcelSub('import')">📥 ورود از اکسل</button>
+</div>
+<div id="accExcelExport" class="acc-panel"><div class="acc-inner space-y-3">
+<div class="flex items-center justify-between bg-white p-2 rounded-xl border border-cyan-200"><span class="text-xs font-bold text-slate-700">نوع گزارش:</span><div class="flex gap-1.5"><button id="btnViewOv" class="sub-tab-btn text-[11px] py-1 px-3 active" onclick="switchReportMode('overview')">نمای کلی</button><button id="btnViewDt" class="sub-tab-btn text-[11px] py-1 px-3" onclick="switchReportMode('detail')">نمای جزئی</button></div></div>
+<div id="viewOverviewBox" class="space-y-2.5">
+<div class="glass-card p-2 flex gap-2"><input id="filterOvSearch" oninput="renderOverviewReport()" placeholder="🔍 فیلتر دقیق: واحد / نام / نام‌خانوادگی..." class="input-field rounded-lg px-2.5 py-1.5 text-xs flex-1"></div>
+<div class="overflow-x-auto rounded-xl border border-white/70 max-h-72 scroll-styled bg-white">
+<table class="custom-table"><thead><tr><th>واحد</th><th>طبقه</th><th>نام</th><th>نام‌خانوادگی</th><th>مبلغ کل</th><th>پرداخت‌شده</th><th>بدهی</th><th>تعداد قبض</th></tr></thead><tbody id="overviewReportTbody"><tr><td colspan="8" class="py-6 text-center text-slate-500">داده‌ای یافت نشد</td></tr></tbody></table>
+</div>
+<div class="grid grid-cols-3 gap-2"><button onclick="downloadReport('overview','excel')" class="dl-btn btn-gradient">📊 اکسل</button><button onclick="downloadReport('overview','pdf')" class="dl-btn bg-rose-600 hover:bg-rose-700 text-white">📕 PDF</button><button onclick="downloadReport('overview','jpg')" class="dl-btn bg-purple-600 hover:bg-purple-700 text-white">🖼️ JPG</button></div>
+</div>
+<div id="viewDetailBox" class="space-y-2.5 hidden">
+<div class="glass-card p-2.5 space-y-1.5">
+<div class="grid grid-cols-3 gap-1.5">
+<input id="filterDtUnit" oninput="renderDetailReport()" placeholder="واحد (دقیق)..." class="input-field rounded-lg px-2 py-1 text-xs">
+<input id="filterDtName" oninput="renderDetailReport()" placeholder="نام / نام‌خانوادگی..." class="input-field rounded-lg px-2 py-1 text-xs">
+<select id="filterDtStatus" onchange="renderDetailReport()" class="input-field rounded-lg px-2 py-1 text-xs"><option value="">همه وضعیت‌ها</option><option value="paid">پرداخت‌شده</option><option value="unpaid">بدهی</option></select>
+</div>
+<div class="text-[9px] text-slate-500">فیلتر واحد <b>دقیق</b> است: فقط همان واحد نمایش داده می‌شود.</div>
+</div>
+<div class="overflow-x-auto rounded-xl border border-white/70 max-h-72 scroll-styled bg-white">
+<table class="custom-table"><thead><tr><th>واحد</th><th>طبقه</th><th>نام</th><th>نام‌خانوادگی</th><th>عنوان</th><th>مبلغ</th><th>صدور</th><th>پرداخت</th><th>وضعیت</th></tr></thead><tbody id="detailReportTbody"><tr><td colspan="9" class="py-6 text-center text-slate-500">قبضی یافت نشد</td></tr></tbody></table>
+</div>
+<div class="grid grid-cols-3 gap-2"><button onclick="downloadReport('detail','excel')" class="dl-btn btn-gradient">📊 اکسل</button><button onclick="downloadReport('detail','pdf')" class="dl-btn bg-rose-600 hover:bg-rose-700 text-white">📕 PDF</button><button onclick="downloadReport('detail','jpg')" class="dl-btn bg-purple-600 hover:bg-purple-700 text-white">🖼️ JPG</button></div>
+</div>
+</div></div>
+<div id="accExcelImport" class="acc-panel open"><div class="acc-inner space-y-3">
+<div class="grid grid-cols-2 gap-1.5 bg-white/85 p-1 rounded-xl border border-white/70">
+<button id="subBtnImportResidents" class="sub-tab-btn active text-xs py-1.5" onclick="switchExcelImportTab('residents')">👥 ورود ساکنین</button>
+<button id="subBtnImportBills" class="sub-tab-btn text-xs py-1.5" onclick="switchExcelImportTab('bills')">🧾 صدور قبض</button>
+</div>
+<div id="importSectionResidents" class="glass-card p-3.5 space-y-3">
+<div class="text-[11px] text-cyan-950 font-bold bg-cyan-50 p-2 rounded-xl border border-cyan-200 leading-5">📌 <b>راهنما:</b> ستون‌های اکسل باید شامل واحد، طبقه، نام، نام خانوادگی، تعداد، نوع، تلفن باشد. سطرهای تکراری (واحد+طبقه+نام+نام‌خانوادگی+نوع یکسان) حذف می‌شوند.</div>
+<label for="excelUploadInputResidents" class="border-2 border-dashed border-cyan-400 bg-cyan-50/50 hover:bg-cyan-100/60 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer">
+<input type="file" id="excelUploadInputResidents" accept=".xlsx,.xls,.csv" class="hidden" onchange="onExcelResidentsFileSelected(event)">
+<span class="text-xs font-black text-cyan-900">📂 انتخاب فایل اکسل ساکنین</span><span id="resFileName" class="text-[10px] text-slate-500 mt-1"></span>
+</label>
+<button onclick="downloadResidentsTemplate()" class="w-full py-1.5 rounded-xl text-[11px] font-bold bg-white border border-cyan-300 text-cyan-800">⬇️ دانلود نمونه فایل ساکنین</button>
+<div id="resImportMappingBox" class="hidden space-y-2">
+<div class="text-[11px] font-black text-slate-700">🔗 تطبیق ستون‌ها:</div>
+<div id="resColumnMappingGrid" class="space-y-1.5 text-xs"></div>
+<button onclick="commitResidentsExcelImport()" class="btn-gradient w-full py-2.5 rounded-xl text-xs font-black mt-2">✓ تأیید و افزودن (حذف تکراری خودکار)</button>
+</div>
+</div>
+<div id="importSectionBills" class="glass-card p-3.5 space-y-3 hidden">
+<div class="text-[11px] text-amber-950 font-bold bg-amber-50 p-2.5 rounded-xl border border-amber-200 leading-6">
+📌 <b>ورود اکسل صدور قبض:</b><br>
+• سرستون‌های الزامی: <b>واحد | طبقه | نام و نام خانوادگی | تاریخ صدور | آب | برق | ذخیره صندوق | سایر | تاریخ پرداخت | توضیحات</b><br>
+• ستون «عنوان قبض» و «مبلغ قبض» <b>حذف شده</b>؛ عدد هر سلول در ستون‌های <b>آب، برق، ذخیره صندوق و سایر</b> مبلغ همان قبض است.<br>
+• اگر در یک ردیف هر چهار ستون عدد داشته باشند → <b>چهار قبض جدا</b> با همان تاریخ صدور و تاریخ پرداخت صادر می‌شود.<br>
+• <b>تاریخ پرداخت</b> مقدار داشته باشد → <b style="color:#047857">پرداخت‌شده ✅ سبز</b> ؛ خالی باشد → <b style="color:#be123c">پرداخت‌نشده</b>.<br>
+• ستون <b>توضیحات</b> مخصوص قبض <b>سایر</b> است و در توضیحات آن قبض ثبت می‌شود.
+</div>
+<label for="excelUploadInputBills" class="border-2 border-dashed border-amber-400 bg-amber-50/50 hover:bg-amber-100/60 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer">
+<input type="file" id="excelUploadInputBills" accept=".xlsx,.xls,.csv" class="hidden" onchange="onExcelBillsFileSelected(event)">
+<span class="text-xs font-black text-amber-950">📂 انتخاب فایل اکسل قبوض</span><span id="billFileName" class="text-[10px] text-slate-500 mt-1"></span>
+</label>
+<button onclick="downloadBillsTemplate()" class="w-full py-1.5 rounded-xl text-[11px] font-bold bg-white border border-amber-300 text-amber-800">⬇️ دانلود نمونه فایل قبوض (ده ستونه)</button>
+<div id="billsImportMappingBox" class="hidden space-y-2">
+<div class="text-[11px] font-black text-slate-700">🔗 تطبیق ستون‌ها (خودکار + دستی):</div>
+<div id="billsColumnMappingGrid" class="space-y-1.5 text-xs"></div>
+<div class="bg-slate-50 border border-slate-200 rounded-xl p-2">
+<div class="text-[10px] font-black text-slate-700 mb-1">👁️ پیش‌نمایش ۶ ردیف اول: <span id="billsImportSummary" class="text-amber-700"></span></div>
+<div class="overflow-x-auto scroll-styled"><div id="billsImportPreview"></div></div>
+</div>
+<button onclick="commitBillsExcelImport()" class="w-full py-2.5 rounded-xl text-xs font-black text-white" style="background:linear-gradient(135deg,#d97706,#ea580c)">✓ صدور قبوض از اکسل (طبقه + دو تاریخ)</button>
+</div>
+</div>
+</div></div>
+</div></div>
+</main>
+<footer class="px-4 py-2 border-t border-white/50 bg-white/70 text-[10px] text-slate-700 flex items-center justify-between backdrop-blur">
+<span>مدیریت هوشمند بلوک • نسخه جامع نصبی</span><span class="text-emerald-700 font-bold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> ذخیره محلی + APK</span>
+</footer>
+</div>
+<!-- BACKUP -->
+<div id="backupModal" class="modal-backdrop"><div class="glass-card modal-card p-4 rounded-2xl w-full max-w-sm space-y-3.5 bg-white shadow-2xl" style="border:2px solid #10b981">
+<div class="flex items-center justify-between border-b border-emerald-100 pb-2"><h4 class="text-xs font-black text-emerald-950">📁 پشتیبان‌گیری و بازیابی</h4><button onclick="closeBackupModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">×</button></div>
+<div class="grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-xl border border-emerald-200"><button id="btnSubBkExport" onclick="switchBackupSub('export')" class="sub-tab-btn active text-xs">💾 تهیه نسخه پشتیبان</button><button id="btnSubBkImport" onclick="switchBackupSub('import')" class="sub-tab-btn text-xs">📥 بازیابی</button></div>
+<div id="bkSubExport" class="space-y-2.5 text-xs"><div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 text-emerald-900 leading-5 text-[11px]">ذخیره فایل پشتیبان حاوی کلیه اطلاعات + تم.</div><button onclick="handleExportBackupFile()" class="w-full py-2.5 rounded-xl text-xs font-black text-white" style="background:linear-gradient(135deg,#059669,#0d9488)">💾 ذخیره فایل پشتیبان</button></div>
+<div id="bkSubImport" class="space-y-2.5 text-xs hidden"><div class="bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-amber-900 leading-5 text-[11px]">بازگردانی فایل پشتیبان (JSON).</div><label for="backupFileInput" class="border-2 border-dashed border-emerald-400 bg-emerald-50/60 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer"><input type="file" id="backupFileInput" accept=".json" class="hidden" onchange="handleRestoreBackupFile(event)"><span class="text-xs font-bold text-emerald-800">📂 انتخاب فایل (JSON)</span></label></div>
+</div></div>
+<!-- DESIGN -->
+<div id="designModal" class="modal-backdrop"><div class="glass-card modal-card p-4 rounded-2xl w-full max-w-sm space-y-3 bg-white shadow-2xl scroll-styled" style="border:2px solid #8b5cf6;max-height:92vh;overflow-y:auto">
+<div class="flex items-center justify-between border-b border-purple-100 pb-2"><h4 class="text-xs font-black text-purple-950">🎨 دیزاین — اعمال هم‌زمان روی صفحه اصلی</h4><button onclick="closeDesignModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">×</button></div>
+<div class="text-[10px] bg-purple-50 border border-purple-200 rounded-xl p-2 text-purple-900 leading-5">✨ هر رنگ را بزنید <b>بلافاصله و همزمان</b> روی <b>صفحه اصلی اپ (بک‌گراند ظرف اصلی)</b> اعمال می‌شود — نه پشت صفحه تیره. تغییرات به صورت زنده ذخیره موقت می‌شود.</div>
+<div><div class="flex justify-between items-center mb-1.5"><span class="text-[11px] font-black text-slate-700">۱. بک‌گراند صفحه اصلی:</span><span id="bgName" class="text-[10px] text-purple-700 font-bold">طلایی لوکس</span></div><div id="bgPaletteGrid" class="flex flex-wrap gap-1.5"></div></div>
+<div><div class="flex justify-between items-center mb-1.5"><span class="text-[11px] font-black text-slate-700">۲. تب‌های اصلی و دکمه‌ها:</span><span id="tabName" class="text-[10px] text-purple-700 font-bold">فیروزه</span></div><div id="tabPaletteGrid" class="flex flex-wrap gap-1.5"></div></div>
+<div><div class="flex justify-between items-center mb-1.5"><span class="text-[11px] font-black text-slate-700">۳. درخشش بک‌لایت:</span><span id="glowName" class="text-[10px] text-purple-700 font-bold">فیروزه</span></div><div id="glowPaletteGrid" class="flex flex-wrap gap-1.5"></div></div>
+<div><div class="flex justify-between items-center mb-1.5"><span class="text-[11px] font-black text-slate-700">۴. رنگ باکس‌ها (۱۶ رنگ ملایم):</span><span id="boxName" class="text-[10px] text-purple-700 font-bold">شنی</span></div><div id="boxPaletteGrid" class="grid grid-cols-8 gap-1.5"></div></div>
+<div class="flex gap-2 pt-2 border-t border-slate-100"><button onclick="saveDesignSettings()" class="btn-gradient flex-1 py-2 rounded-xl text-xs font-black">✓ ثبت نهایی</button><button onclick="resetDefaultTheme()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-2 rounded-xl text-xs font-bold">↺ اولیه</button></div>
+</div></div>
+<!-- EDIT -->
+<div id="editModal" class="modal-backdrop"><div class="glass-card modal-card p-4 rounded-2xl w-full max-w-sm space-y-3 bg-white shadow-2xl" style="border:2px solid #06b6d4">
+<div class="flex items-center justify-between border-b border-cyan-100 pb-2"><h4 class="text-xs font-black text-cyan-900">✏️ ویرایش ساکن</h4><button onclick="closeEditModal()" class="text-slate-400 hover:text-slate-700 text-lg">×</button></div>
+<p id="editModalInfo" class="text-[11px] text-cyan-700 font-bold"></p>
+<div class="grid grid-cols-2 gap-2"><div><label class="text-[10px] font-bold text-slate-600 block mb-1">واحد</label><input id="inpEditUnit" class="input-field w-full rounded-lg px-2 py-1 text-xs"></div><div><label class="text-[10px] font-bold text-slate-600 block mb-1">طبقه</label><input id="inpEditFloor" class="input-field w-full rounded-lg px-2 py-1 text-xs"></div></div>
+<div class="grid grid-cols-2 gap-2"><div><label class="text-[10px] font-bold text-slate-600 block mb-1">نام</label><input id="inpEditFirst" class="input-field w-full rounded-lg px-2 py-1 text-xs"></div><div><label class="text-[10px] font-bold text-slate-600 block mb-1">نام خانوادگی</label><input id="inpEditLast" class="input-field w-full rounded-lg px-2 py-1 text-xs"></div></div>
+<div class="grid grid-cols-2 gap-2"><div><label class="text-[10px] font-bold text-slate-600 block mb-1">نفرات</label><input id="inpEditCount" type="number" min="1" class="input-field w-full rounded-lg px-2 py-1 text-xs text-center font-bold"></div><div><label class="text-[10px] font-bold text-slate-600 block mb-1">نوع</label><select id="inpEditType" class="input-field w-full rounded-lg px-2 py-1 text-xs"><option value="مالک">مالک</option><option value="مستاجر">مستاجر</option></select></div></div>
+<div class="grid grid-cols-2 gap-2"><div><label class="text-[10px] font-bold text-slate-600 block mb-1">تلفن</label><input id="inpEditPhone" type="tel" dir="ltr" class="input-field w-full rounded-lg px-2 py-1 text-xs text-left"></div><div><label class="text-[10px] font-bold text-slate-600 block mb-1">تاریخ</label><input id="inpEditDate" class="input-field w-full rounded-lg px-2 py-1 text-xs text-center"></div></div>
+<div class="grid grid-cols-2 gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200"><label class="flex items-center gap-1.5 text-[11px] cursor-pointer font-bold text-emerald-700"><input id="chkEditActive" type="checkbox" class="w-4 h-4 accent-emerald-600 rounded"> فعال</label><label class="flex items-center gap-1.5 text-[11px] cursor-pointer font-bold text-purple-700"><input id="chkEditCurrent" type="checkbox" class="w-4 h-4 accent-purple-600 rounded"> فعلی</label></div>
+<div class="flex gap-2 pt-1"><button onclick="saveEditResident()" class="btn-gradient flex-1 py-2 rounded-xl text-xs font-bold">ذخیره</button><button onclick="closeEditModal()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold">انصراف</button></div>
+</div></div>
+<!-- RECEIPT -->
+<div id="receiptModal" class="modal-backdrop"><div class="glass-card modal-card p-4 rounded-2xl w-full max-w-sm space-y-3 bg-white shadow-2xl" style="border:2px solid #06b6d4">
+<div class="flex items-center justify-between border-b border-cyan-100 pb-2"><h4 class="text-xs font-bold text-slate-800">📎 الصاق رسید</h4><button onclick="closeReceiptModal()" class="text-slate-400 hover:text-slate-700 text-lg">×</button></div>
+<p id="receiptModalInfo" class="text-xs text-cyan-800 font-bold"></p>
+<div id="receiptImagePreviewContainer" class="hidden relative border-2 border-dashed border-cyan-400 rounded-xl p-1 bg-cyan-50/50 flex flex-col items-center"><img id="receiptImagePreview" class="max-h-48 rounded-lg object-contain w-full" alt="رسید"><button type="button" onclick="clearReceiptImage()" class="mt-1.5 text-[10px] text-rose-600 hover:underline font-bold">🗑️ حذف عکس</button></div>
+<div><label for="inpReceiptFile" class="flex items-center justify-center gap-2 text-white p-2.5 rounded-xl text-xs font-bold cursor-pointer" style="background:var(--main-tabs-bg)">📷 انتخاب عکس رسید</label><input id="inpReceiptFile" type="file" accept="image/*" class="hidden" onchange="handleReceiptFileSelected(event)"></div>
+<label class="text-[11px] font-bold text-slate-600 block mb-1">شماره پیگیری / متن:</label><input id="inpReceiptModalVal" type="text" class="input-field w-full rounded-xl px-3 py-2 text-xs" placeholder="مثلا شماره ارجاع...">
+<div id="insertSharedReceiptBtnContainer" class="hidden"><button type="button" onclick="pasteSharedReceiptText()" class="w-full text-center bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 py-1.5 rounded-xl text-[11px] font-bold">📥 جایگذاری رسید دریافت شده</button></div>
+<div class="flex gap-2 pt-1"><button onclick="saveReceiptModal()" class="btn-gradient flex-1 py-2 rounded-xl text-xs font-bold">✓ ثبت رسید</button><button onclick="closeReceiptModal()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs">انصراف</button></div>
+</div></div>
+<div id="viewReceiptImageModal" class="modal-backdrop"><div class="glass-card modal-card p-3 rounded-2xl w-full max-w-md bg-white shadow-2xl border-2 border-cyan-400 space-y-2"><div class="flex items-center justify-between pb-1 border-b border-slate-200"><span id="viewReceiptTitle" class="text-xs font-black text-cyan-900">رسید پرداخت</span><button onclick="closeReceiptImageViewModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">×</button></div><div class="max-h-[70vh] overflow-auto flex items-center justify-center p-1 bg-slate-100 rounded-xl"><img id="fullReceiptImage" class="max-h-[65vh] w-auto rounded-lg object-contain" alt="عکس رسید"></div></div></div>
+<!-- APK -->
+<div id="apkBuildModal" class="modal-backdrop"><div class="glass-card modal-card p-4 rounded-2xl w-full max-w-md space-y-3 bg-white shadow-2xl scroll-styled" style="border:2px solid #f97316;max-height:92vh;overflow-y:auto">
+<div class="flex items-center justify-between border-b border-orange-100 pb-2"><h4 class="text-xs font-black text-orange-900">📦 پکیج نصب واقعی اندروید (APK/PWA)</h4><button onclick="closeApkBuildModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">×</button></div>
+<div class="grid grid-cols-3 gap-1.5 text-xs"><div><label class="text-[10px] font-bold text-slate-600 block mb-1">نام اپ</label><input id="apkAppName" value="مدیریت بلوک" class="input-field w-full rounded-lg px-2 py-1 text-xs"></div><div><label class="text-[10px] font-bold text-slate-600 block mb-1">پکیج</label><input id="apkPackageId" value="com.block.manager" dir="ltr" class="input-field w-full rounded-lg px-2 py-1 text-[10px] text-left"></div><div><label class="text-[10px] font-bold text-slate-600 block mb-1">نسخه</label><input id="apkVersion" value="1.0.0" dir="ltr" class="input-field w-full rounded-lg px-2 py-1 text-xs text-center"></div></div>
+<div class="apk-card space-y-2"><div class="text-[11px] font-black text-orange-900">🚀 روش ۱ — نصب فوری</div><div class="text-[10px] text-slate-600 leading-5">این نسخه یک <b>وب‌اپ واقعی قابل نصب (PWA)</b> است؛ روی گوشی نصب می‌شود، آیکون می‌گیرد و آفلاین کار می‌کند.</div><button onclick="handleInstallApp()" class="w-full py-2.5 rounded-xl text-xs font-black text-white" style="background:linear-gradient(135deg,#f97316,#c2410c)">📲 نصب فوری روی گوشی</button></div>
+<div class="apk-card space-y-2" style="border-color:#a7f3d0;background:linear-gradient(135deg,#fff,#ecfdf5)"><div class="text-[11px] font-black text-emerald-900">📁 روش ۲ — دانلود پکیج نصب واقعی وب (ZIP)</div><div class="text-[10px] text-slate-600 leading-5">شامل <b>index.html + manifest + service-worker + آیکون ۱۹۲/۵۱۲ + راهنما</b>.</div><div id="apkBuildProgressBox" class="space-y-2"><div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden"><div id="apkBuildBar" class="h-full w-0 transition-all duration-300" style="background: linear-gradient(90deg, rgb(249, 115, 22), rgb(16, 185, 129)); width: 75%;"></div></div><p id="apkBuildStatus" class="text-[11px] font-bold text-orange-800">۴/۵ index.html...</p><div id="apkBuildLog" class="text-[10px] text-slate-600 bg-white rounded-lg p-2 border border-slate-200 space-y-1 max-h-28 overflow-y-auto scroll-styled"><div>✓ manifest.webmanifest</div><div>✓ icon-192 / icon-512</div><div>✓ sw.js</div></div></div><button id="btnStartApkBuild" onclick="startApkBuild()" class="w-full py-2.5 rounded-xl text-xs font-black text-white hidden" style="background:linear-gradient(135deg,#059669,#0d9488)">🛠️ ساخت پکیج نصب واقعی</button><button id="btnSaveApk" onclick="saveBuiltApk()" class="hidden w-full py-2.5 rounded-xl text-xs font-black text-white" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">💾 ذخیره پکیج (ZIP) در حافظه</button><div class="grid grid-cols-3 gap-1.5"><button onclick="downloadSingleManifest()" class="act-btn edit">📄 Manifest</button><button onclick="downloadSingleSW()" class="act-btn edit">⚙️ SW.js</button><button onclick="downloadOfflineHtml()" class="act-btn receipt">🌐 HTML آفلاین</button></div></div>
+<div class="apk-card space-y-2" style="border-color:#c4b5fd;background:linear-gradient(135deg,#fff,#f5f3ff)"><div class="text-[11px] font-black text-purple-900">📱 روش ۳ — تبدیل به APK واقعی اندروید</div><div class="space-y-1.5"><div class="apk-step"><div class="step-num">۱</div><div class="text-[10px] leading-5"><b>پکیج ZIP بالا را بسازید</b> و روی هاست https آپلود کنید.</div></div><div class="apk-step"><div class="step-num">۲</div><div class="text-[10px] leading-5">وارد <b dir="ltr">PWABuilder.com</b> شوید، آدرس را بدهید و <b>Package for Android</b> را بزنید.</div></div><div class="apk-step"><div class="step-num">۳</div><div class="text-[10px] leading-5">روش جایگزین: <b dir="ltr">Median.co / AppsGeyser</b> فایل HTML آفلاین را به APK تبدیل می‌کند.</div></div></div><div class="grid grid-cols-2 gap-1.5"><button onclick="openPwaBuilder()" class="py-2 rounded-xl text-[11px] font-black text-white" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">🌐 باز کردن PWABuilder</button><button onclick="copyApkGuide()" class="py-2 rounded-xl text-[11px] font-black bg-slate-800 text-white">📋 کپی راهنما</button></div></div>
+</div></div>
+<div id="toastBox" class="toast-box px-4 py-2.5 rounded-xl text-xs font-bold shadow-xl flex items-center gap-2 border bg-white" style="border-color: rgb(16, 185, 129); color: rgb(4, 120, 87);">ذخیره شد ✓</div>
+<div id="exportRenderBox" class="render-container-box"><div class="render-sheet"><div class="render-header"><div><div id="renderSheetTitle" class="render-title">گزارش مالی و ساکنین ساختمان</div><div class="render-meta mt-1">سامانه هوشمند مدیریت بلوک • نسخه چاپی</div></div><div class="text-left render-meta"><div>تاریخ: <span id="renderSheetDate"></span></div><div id="renderSheetStats" class="text-cyan-800 font-bold mt-0.5"></div></div></div><div id="renderTableWrapper"></div></div></div>
+<script>
+const PERSIAN_DIGITS='۰۱۲۳۴۵۶۷۸۹',ARABIC_DIGITS='٠١٢٣٤٥٦٧٨٩';
+function toEnglishDigits(s){return String(s??'').replace(/[۰-۹]/g,d=>String(PERSIAN_DIGITS.indexOf(d))).replace(/[٠-٩]/g,d=>String(ARABIC_DIGITS.indexOf(d)));}
+function toPersianDigits(n){if(n===null||n===undefined)return '';return String(n).replace(/[0-9]/g,d=>PERSIAN_DIGITS[Number(d)]);}
+function formatToman(num){if(num===null||num===undefined||isNaN(num))return '۰';return toPersianDigits(Number(num).toLocaleString('en-US'));}
+function pad2(n){return String(n).padStart(2,'0');}
+function gregorianToJalali(gy,gm,gd){const g_d_m=[0,31,59,90,120,151,181,212,243,273,304,334];let jy=(gy<=1600)?0:979;gy-= (gy<=1600)?621:1600;const gy2=(gm>2)?(gy+1):gy;let days=(365*gy)+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)-80+gd+g_d_m[gm-1];jy+=33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}const jm=(days<186)?1+Math.floor(days/31):7+Math.floor((days-186)/30);const jd=1+((days<186)?(days%31):((days-186)%30));return [jy,jm,jd];}
+function jFmt(j){return j[0]+'/'+pad2(j[1])+'/'+pad2(j[2]);}
+function getTodayShamsi(){const n=new Date();return jFmt(gregorianToJalali(n.getFullYear(),n.getMonth()+1,n.getDate()));}
+function normalizeDateToShamsi(value,fallbackToday=true){
+ if(!value) return fallbackToday?getTodayShamsi():'';
+ if(value instanceof Date && !isNaN(value)) return jFmt(gregorianToJalali(value.getFullYear(),value.getMonth()+1,value.getDate()));
+ const raw=toEnglishDigits(String(value)).trim(); if(!raw) return fallbackToday?getTodayShamsi():'';
+ const parts=raw.split(/[\/\-\.\s]+/).filter(Boolean);
+ if(parts.length===3){
+  let a=+parts[0],b=+parts[1],c=+parts[2];
+  if(c>=1300&&c<=1500&&a<=31){const t=a;a=c;c=t;}
+  if(a>=1300&&a<=1500){b=Math.min(12,Math.max(1,b));c=Math.min(31,Math.max(1,c));return a+'/'+pad2(b)+'/'+pad2(c);}
+  if(a>=1900&&a<=2200){return jFmt(gregorianToJalali(a,Math.min(12,Math.max(1,b)),Math.min(31,Math.max(1,c))));}
+  if(a<100&&a>=0){const y=1400+a>=1500?(a>50?1300+a:1400+a):1400+a;return y+'/'+pad2(Math.min(12,Math.max(1,b)))+'/'+pad2(Math.min(31,Math.max(1,c)));}
+ }
+ return fallbackToday?getTodayShamsi():raw;
+}
+function excelValueToShamsi(v,fallbackToday=true){
+ if(v===null||v===undefined||v==='') return fallbackToday?getTodayShamsi():'';
+ if(v instanceof Date && !isNaN(v)) return jFmt(gregorianToJalali(v.getFullYear(),v.getMonth()+1,v.getDate()));
+ if(typeof v==='number' && v>20000 && v<80000){const d=new Date(Math.round((v-25569)*86400*1000)); if(!isNaN(d)) return jFmt(gregorianToJalali(d.getFullYear(),d.getMonth()+1,d.getDate()));}
+ const s=String(v).trim(); if(!s) return fallbackToday?getTodayShamsi():'';
+ return normalizeDateToShamsi(s,fallbackToday);
+}
+function parseAmount(v){if(v===null||v===undefined||v==='')return 0;if(typeof v==='number')return Math.round(v)||0;const s=toEnglishDigits(String(v)).replace(/[٬,،\s]/g,'').replace(/[^\d.-]/g,'');if(!s)return 0;return Math.round(parseFloat(s))||0;}
+function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+function uid(){return Date.now()+Math.random().toString(36).slice(2,9);}
+function splitFullName(full){
+  full=(full||'').toString().trim().replace(/\s+/g,' ');
+  if(!full) return {first:'',last:''};
+  const parts=full.split(' ');
+  if(parts.length===1) return {first:parts[0],last:''};
+  return {first:parts[0], last:parts.slice(1).join(' ')};
+}
+function setupPwaManifest(){
+ try{
+  const iconSvg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#0284c7"/><path d="M120 420V120h272v300" stroke="#fff" stroke-width="32" fill="none"/><path d="M200 420v-80h112v80" stroke="#fff" stroke-width="32" fill="none"/></svg>';
+  const iconDataUri='data:image/svg+xml;utf8,'+encodeURIComponent(iconSvg);
+  const baseUrl=window.location.href.split('?')[0].split('#')[0];
+  const manifest={name:"مدیریت بلوک",short_name:"بلوک",start_url:baseUrl,display:"standalone",background_color:"#0284c7",theme_color:"#06b6d4",icons:[{src:iconDataUri,sizes:"512x512",type:"image/svg+xml"}]};
+  const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+  document.getElementById('manifest-placeholder').setAttribute('href',URL.createObjectURL(blob));
+ }catch(e){}
+}
+setupPwaManifest();
+const STORAGE_RESIDENTS='blok_res_v8',STORAGE_BILLS='blok_bills_v8',STORAGE_EXPENSES='blok_exp_v8',STORAGE_THEME='blok_theme_v8';
+let currentTheme={bgIdx:0,tabIdx:0,glowIdx:0,boxIdx:0};
+const App={residents:[],bills:[],expenses:[],selectedResidentType:'مالک',selectedBillType:'آب',modalBillId:null,editId:null,currentReceiptImageBase64:null,pendingSharedReceipt:null,pendingSharedReceiptImage:null,excelResidentsRows:[],excelResidentsHeaders:[],excelBillsRows:[],excelBillsHeaders:[],resMap:{},billMap:{}};
+let activeMainTab='residents',activeFinanceSub='bill',overviewFilter='all',deferredInstallPrompt=null,reportMode='overview';
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;});
+function safeGet(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
+function loadStorage(){App.residents=safeGet(STORAGE_RESIDENTS)||[];App.bills=safeGet(STORAGE_BILLS)||[];App.expenses=safeGet(STORAGE_EXPENSES)||[];const th=safeGet(STORAGE_THEME);if(th)currentTheme=Object.assign(currentTheme,th);}
+function persistStorage(){try{localStorage.setItem(STORAGE_RESIDENTS,JSON.stringify(App.residents));localStorage.setItem(STORAGE_BILLS,JSON.stringify(App.bills));localStorage.setItem(STORAGE_EXPENSES,JSON.stringify(App.expenses));localStorage.setItem(STORAGE_THEME,JSON.stringify(currentTheme));}catch(e){toast('حافظه مرورگر پر است!',false);}populateTargetUnits();updateHeaderStats();}
+const BG_PALETTES=[{name:'فیروزه شیشه‌ای',preview:'#06b6d4',val:'linear-gradient(180deg,#ecfeff 0%,#a5f3fc 28%,#06b6d4 68%,#0284c7 100%)'},{name:'آبی آسمانی',preview:'#3b82f6',val:'linear-gradient(180deg,#eff6ff 0%,#bfdbfe 30%,#60a5fa 68%,#1d4ed8 100%)'},{name:'بنفش کهکشانی',preview:'#8b5cf6',val:'linear-gradient(180deg,#f5f3ff 0%,#c4b5fd 28%,#8b5cf6 68%,#4c1d95 100%)'},{name:'سبز زمردی',preview:'#10b981',val:'linear-gradient(180deg,#ecfdf5 0%,#a7f3d0 28%,#10b981 68%,#065f46 100%)'},{name:'غروب نارنجی',preview:'#f97316',val:'linear-gradient(180deg,#fff7ed 0%,#fed7aa 30%,#fb923c 65%,#c2410c 100%)'},{name:'صورتی مدرن',preview:'#ec4899',val:'linear-gradient(180deg,#fdf2f8 0%,#f9a8d4 30%,#ec4899 68%,#831843 100%)'},{name:'طلایی لوکس',preview:'#f59e0b',val:'linear-gradient(180deg,#fffbeb 0%,#fde68a 30%,#f59e0b 65%,#92400e 100%)'},{name:'شب تیره',preview:'#0f172a',val:'linear-gradient(180deg,#334155 0%,#1e293b 40%,#0f172a 75%,#020617 100%)'}];
+const TAB_PALETTES=[{name:'فیروزه',preview:'#06b6d4',val:'linear-gradient(135deg,#06b6d4 0%,#0284c7 100%)',c:'#06b6d4'},{name:'آبی',preview:'#3b82f6',val:'linear-gradient(135deg,#3b82f6 0%,#1e40af 100%)',c:'#3b82f6'},{name:'بنفش',preview:'#8b5cf6',val:'linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%)',c:'#8b5cf6'},{name:'سبز',preview:'#10b981',val:'linear-gradient(135deg,#10b981 0%,#047857 100%)',c:'#10b981'},{name:'نارنجی',preview:'#f97316',val:'linear-gradient(135deg,#f97316 0%,#c2410c 100%)',c:'#f97316'},{name:'صورتی',preview:'#ec4899',val:'linear-gradient(135deg,#ec4899 0%,#be123c 100%)',c:'#ec4899'},{name:'طلایی',preview:'#f59e0b',val:'linear-gradient(135deg,#f59e0b 0%,#b45309 100%)',c:'#f59e0b'},{name:'زغالی',preview:'#334155',val:'linear-gradient(135deg,#475569 0%,#0f172a 100%)',c:'#475569'}];
+const GLOW_PALETTES=[{name:'فیروزه',preview:'#22d3ee',val:'rgba(6,182,212,.65)'},{name:'آبی',preview:'#38bdf8',val:'rgba(56,189,248,.7)'},{name:'بنفش',preview:'#a78bfa',val:'rgba(139,92,246,.65)'},{name:'سبز',preview:'#34d399',val:'rgba(16,185,129,.6)'},{name:'نارنجی',preview:'#fb923c',val:'rgba(249,115,22,.6)'},{name:'صورتی',preview:'#f472b6',val:'rgba(236,72,153,.6)'},{name:'طلایی',preview:'#fbbf24',val:'rgba(245,158,11,.6)'},{name:'خاکستری',preview:'#94a3b8',val:'rgba(100,116,139,.45)'}];
+const BOX_PALETTES=[{name:'سفید شیشه‌ای',preview:'#ffffff',val:'rgba(255,255,255,.94)',b:'rgba(255,255,255,.8)'},{name:'یخی',preview:'#f0f9ff',val:'rgba(240,249,255,.95)',b:'#bae6fd'},{name:'نعنایی',preview:'#ecfdf5',val:'rgba(236,253,245,.95)',b:'#a7f3d0'},{name:'اسطوخودوس',preview:'#f5f3ff',val:'rgba(245,243,255,.95)',b:'#ddd6fe'},{name:'هلویی',preview:'#fff7ed',val:'rgba(255,247,237,.95)',b:'#fed7aa'},{name:'صورتی ملایم',preview:'#fdf2f8',val:'rgba(253,242,248,.95)',b:'#fbcfe8'},{name:'لیمویی',preview:'#fefce8',val:'rgba(254,252,232,.95)',b:'#fef08a'},{name:'آسمانی',preview:'#e0f2fe',val:'rgba(224,242,254,.95)',b:'#7dd3fc'},{name:'شنی',preview:'#faf5eb',val:'rgba(250,245,235,.95)',b:'#e7d8b8'},{name:'مریم‌گلی',preview:'#eef5ec',val:'rgba(238,245,236,.95)',b:'#c6dcc0'},{name:'یاسی',preview:'#f3e8ff',val:'rgba(243,232,255,.95)',b:'#e9d5ff'},{name:'آکوا',preview:'#ecfeff',val:'rgba(236,254,255,.95)',b:'#a5f3fc'},{name:'گلبهی',preview:'#fff1f2',val:'rgba(255,241,242,.95)',b:'#fecdd3'},{name:'کرم',preview:'#fffbeb',val:'rgba(255,251,235,.95)',b:'#fde68a'},{name:'خاکستری روشن',preview:'#f1f5f9',val:'rgba(241,245,249,.95)',b:'#cbd5e1'},{name:'سبزآبی',preview:'#f0fdfa',val:'rgba(240,253,250,.95)',b:'#99f6e4'}];
+let toastTimer;
+function toast(msg,ok=true){
+ const box=document.getElementById('toastBox');
+ box.textContent=msg;
+ box.style.borderColor=ok?'#10b981':'#f43f5e';
+ box.style.color=ok?'#047857':'#b91c1c';
+ box.classList.add('show');
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>box.classList.remove('show'),3000);
+}
+function handleInstallApp(){
+ if(deferredInstallPrompt){
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(c=>{if(c.outcome==='accepted')toast('در حال نصب...');deferredInstallPrompt=null;});
+ }else{
+  toast('از منوی مرورگر: Add to Home Screen / نصب برنامه');
+  setTimeout(()=>{alert('📲 راهنمای نصب:\n\n• کروم اندروید: منو (⋮) ← Add to Home screen / Install app\n• سامسونگ: منو ← Add page to ← Home screen\n\nبرای APK واقعی از بخش «پکیج نصب APK» استفاده کنید.');},400);
+ }
+}
+function handleWipeAllData(){if(confirm('حذف کلیه اطلاعات؟ این عمل قابل بازگشت نیست!')){App.residents=[];App.bills=[];App.expenses=[];persistStorage();renderAll();toast('اطلاعات پاک شد');}}
+function applyTheme(){
+ const bg=BG_PALETTES[currentTheme.bgIdx]||BG_PALETTES[0],tab=TAB_PALETTES[currentTheme.tabIdx]||TAB_PALETTES[0],glow=GLOW_PALETTES[currentTheme.glowIdx]||GLOW_PALETTES[0],box=BOX_PALETTES[currentTheme.boxIdx]||BOX_PALETTES[0];
+ const root=document.documentElement.style;
+ root.setProperty('--main-bg',bg.val);root.setProperty('--main-tabs-bg',tab.val);root.setProperty('--backlight-color',glow.val);root.setProperty('--cyan-primary',tab.c||'#06b6d4');root.setProperty('--box-bg',box.val);root.setProperty('--box-border',box.b);
+ const pc=document.getElementById('phoneContainer');
+ if(pc){pc.style.background=bg.val; pc.style.backgroundAttachment='local';}
+ try{document.querySelector('meta[name="theme-color"]').setAttribute('content',tab.c||'#06b6d4');}catch(e){}
+ const set=(id,t)=>{const el=document.getElementById(id);if(el)el.textContent=t;};
+ set('bgName',bg.name);set('tabName',tab.name);set('glowName',glow.name);set('boxName',box.name);
+}
+function renderPaletteGrid(id,list,sel,soft){
+ const c=document.getElementById(id);if(!c)return;
+ c.innerHTML=list.map((it,i)=>'<div class="color-swatch '+(soft?'soft ':'')+(i===sel?'active':'')+'" title="'+esc(it.name)+'" style="background:'+it.preview+(soft?';border-color:'+(i===sel?'#0f172a':it.b):'')+'" onclick="window._selTheme(\''+id+'\','+i+')"></div>').join('');
+}
+function renderAllPalettes(){
+ renderPaletteGrid('bgPaletteGrid',BG_PALETTES,currentTheme.bgIdx);
+ renderPaletteGrid('tabPaletteGrid',TAB_PALETTES,currentTheme.tabIdx);
+ renderPaletteGrid('glowPaletteGrid',GLOW_PALETTES,currentTheme.glowIdx);
+ renderPaletteGrid('boxPaletteGrid',BOX_PALETTES,currentTheme.boxIdx,true);
+}
+window._selTheme=(id,i)=>{
+ if(id==='bgPaletteGrid')currentTheme.bgIdx=i;
+ else if(id==='tabPaletteGrid')currentTheme.tabIdx=i;
+ else if(id==='glowPaletteGrid')currentTheme.glowIdx=i;
+ else if(id==='boxPaletteGrid')currentTheme.boxIdx=i;
+ applyTheme();renderAllPalettes();
+ try{localStorage.setItem(STORAGE_THEME,JSON.stringify(currentTheme));}catch(e){}
+};
+function openDesignModal(){renderAllPalettes();applyTheme();document.getElementById('designModal').classList.add('open');}
+function closeDesignModal(){document.getElementById('designModal').classList.remove('open');}
+function saveDesignSettings(){persistStorage();applyTheme();closeDesignModal();toast('تم صفحه اصلی ذخیره شد ✓');}
+function resetDefaultTheme(){currentTheme={bgIdx:0,tabIdx:0,glowIdx:0,boxIdx:0};persistStorage();applyTheme();renderAllPalettes();toast('تم به حالت اولیه برگشت');}
+function openBackupModal(){switchBackupSub('export');document.getElementById('backupModal').classList.add('open');}
+function closeBackupModal(){document.getElementById('backupModal').classList.remove('open');}
+function switchBackupSub(sub){document.getElementById('btnSubBkExport').classList.toggle('active',sub==='export');document.getElementById('btnSubBkImport').classList.toggle('active',sub==='import');document.getElementById('bkSubExport').classList.toggle('hidden',sub!=='export');document.getElementById('bkSubImport').classList.toggle('hidden',sub!=='export');}
+async function saveBlob(blob,name,desc,mime){
+ if(window.AndroidFileSaver && window.AndroidFileSaver.saveFile){
+  try{
+   const buffer=await blob.arrayBuffer();
+   const bytes=new Uint8Array(buffer);
+   let binary='';
+   const chunk=0x8000;
+   for(let i=0;i<bytes.length;i+=chunk){binary+=String.fromCharCode.apply(null,bytes.subarray(i,Math.min(i+chunk,bytes.length)));}
+   window.AndroidFileSaver.saveFile(btoa(binary),name,mime||blob.type||'application/octet-stream');
+   toast('محل ذخیره فایل را انتخاب کنید…');
+   return true;
+  }catch(e){console.error('Android save error',e);}
+ }
+ if(window.showSaveFilePicker){
+  try{
+   const h=await window.showSaveFilePicker({suggestedName:name,types:[{description:desc,accept:{[mime]:[name.substring(name.lastIndexOf('.'))]}}]});
+   const w=await h.createWritable();await w.write(blob);await w.close();toast('ذخیره شد ✓');return true;
+  }catch(e){if(e&&e.name==='AbortError')return false;}
+ }
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{try{document.body.removeChild(a);}catch(e){}URL.revokeObjectURL(url);},500);toast('فایل ذخیره شد ✓');return true;
+}
+async function handleExportBackupFile(){const data={res:App.residents,bills:App.bills,exp:App.expenses,th:currentTheme,v:10};await saveBlob(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'Backup_'+getTodayShamsi().replace(/\//g,'-')+'.json','JSON Backup','application/json');}
+function handleRestoreBackupFile(e){
+ const f=e.target.files[0];if(!f)return;const r=new FileReader();
+ r.onload=ev=>{
+  try{
+   const d=JSON.parse(ev.target.result);
+   App.residents=d.res||[];App.bills=d.bills||[];App.expenses=d.exp||[];
+   if(d.th)currentTheme=Object.assign(currentTheme,d.th);
+   persistStorage();applyTheme();renderAll();closeBackupModal();toast('بازیابی شد ✓');
+  }catch(err){alert('فایل نامعتبر است');}
+ };
+ r.readAsText(f);e.target.value='';
+}
+let builtApkBlob=null,builtApkName='BlockManager-Package.zip';
+function openApkBuildModal(){document.getElementById('apkBuildProgressBox').classList.add('hidden');document.getElementById('btnStartApkBuild').classList.remove('hidden');document.getElementById('apkBuildModal').classList.add('open');}
+function closeApkBuildModal(){document.getElementById('apkBuildModal').classList.remove('open');}
+function openPwaBuilder(){window.open('https://www.pwabuilder.com','_blank');}
+function copyApkGuide(){const t='راهنمای APK واقعی:\n1) ساخت پکیج ZIP در اپ\n2) آپلود روی هاست https\n3) ورود به PWABuilder.com و دادن آدرس\n4) Package for Android';try{navigator.clipboard.writeText(t).then(()=>toast('راهنما کپی شد'));}catch(e){alert(t);}}
+function buildManifestJson(){
+ const name=(document.getElementById('apkAppName').value||'مدیریت بلوک').trim();
+ const ver=(document.getElementById('apkVersion').value||'1.0.0').trim();
+ return JSON.stringify({name,short_name:name,description:"سامانه هوشمند مدیریت بلوک",start_url:"./index.html",scope:"./",display:"standalone",orientation:"portrait",background_color:"#0284c7",theme_color:(TAB_PALETTES[currentTheme.tabIdx]||TAB_PALETTES[0]).c,dir:"rtl",lang:"fa",id:"./index.html",version:ver,icons:[{src:"icon-192.png",sizes:"192x192",type:"image/png",purpose:"any maskable"},{src:"icon-512.png",sizes:"512x512",type:"image/png",purpose:"any maskable"}]},null,2);
+}
+function buildServiceWorkerJs(){return "const CACHE='block-manager-v1';\nconst ASSETS=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];\nself.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));\nself.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));\nself.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const cp=res.clone();caches.open(CACHE).then(c=>c.put(e.request,cp));return res;}).catch(()=>caches.match('./index.html')))));\n";}
+function buildReadmeTxt(){return "پکیج نصب - "+(document.getElementById('apkAppName').value||'مدیریت بلوک')+" نسخه "+(document.getElementById('apkVersion').value||'1.0.0')+"\nتاریخ: "+getTodayShamsi()+"\n\n1) فایل‌ها را روی هاست HTTPS آپلود کنید\n2) https://www.pwabuilder.com\n3) Package for Android\n";}
+function buildOfflineHtml(){
+ try{
+  let html="<!DOCTYPE html\n"+document.documentElement.outerHTML;
+  if(!html.includes('manifest.webmanifest'))html=html.replace('</head','<link rel="manifest" href="./manifest.webmanifest">\n</head');
+  if(!html.includes('serviceWorker.register'))html=html.replace(/<\/body(?![\s\S]*<\/body)/,'<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("./sw.js").catch(()=>{});});}<\/script>\n</body');
+  return html;
+ }catch(e){return document.documentElement.outerHTML;}
+}
+function generateIconBlob(size){
+ return new Promise(resolve=>{
+  try{
+   const c=document.createElement('canvas');c.width=size;c.height=size;const x=c.getContext('2d');
+   const g=x.createLinearGradient(0,0,size,size);g.addColorStop(0,'#06b6d4');g.addColorStop(1,'#1e3a8a');x.fillStyle=g;const r=size*0.18;
+   x.beginPath();x.moveTo(r,0);x.lineTo(size-r,0);x.quadraticCurveTo(size,0,size,r);x.lineTo(size,size-r);x.quadraticCurveTo(size,size,size-r,size);x.lineTo(r,size);x.quadraticCurveTo(0,size,0,size-r);x.lineTo(0,r);x.quadraticCurveTo(0,0,r,0);x.closePath();x.fill();
+   x.strokeStyle='#fff';x.lineWidth=size*0.06;x.lineJoin='round';x.strokeRect(size*0.28,size*0.18,size*0.44,size*0.64);x.fillStyle='#fff';
+   for(let i=0;i<3;i++)for(let j=0;j<2;j++){x.beginPath();x.arc(size*(0.38+j*0.24),size*(0.32+i*0.15),size*0.025,0,Math.PI*2);x.fill();}
+   c.toBlob(b=>resolve(b),'image/png');
+  }catch(e){resolve(null);}
+ });
+}
+function apkLog(t){const el=document.getElementById('apkBuildLog');const d=document.createElement('div');d.textContent='✓ '+t;el.appendChild(d);}
+async function startApkBuild(){
+ const box=document.getElementById('apkBuildProgressBox'),bar=document.getElementById('apkBuildBar'),stat=document.getElementById('apkBuildStatus');
+ document.getElementById('btnStartApkBuild').classList.add('hidden');document.getElementById('btnSaveApk').classList.add('hidden');
+ box.classList.remove('hidden');document.getElementById('apkBuildLog').innerHTML='';
+ const w=ms=>new Promise(r=>setTimeout(r,ms));
+ try{
+  stat.textContent='۱/۵ مانیفست...';bar.style.width='15%';await w(400);const manifest=buildManifestJson();apkLog('manifest.webmanifest');
+  stat.textContent='۲/۵ آیکون‌ها...';bar.style.width='35%';const i192=await generateIconBlob(192),i512=await generateIconBlob(512);apkLog('icon-192 / icon-512');
+  stat.textContent='۳/۵ Service Worker...';bar.style.width='55%';await w(300);const sw=buildServiceWorkerJs();apkLog('sw.js');
+  stat.textContent='۴/۵ index.html...';bar.style.width='75%';await w(300);const html=buildOfflineHtml();apkLog('index.html + README');
+  stat.textContent='۵/۵ ZIP...';bar.style.width='90%';const zip=new JSZip();zip.file('index.html',html);zip.file('manifest.webmanifest',manifest);zip.file('sw.js',sw);zip.file('README.txt',buildReadmeTxt());if(i192)zip.file('icon-192.png',i192);if(i512)zip.file('icon-512.png',i512);
+  const ver=(document.getElementById('apkVersion').value||'1.0.0').replace(/[^\w.-]/g,'-');builtApkName='BlockManager-v'+ver+'-'+getTodayShamsi().replace(/\//g,'-')+'.zip';builtApkBlob=await zip.generateAsync({type:'blob'});bar.style.width='100%';stat.textContent='✅ پکیج آماده شد!';apkLog(builtApkName);document.getElementById('btnSaveApk').classList.remove('hidden');toast('پکیج ساخته شد ✓');
+ }catch(e){stat.textContent='خطا در ساخت پکیج';toast('خطا در ساخت پکیج',false);document.getElementById('btnStartApkBuild').classList.remove('hidden');}
+}
+async function saveBuiltApk(){if(!builtApkBlob)return toast('اول پکیج را بسازید',false);await saveBlob(builtApkBlob,builtApkName,'Install Package','application/zip');}
+async function downloadSingleManifest(){await saveBlob(new Blob([buildManifestJson()],{type:'application/json'}),'manifest.webmanifest','Web Manifest','application/json');}
+async function downloadSingleSW(){await saveBlob(new Blob([buildServiceWorkerJs()],{type:'application/javascript'}),'sw.js','Service Worker','application/javascript');}
+async function downloadOfflineHtml(){await saveBlob(new Blob([buildOfflineHtml()],{type:'text/html'}),'BlockManager-Offline.html','Offline HTML','text/html');}
+function updateHeaderStats(){
+ try{
+  document.getElementById('hUnits').textContent=toPersianDigits(new Set(App.residents.map(r=>r.unit)).size);
+  document.getElementById('hPersons').textContent=toPersianDigits(App.residents.filter(r=>r.isActive).reduce((s,r)=>s+(+r.count||0),0));
+  document.getElementById('hOpen').textContent=toPersianDigits(App.bills.filter(b=>!b.paid).length);
+  const paid=App.bills.filter(b=>b.paid).reduce((s,b)=>s+(+b.amount||0),0);
+  const exp=App.expenses.reduce((s,e)=>s+(+e.amount||0),0);
+  document.getElementById('hFund').textContent=formatToman(paid-exp);
+ }catch(e){}
+}
+function toggleMainTab(t){
+ ['residents','finance','excel'].forEach(tab=>{
+  document.getElementById('acc'+cap(tab)).classList.toggle('open',t===tab);
+  document.getElementById('btnTab'+cap(tab)).classList.toggle('active',t===tab);
+ });
+ activeMainTab=t;
+ if(t==='residents')renderResidentsList();
+ if(t==='finance'){populateTargetUnits();renderBillsList();renderFinancialOverview();updateBillPreview();renderExpenseList();}
+ if(t==='excel'){renderOverviewReport();renderDetailReport();}
+}
+function toggleResidentSub(s){['reg','list'].forEach(k=>{document.getElementById('accResident'+cap(k)).classList.toggle('open',s===k);document.getElementById('subBtnResident'+cap(k)).classList.toggle('active',s===k);});if(s==='list')renderResidentsList();}
+function toggleFinanceSub(s){['bill','confirm','expense','overview'].forEach(k=>{document.getElementById('accFin'+cap(k)).classList.toggle('open',s===k);document.getElementById('subBtnFin'+cap(k)).classList.toggle('active',s===k);});activeFinanceSub=s;if(s==='bill'){populateTargetUnits();updateBillPreview();}if(s==='confirm')renderBillsList();if(s==='expense')renderExpenseList();if(s==='overview')renderFinancialOverview();}
+function toggleExcelSub(s){['export','import'].forEach(k=>{document.getElementById('accExcel'+cap(k)).classList.toggle('open',s===k);document.getElementById('subBtnExcel'+cap(k)).classList.toggle('active',s===k);});}
+function switchExcelImportTab(t){document.getElementById('importSectionResidents').classList.toggle('hidden',t!=='residents');document.getElementById('importSectionBills').classList.toggle('hidden',t!=='bills');document.getElementById('subBtnImportResidents').classList.toggle('active',t==='residents');document.getElementById('subBtnImportBills').classList.toggle('active',t==='bills');}
+function setResidentType(t){App.selectedResidentType=t;document.getElementById('btnOwner').classList.toggle('active',t==='مالک');document.getElementById('btnTenant').classList.toggle('active',t==='مستاجر');}
+function deduplicateResidents(showToast=false){
+ const seen=new Map();
+ const uniq=[];
+ let removed=0;
+ for(const r of App.residents){
+  const key = toEnglishDigits(String(r.unit)).trim()+'|'+toEnglishDigits(String(r.floor||'')).trim()+'|'+String(r.first).trim()+'|'+String(r.last).trim()+'|'+String(r.type).trim();
+  if(!seen.has(key)){seen.set(key,true);uniq.push(r);} else removed++;
+ }
+ if(removed>0){
+  App.residents=uniq;
+  persistStorage();
+  renderResidentsList();
+  if(showToast) toast(toPersianDigits(removed)+' مورد تکراری حذف شد ✓');
+  return removed;
+ }
+ if(showToast) toast('مورد تکراری یافت نشد');
+ return 0;
+}
+function handleRegisterResident(){
+ const unit=toEnglishDigits(document.getElementById('inpUnit').value).trim();
+ const first=document.getElementById('inpFirstName').value.trim();
+ const last=document.getElementById('inpLastName').value.trim();
+ if(!unit||!first||!last) return toast('واحد و نام الزامی است',false);
+ const floor=toEnglishDigits(document.getElementById('inpFloor').value).trim();
+ const type=App.selectedResidentType;
+ const duplicate = App.residents.some(r=> toEnglishDigits(r.unit).trim()===unit && toEnglishDigits(r.floor||'').trim()===floor && r.first.trim()===first && r.last.trim()===last && r.type===type);
+ if(duplicate) return toast('ساکن تکراری است (واحد+طبقه+نام+نام‌خانوادگی+نوع یکسان)',false);
+ const hasActive=App.residents.some(r=>r.unit===unit&&r.isActive);
+ const hasCurrent=App.residents.some(r=>r.unit===unit&&r.isCurrent);
+ App.residents.push({id:uid(),unit,floor,first,last,count:String(parseInt(toEnglishDigits(document.getElementById('inpCount').value))||1),type,phone:toEnglishDigits(document.getElementById('inpPhone').value).trim(),regDate:normalizeDateToShamsi(document.getElementById('inpDate').value)||getTodayShamsi(),isActive:!hasActive,isCurrent:type==='مالک'&&!hasCurrent});
+ persistStorage();renderResidentsList();
+ ['inpUnit','inpFloor','inpFirstName','inpLastName','inpPhone','inpDate'].forEach(id=>document.getElementById(id).value='');
+ document.getElementById('inpCount').value='1';toast('ساکن ثبت شد ✓');
+}
+function toggleActiveResident(id,ch){const r=App.residents.find(x=>x.id==id);if(r)r.isActive=!!ch;persistStorage();renderResidentsList();}
+function toggleCurrentResident(id,ch){const r=App.residents.find(x=>x.id==id);if(r)r.isCurrent=!!ch;persistStorage();renderResidentsList();}
+function deleteResident(id){if(confirm('حذف ساکن؟')){App.residents=App.residents.filter(x=>x.id!=id);persistStorage();renderResidentsList();toast('حذف شد');}}
+function openEditResident(id){
+ const r=App.residents.find(x=>x.id==id);if(!r)return;App.editId=id;
+ document.getElementById('editModalInfo').textContent='واحد '+toPersianDigits(r.unit)+' - '+r.first+' '+r.last;
+ document.getElementById('inpEditUnit').value=r.unit;document.getElementById('inpEditFloor').value=r.floor||'';
+ document.getElementById('inpEditFirst').value=r.first;document.getElementById('inpEditLast').value=r.last;
+ document.getElementById('inpEditCount').value=r.count;document.getElementById('inpEditType').value=r.type;
+ document.getElementById('inpEditPhone').value=r.phone||'';document.getElementById('inpEditDate').value=r.regDate||'';
+ document.getElementById('chkEditActive').checked=!!r.isActive;document.getElementById('chkEditCurrent').checked=!!r.isCurrent;
+ document.getElementById('editModal').classList.add('open');
+}
+function closeEditModal(){document.getElementById('editModal').classList.remove('open');App.editId=null;}
+function saveEditResident(){
+ const r=App.residents.find(x=>x.id==App.editId);if(!r)return;
+ const newUnit=toEnglishDigits(document.getElementById('inpEditUnit').value).trim();
+ const newFloor=toEnglishDigits(document.getElementById('inpEditFloor').value).trim();
+ const newFirst=document.getElementById('inpEditFirst').value.trim();
+ const newLast=document.getElementById('inpEditLast').value.trim();
+ const newType=document.getElementById('inpEditType').value;
+ const duplicate = App.residents.some(x=> x.id!=r.id && toEnglishDigits(x.unit).trim()===newUnit && toEnglishDigits(x.floor||'').trim()===newFloor && x.first.trim()===newFirst && x.last.trim()===newLast && x.type===newType);
+ if(duplicate) return toast('ویرایش باعث تکرار می‌شود',false);
+ r.unit=newUnit;r.floor=newFloor;r.first=newFirst;r.last=newLast;
+ r.count=String(parseInt(toEnglishDigits(document.getElementById('inpEditCount').value))||1);
+ r.type=newType;r.phone=toEnglishDigits(document.getElementById('inpEditPhone').value).trim();
+ r.regDate=normalizeDateToShamsi(document.getElementById('inpEditDate').value)||r.regDate;
+ r.isActive=document.getElementById('chkEditActive').checked; r.isCurrent=document.getElementById('chkEditCurrent').checked;
+ persistStorage();closeEditModal();renderResidentsList();toast('ذخیره شد ✓');
+}
+function resetResidentFilters(){['fUnit','fFloor','fName','fType','fActive'].forEach(id=>document.getElementById(id).value='');renderResidentsList();}
+function renderResidentsList(){
+ const tb=document.getElementById('residentTableBody');if(!tb)return;
+ deduplicateResidents(false);
+ const qU=toEnglishDigits(document.getElementById('fUnit').value).trim();
+ const qF=toEnglishDigits(document.getElementById('fFloor').value).trim();
+ const qN=document.getElementById('fName').value.trim();
+ const qT=document.getElementById('fType').value;
+ const qA=document.getElementById('fActive').value;
+ const list=App.residents.filter(r=>{
+  if(qU && toEnglishDigits(String(r.unit)).trim() !== qU) return false;
+  if(qF && toEnglishDigits(String(r.floor||'')).trim() !== qF) return false;
+  if(qN){
+   const full=(r.first+' '+r.last);
+   if(!full.includes(qN) && !r.first.includes(qN) && !r.last.includes(qN)) return false;
+  }
+  if(qT && r.type!==qT) return false;
+  if(qA==='active' && !r.isActive) return false;
+  if(qA==='current' && !r.isCurrent) return false;
+  return true;
+ }).sort((a,b)=>(parseInt(toEnglishDigits(a.unit),10)||0)-(parseInt(toEnglishDigits(b.unit),10)||0));
+ if(!list.length){
+  tb.innerHTML='';document.getElementById('noResidentFoundMsg').classList.remove('hidden');
+  document.getElementById('residentCountLine').textContent='تعداد: ۰';
+  return;
+ }
+ document.getElementById('noResidentFoundMsg').classList.add('hidden');
+ tb.innerHTML=list.map(r=>'<tr><td class="font-black text-cyan-800">'+toPersianDigits(esc(r.unit))+'</td><td>'+toPersianDigits(esc(r.floor||'-'))+'</td><td>'+esc(r.first)+'</td><td>'+esc(r.last)+'</td><td><span class="font-black">'+toPersianDigits(r.count)+'</span> نفر</td><td><span class="badge-chip '+(r.type==='مالک'?'badge-owner':'badge-tenant')+'">'+esc(r.type)+'</span></td><td dir="ltr" class="text-[10.5px]">'+esc(r.phone||'-')+'</td><td><label class="tick-box"><input type="checkbox" '+(r.isActive?'checked':'')+' onchange="toggleActiveResident(\''+r.id+'\',this.checked)"></label></td><td><label class="tick-box purple"><input type="checkbox" '+(r.isCurrent?'checked':'')+' onchange="toggleCurrentResident(\''+r.id+'\',this.checked)"></label></td><td><div class="flex gap-1 justify-center"><button class="act-btn edit" onclick="openEditResident(\''+r.id+'\')">✏️</button><button class="act-btn del" onclick="deleteResident(\''+r.id+'\')">🗑️</button></div></td></tr>').join('');
+ document.getElementById('residentCountLine').textContent='نمایش دقیق: '+toPersianDigits(list.length)+' نفر';
+}
+function selectBillType(t,btn){
+ App.selectedBillType=t;
+ document.querySelectorAll('.b-type-pill').forEach(b=>b.classList.remove('active'));
+ if(btn)btn.classList.add('active');
+ document.getElementById('customTypeWrapper').classList.toggle('hidden',t!=='سایر');
+ document.getElementById('billFormulaBadge').textContent=t==='آب'?'💧 تقسیم آب بر نفرات':(t==='برق'?'⚡ تقسیم مساوی برق':(t==='ذخیره صندوق'?'🏦 سهم صندوق':'📦 قبض سایر'));
+ updateBillPreview();
+}
+function populateTargetUnits(){
+ const og=document.getElementById('targetUnitsOptgroup');if(!og)return;
+ const units=[...new Set(App.residents.map(r=>toEnglishDigits(r.unit).trim()))].filter(Boolean).sort((a,b)=>(parseInt(a,10)||0)-(parseInt(b,10)||0));
+ og.innerHTML=units.map(u=>{
+  const r=App.residents.find(x=>toEnglishDigits(x.unit).trim()===u && x.isActive) || App.residents.find(x=>toEnglishDigits(x.unit).trim()===u);
+  return '<option value="UNIT_'+esc(u)+'">واحد '+toPersianDigits(esc(u))+' ('+(r?esc(r.first+' '+r.last):'')+')</option>';
+ }).join('')||'<option disabled>بدون واحد</option>';
+}
+function getTargetUnits(target){
+ if(target.startsWith('UNIT_')) return [target.replace('UNIT_','')];
+ if(target==='ALL_OWNERS') return [...new Set(App.residents.filter(r=>r.isCurrent).map(r=>toEnglishDigits(r.unit).trim()))].filter(Boolean);
+ return [...new Set(App.residents.filter(r=>r.isActive).map(r=>toEnglishDigits(r.unit).trim()))].filter(Boolean);
+}
+function getUnitPersons(u,target){
+ let res=null;
+ const uu=toEnglishDigits(u).trim();
+ if(target==='ALL_OWNERS') res=App.residents.find(r=>toEnglishDigits(r.unit).trim()===uu && r.isCurrent) || App.residents.find(r=>toEnglishDigits(r.unit).trim()===uu);
+ else res=App.residents.find(r=>toEnglishDigits(r.unit).trim()===uu && r.isActive) || App.residents.find(r=>toEnglishDigits(r.unit).trim()===uu);
+ return {res,persons:res?parseInt(toEnglishDigits(res.count))||0:0};
+}
+function updateBillPreview(){
+ const amtEl=document.getElementById('inpBillAmount');if(!amtEl)return;
+ const amount=parseAmount(amtEl.value);
+ document.getElementById('billAmountFa').textContent=amount?formatToman(amount)+' تومان':'';
+ const target=document.getElementById('inpBillTarget').value;
+ const isWater=App.selectedBillType==='آب';
+ const units=getTargetUnits(target);
+ const cont=document.getElementById('billPreviewContent');
+ document.getElementById('previewFormulaText').textContent=isWater?'مبنای نفرات فعال':'تقسیم مساوی';
+ if(!units.length||!amount){cont.innerHTML='<div class="text-[11px] text-slate-500 text-center py-2">واحدی یافت نشد یا مبلغ صفر است</div>';document.getElementById('billPreviewSum').textContent='۰ تومان';return;}
+ const totP=isWater?units.reduce((s,u)=>s+getUnitPersons(u,target).persons,0):0;
+ let sum=0;
+ cont.innerHTML=units.map(u=>{
+  const {res,persons}=getUnitPersons(u,target);
+  const share=isWater?(totP>0?Math.round(amount*persons/totP):0):Math.round(amount/units.length);
+  sum+=share;
+  return '<div class="flex justify-between text-[11px] bg-white rounded-lg px-2 py-1 border border-slate-100"><span>واحد '+toPersianDigits(esc(u))+' - '+(res?esc(res.first+' '+res.last):'نامشخص')+' ('+toPersianDigits(persons)+' نفر)</span><span class="font-black text-cyan-700">'+formatToman(share)+'</span></div>';
+ }).join('');
+ document.getElementById('billPreviewSum').textContent=formatToman(sum)+' تومان';
+}
+function handleIssueBill(){
+ const amount=parseAmount(document.getElementById('inpBillAmount').value);
+ if(!amount) return toast('مبلغ قبض را وارد کنید',false);
+ const target=document.getElementById('inpBillTarget').value;
+ const isWater=App.selectedBillType==='آب';
+ const units=getTargetUnits(target);
+ if(!units.length) return toast('واحد فعال وجود ندارد',false);
+ const totP=units.reduce((s,u)=>s+getUnitPersons(u,target).persons,0);
+ const title=App.selectedBillType==='سایر'?(document.getElementById('inpCustomType').value.trim()||'سایر'):App.selectedBillType;
+ const date=normalizeDateToShamsi(document.getElementById('inpBillDate').value)||getTodayShamsi();
+ const note=document.getElementById('inpBillNote').value.trim();
+ units.forEach(u=>{
+  const {res,persons}=getUnitPersons(u,target);
+  const share=isWater?(totP>0?Math.round(amount*persons/totP):0):Math.round(amount/units.length);
+  const fullName=res?res.first+' '+res.last:'';
+  const {first,last}=splitFullName(fullName);
+  App.bills.push({id:uid(),unit:toEnglishDigits(u).trim(),floor:res?toEnglishDigits(res.floor||'').trim():'',name:fullName,first,last,type:title,amount:share,date,payDate:'',paid:false,note});
+ });
+ persistStorage();renderBillsList();renderFinancialOverview();renderOverviewReport();renderDetailReport();
+ toast(toPersianDigits(units.length)+' قبض صادر شد ✓');
+ document.getElementById('inpBillAmount').value='';document.getElementById('inpBillNote').value='';updateBillPreview();
+}
+const STD_TYPES=['آب','برق','ذخیره صندوق'];
+function renderBillsList(){
+ const list=document.getElementById('confirmBillsList');if(!list)return;
+ const q=toEnglishDigits(document.getElementById('filterConfirmSearch').value.trim());
+ const t=document.getElementById('filterConfirmType').value;
+ const st=document.getElementById('filterConfirmStatus').value;
+ const qRaw=document.getElementById('filterConfirmSearch').value.trim();
+ const filtered=App.bills.filter(b=>{
+  if(qRaw){
+   const unitMatch = toEnglishDigits(b.unit).trim()===q; // for exact unit, also allow name contains
+   const nameMatch = (b.name||'').includes(qRaw) || (b.first||'').includes(qRaw) || (b.last||'').includes(qRaw);
+   const noteMatch = (b.note||'').includes(qRaw);
+   // if search is numeric and matches unit exactly, allow; otherwise need name/note includes
+   if(!unitMatch && !nameMatch && !noteMatch) return false;
+   // if q is numeric, we enforce unit exact; if name search, already handled
+   // To allow combined, we keep as above
+  }
+  if(t){
+   if(t==='سایر'){if(STD_TYPES.includes(b.type)) return false;}
+   else if(b.type!==t) return false;
+  }
+  if(st==='paid' && !b.paid) return false;
+  if(st==='unpaid' && b.paid) return false;
+  return true;
+ }).sort((a,b)=> (String(b.date).localeCompare(String(a.date))) || (b.id>a.id?1:-1));
+ document.getElementById('billsCountBadge').textContent=toPersianDigits(filtered.length)+' قبض';
+ if(!filtered.length){list.innerHTML='<div class="text-center text-xs text-white font-bold py-4 drop-shadow">قبضی یافت نشد</div>';return;}
+ list.innerHTML=filtered.map(b=>'<div class="glass-card bill-card p-2.5 space-y-2 '+(b.paid?'paid-glow':'unpaid-glow')+'"><div class="flex items-center justify-between"><div class="flex items-center gap-2 flex-wrap"><span class="font-black text-xs text-cyan-800">واحد '+toPersianDigits(esc(b.unit))+'</span>'+(b.floor?'<span class="text-[10px] text-slate-500">طبقه '+toPersianDigits(esc(b.floor))+'</span>':'')+'<span class="text-[11px] text-slate-600">'+esc(b.name||'')+'</span></div><span class="badge-chip '+(b.paid?'badge-paid':'badge-unpaid')+'">'+(b.paid?'✅ پرداخت‌شده':'🔴 بدهی')+'</span></div><div class="flex items-center justify-between text-[11px] flex-wrap gap-1"><span class="text-slate-700">نوع: <b>'+esc(b.type)+'</b> | مبلغ: <b class="'+(b.paid?'text-emerald-600':'text-rose-600')+'">'+formatToman(b.amount)+' ت</b></span><span class="text-slate-500 text-[10px]">صدور: '+toPersianDigits(esc(b.date||''))+(b.paid&&b.payDate?' • <b class="text-emerald-700">پرداخت: '+toPersianDigits(esc(b.payDate))+'</b>':'')+'</span></div>'+(b.note?'<div class="text-[10px] text-slate-600 bg-slate-50 px-2 py-1 rounded-lg border border-slate-200">📝 '+esc(b.note)+'</div>':'')+'<div class="flex gap-1.5">'+(!b.paid?'<button onclick="togglePayBill(\''+b.id+'\')" class="act-btn edit flex-1">✅ پرداخت</button>':'<button onclick="togglePayBill(\''+b.id+'\')" class="act-btn del flex-1">↩️ برگشت</button>')+'<button onclick="openReceiptModal(\''+b.id+'\')" class="act-btn receipt flex-1">📎 رسید</button><button onclick="deleteBill(\''+b.id+'\')" class="act-btn del">🗑️</button></div>'+(b.receiptText?'<div class="text-[10px] text-emerald-700 bg-emerald-50 p-1.5 rounded-lg border border-emerald-200">رسید: '+esc(b.receiptText)+'</div>':'')+(b.receiptImage?'<img src="'+b.receiptImage+'" onclick="viewReceiptImage(\''+b.id+'\')" class="w-full h-20 object-cover rounded-lg cursor-pointer border">':'')+'</div>').join('');
+}
+function togglePayBill(id){
+ const b=App.bills.find(x=>x.id==id);if(!b)return;
+ b.paid=!b.paid;
+ if(b.paid && !b.payDate) b.payDate=getTodayShamsi();
+ if(!b.paid) b.payDate='';
+ persistStorage();renderBillsList();renderFinancialOverview();renderOverviewReport();renderDetailReport();renderOverviewBillsTable();
+ toast(b.paid?'پرداخت ثبت شد ✓':'برگشت به بدهی');
+}
+function deleteBill(id){if(confirm('حذف قبض؟')){App.bills=App.bills.filter(x=>x.id!=id);persistStorage();renderBillsList();renderFinancialOverview();renderOverviewReport();renderDetailReport();renderOverviewBillsTable();toast('حذف شد');}}
+function openReceiptModal(id){
+ App.modalBillId=id;
+ const b=App.bills.find(x=>x.id==id);if(!b)return;
+ // When opened from Android Share, prepare the received receipt immediately for this selected bill.
+ if(App.pendingSharedReceipt || App.pendingSharedReceiptImage){
+   b.receiptText=App.pendingSharedReceipt||b.receiptText||'';
+   b.receiptImage=App.pendingSharedReceiptImage||b.receiptImage||null;
+   persistStorage();
+   renderBillsList();
+   App.pendingSharedReceipt=null;
+   App.pendingSharedReceiptImage=null;
+   dismissSharedReceiptBanner();
+   App.modalBillId=null;
+   toast('رسید پرداخت به قبض واحد '+toPersianDigits(b.unit)+' الصاق شد ✓');
+   return;
+ }
+ document.getElementById('receiptModalInfo').textContent='قبض واحد '+toPersianDigits(b.unit)+' | طبقه '+toPersianDigits(b.floor||'-')+' - '+b.type+' - '+formatToman(b.amount);
+ const sharedText=App.pendingSharedReceipt||'';
+ const sharedImage=App.pendingSharedReceiptImage||null;
+ document.getElementById('inpReceiptModalVal').value=sharedText||b.receiptText||'';
+ App.currentReceiptImageBase64=sharedImage||b.receiptImage||null;
+ if(App.currentReceiptImageBase64){document.getElementById('receiptImagePreview').src=App.currentReceiptImageBase64;document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');}
+ else document.getElementById('receiptImagePreviewContainer').classList.add('hidden');
+ document.getElementById('insertSharedReceiptBtnContainer').classList.toggle('hidden',!App.pendingSharedReceipt && !App.pendingSharedReceiptImage);
+ document.getElementById('receiptModal').classList.add('open');
+ if(sharedText||sharedImage) toast('رسید دریافت‌شده آماده الصاق به این قبض است ✓');
+}
+function closeReceiptModal(){document.getElementById('receiptModal').classList.remove('open');App.modalBillId=null;App.currentReceiptImageBase64=null;try{document.getElementById('inpReceiptFile').value='';}catch(e){}document.getElementById('receiptImagePreviewContainer').classList.add('hidden');}
+function clearReceiptImage(){App.currentReceiptImageBase64=null;document.getElementById('receiptImagePreviewContainer').classList.add('hidden');try{document.getElementById('inpReceiptFile').value='';}catch(e){}}
+function handleReceiptFileSelected(e){
+ const f=e.target.files[0];if(!f)return;
+ if(f.size>8*1024*1024) return toast('حجم عکس زیاد است',false);
+ const r=new FileReader();
+ r.onload=ev=>{
+  const img=new Image();
+  img.onload=()=>{
+   try{
+    const cv=document.createElement('canvas');const mx=900;let w=img.width,h=img.height;
+    if(w>mx){h=h*mx/w;w=mx;}
+    cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);
+    App.currentReceiptImageBase64=cv.toDataURL('image/jpeg',0.8);
+   }catch(err){App.currentReceiptImageBase64=ev.target.result;}
+   document.getElementById('receiptImagePreview').src=App.currentReceiptImageBase64;
+   document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');
+  };
+  img.src=ev.target.result;
+ };
+ r.readAsDataURL(f);
+}
+function saveReceiptModal(){
+ const b=App.bills.find(x=>x.id==App.modalBillId);if(!b)return;
+ b.receiptText=document.getElementById('inpReceiptModalVal').value.trim();
+ b.receiptImage=App.currentReceiptImageBase64;
+ persistStorage();renderBillsList();App.pendingSharedReceipt=null;App.pendingSharedReceiptImage=null;closeReceiptModal();dismissSharedReceiptBanner();toast('رسید ذخیره شد ✓');
+}
+function pasteSharedReceiptText(){
+ document.getElementById('inpReceiptModalVal').value=App.pendingSharedReceipt||'';
+ if(App.pendingSharedReceiptImage){App.currentReceiptImageBase64=App.pendingSharedReceiptImage;document.getElementById('receiptImagePreview').src=App.pendingSharedReceiptImage;document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');}
+ document.getElementById('insertSharedReceiptBtnContainer').classList.add('hidden');
+ App.pendingSharedReceipt=null;App.pendingSharedReceiptImage=null;dismissSharedReceiptBanner();
+}
+function handleIncomingSharedData(text,imageData){
+ try{
+  App.pendingSharedReceipt=(text||'').trim();
+  App.pendingSharedReceiptImage=imageData||null;
+  toggleMainTab('finance');
+  toggleFinanceSub('confirm');
+  const st=document.getElementById('filterConfirmStatus');if(st)st.value='unpaid';
+  renderBillsList();
+  const banner=document.getElementById('sharedReceiptBanner');if(banner)banner.classList.remove('hidden');
+  toast('رسید دریافت شد؛ قبض‌های پرداخت‌نشده نمایش داده شد ✓');
+ }catch(e){toast('دریافت رسید انجام نشد',false);}
+}
+function viewReceiptImage(id){const b=App.bills.find(x=>x.id==id);if(b&&b.receiptImage){document.getElementById('fullReceiptImage').src=b.receiptImage;document.getElementById('viewReceiptTitle').textContent='رسید واحد '+toPersianDigits(b.unit)+' - '+b.type;document.getElementById('viewReceiptImageModal').classList.add('open');}}
+function closeReceiptImageViewModal(){document.getElementById('viewReceiptImageModal').classList.remove('open');}
+function checkSharedReceipt(){
+ try{
+  App.pendingSharedReceiptImage=null;
+  const p=new URLSearchParams(location.search);
+  const t=p.get('receipt')||p.get('text')||p.get('title')||p.get('url');
+  if(t){App.pendingSharedReceipt=t;document.getElementById('sharedReceiptBanner').classList.remove('hidden');}
+ }catch(e){}
+}
+function applySharedReceiptDirectly(){toggleMainTab('finance');toggleFinanceSub('confirm');document.getElementById('filterConfirmStatus').value='unpaid';renderBillsList();toast('روی دکمه 📎 رسید قبض مورد نظر بزنید');}
+function dismissSharedReceiptBanner(){document.getElementById('sharedReceiptBanner').classList.add('hidden');}
+function exitApp(){
+ try{persistStorage();}catch(e){}
+ if(window.AndroidApp&&AndroidApp.exitApp){try{AndroidApp.exitApp();return;}catch(e){}}
+ toast('تغییرات ذخیره شد ✓');
+}
+function renderExpenseList(){
+ const list=document.getElementById('expenseItemsList');if(!list)return;
+ document.getElementById('expTotalBadge').textContent=formatToman(App.expenses.reduce((s,e)=>s+(+e.amount||0),0))+' تومان';
+ if(!App.expenses.length){list.innerHTML='<div class="text-center text-slate-500 text-[11px] py-2">هیچ هزینه‌ای ثبت نشده</div>';return;}
+ list.innerHTML=[...App.expenses].slice().reverse().map(e=>'<div class="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5"><div><div class="font-bold text-amber-900">'+esc(e.title)+'</div><div class="text-[10px] text-slate-500">'+toPersianDigits(esc(e.date))+' - '+esc(e.desc||'')+'</div></div><div class="flex items-center gap-2"><span class="font-black text-rose-600 text-xs">'+formatToman(e.amount)+' ت</span><button onclick="deleteExpense(\''+e.id+'\')" class="act-btn del">🗑️</button></div></div>').join('');
+}
+function addExpenseItem(){
+ const title=document.getElementById('inpExpTitle').value.trim();
+ const amount=parseAmount(document.getElementById('inpExpAmount').value);
+ if(!title||!amount) return toast('عنوان و مبلغ الزامی است',false);
+ App.expenses.push({id:uid(),title,amount,date:normalizeDateToShamsi(document.getElementById('inpExpDate').value)||getTodayShamsi(),desc:document.getElementById('inpExpDesc').value.trim()});
+ persistStorage();renderExpenseList();renderFinancialOverview();
+ ['inpExpTitle','inpExpAmount','inpExpDesc','inpExpDate'].forEach(id=>document.getElementById(id).value='');
+ toast('هزینه ثبت شد ✓');
+}
+function deleteExpense(id){if(!confirm('حذف هزینه؟'))return;App.expenses=App.expenses.filter(x=>x.id!=id);persistStorage();renderExpenseList();renderFinancialOverview();}
+function renderFinancialOverview(){
+ const totalIssued=App.bills.reduce((s,b)=>s+(+b.amount||0),0);
+ const totalPaid=App.bills.filter(b=>b.paid).reduce((s,b)=>s+(+b.amount||0),0);
+ const totalDebt=totalIssued-totalPaid;
+ const totalExp=App.expenses.reduce((s,e)=>s+(+e.amount||0),0);
+ document.getElementById('stTotalIssued').textContent=formatToman(totalIssued);
+ document.getElementById('stTotalPaid').textContent=formatToman(totalPaid);
+ document.getElementById('stTotalDebt').textContent=formatToman(totalDebt);
+ document.getElementById('stTotalExp2').textContent=formatToman(totalExp);
+ document.getElementById('stCountIssued').textContent=toPersianDigits(App.bills.length)+' قبض';
+ document.getElementById('stCountPaid').textContent=toPersianDigits(App.bills.filter(b=>b.paid).length)+' قبض';
+ document.getElementById('stCountDebt').textContent=toPersianDigits(App.bills.filter(b=>!b.paid).length)+' قبض';
+ document.getElementById('stCountExp').textContent=toPersianDigits(App.expenses.length)+' مورد';
+ document.getElementById('stFundBalance').textContent=formatToman(totalPaid-totalExp)+' تومان';
+ document.getElementById('stTotalExp').textContent=formatToman(totalExp)+' تومان';
+ document.getElementById('stRate').textContent= totalIssued? toPersianDigits(Math.round(totalPaid/totalIssued*100))+'٪' : '۰٪';
+ renderOverviewBillsTable();
+ updateHeaderStats();
+}
+function setOverviewFilter(f){
+ overviewFilter=f;
+ ['all','paid','unpaid','expense'].forEach(k=>{
+  const el=document.getElementById('box'+cap(k==='all'?'Total':k));
+  if(el) el.style.borderColor = (k===f ? 'var(--cyan-primary)' : 'transparent');
+  if(el) el.style.borderWidth = (k===f ? '2px' : '1px');
+ });
+ const titles={all:'همه',paid:'وصول‌شده',unpaid:'بدهی',expense:'هزینه‌ها'};
+ document.getElementById('overviewFilterTitle').textContent=titles[f]||'همه';
+ renderOverviewBillsTable();
+}
+function renderOverviewBillsTable(){
+ const tb=document.getElementById('overviewBillsTbody'); if(!tb) return;
+ const q=toEnglishDigits(document.getElementById('ovSearch').value.trim());
+ const qRaw=document.getElementById('ovSearch').value.trim();
+ let rows=[];
+ if(overviewFilter==='expense'){
+  rows=App.expenses.map(e=>({unit:'—',first:e.title,last:'',type:'هزینه',amount:e.amount,paid:false, id:e.id, isExpense:true}));
+ }else{
+  let bills=App.bills.slice();
+  if(overviewFilter==='paid') bills=bills.filter(b=>b.paid);
+  if(overviewFilter==='unpaid') bills=bills.filter(b=>!b.paid);
+  if(qRaw){
+   bills=bills.filter(b=>{
+    if(toEnglishDigits(b.unit).trim()===q) return true;
+    if( (b.name||'').includes(qRaw) ) return true;
+    if( (b.first||'').includes(qRaw) || (b.last||'').includes(qRaw) ) return true;
+    return false;
+   });
+  }
+  rows=bills;
+ }
+ if(!rows.length){tb.innerHTML='<tr><td colspan="7" class="py-6 text-center text-slate-500">موردی یافت نشد</td></tr>';return;}
+ tb.innerHTML=rows.slice().reverse().slice(0,120).map(b=>{
+  if(b.isExpense) return '<tr><td>'+esc(b.unit)+'</td><td>'+esc(b.first)+'</td><td>-</td><td><span class="badge-chip badge-unpaid">هزینه</span></td><td class="font-black text-rose-600">'+formatToman(b.amount)+'</td><td><span class="badge-chip badge-unpaid">هزینه</span></td><td><button class="act-btn del" onclick="deleteExpense(\''+b.id+'\')">🗑️</button></td></tr>';
+  const fn=b.first||splitFullName(b.name).first, ln=b.last||splitFullName(b.name).last;
+  return '<tr class="'+(b.paid?'paidrow':'')+'"><td class="font-black">'+toPersianDigits(esc(b.unit))+'</td><td>'+esc(fn)+'</td><td>'+esc(ln)+'</td><td>'+esc(b.type)+'</td><td class="font-black '+(b.paid?'text-emerald-700':'text-rose-600')+'">'+formatToman(b.amount)+'</td><td><span class="badge-chip '+(b.paid?'badge-paid':'badge-unpaid')+'">'+(b.paid?'پرداخت':'بدهی')+'</span></td><td><div class="flex gap-1 justify-center"><button class="act-btn '+(b.paid?'del':'edit')+' text-[9px]" onclick="togglePayBill(\''+b.id+'\')">'+(b.paid?'↩️':'✅')+'</button><button class="act-btn del text-[9px]" onclick="deleteBill(\''+b.id+'\')">🗑️</button></div></td></tr>';
+ }).join('');
+}
+function switchReportMode(m){
+ reportMode=m;
+ document.getElementById('btnViewOv').classList.toggle('active',m==='overview');
+ document.getElementById('btnViewDt').classList.toggle('active',m==='detail');
+ document.getElementById('viewOverviewBox').classList.toggle('hidden',m!=='overview');
+ document.getElementById('viewDetailBox').classList.toggle('hidden',m!=='detail');
+ if(m==='overview') renderOverviewReport(); else renderDetailReport();
+}
+function getOverviewAggregated(){
+ const map={};
+ App.bills.forEach(b=>{
+  const key=toEnglishDigits(b.unit).trim();
+  if(!map[key]){
+   const fn=b.first||splitFullName(b.name).first;
+   const ln=b.last||splitFullName(b.name).last;
+   map[key]={unit:key, floor:toEnglishDigits(b.floor||'').trim(), first:fn, last:ln, total:0, paid:0, debt:0, count:0};
+  }
+  map[key].total+=(+b.amount||0);
+  if(b.paid) map[key].paid+=(+b.amount||0); else map[key].debt+=(+b.amount||0);
+  map[key].count++;
+  if(!map[key].floor && b.floor) map[key].floor=toEnglishDigits(b.floor).trim();
+  if(!map[key].first && b.first) map[key].first=b.first;
+  if(!map[key].last && b.last) map[key].last=b.last;
+ });
+ // also add units with no bills? show residents without bills?
+ App.residents.forEach(r=>{
+  const u=toEnglishDigits(r.unit).trim();
+  if(!map[u]){
+   map[u]={unit:u, floor:toEnglishDigits(r.floor||'').trim(), first:r.first, last:r.last, total:0, paid:0, debt:0, count:0};
+  }
+ });
+ return Object.values(map).sort((a,b)=>(parseInt(a.unit)||0)-(parseInt(b.unit)||0));
+}
+function openOverviewDetail(unit,status){
+ const u=toEnglishDigits(String(unit||'')).trim();
+ toggleMainTab('excel');
+ switchReportMode('detail');
+ const unitEl=document.getElementById('filterDtUnit');
+ const nameEl=document.getElementById('filterDtName');
+ const statusEl=document.getElementById('filterDtStatus');
+ if(unitEl) unitEl.value=toPersianDigits(u);
+ if(nameEl) nameEl.value='';
+ if(statusEl) statusEl.value=status||'';
+ renderDetailReport();
+ setTimeout(()=>{const box=document.getElementById('viewDetailBox');if(box)box.scrollIntoView({behavior:'smooth',block:'start'});},60);
+}
+function renderOverviewReport(){
+ const tb=document.getElementById('overviewReportTbody'); if(!tb) return;
+ const qRaw=document.getElementById('filterOvSearch').value.trim();
+ const qEng=toEnglishDigits(qRaw).trim();
+ let data=getOverviewAggregated();
+ if(qRaw) data=data.filter(r=>(qEng&&toEnglishDigits(r.unit).trim()===qEng)||(r.first||'').includes(qRaw)||(r.last||'').includes(qRaw)||((r.first+' '+r.last).includes(qRaw)));
+ if(!data.length){tb.innerHTML='<tr><td colspan="8" class="py-6 text-center text-slate-500">داده‌ای یافت نشد</td></tr>';return;}
+ tb.innerHTML=data.map(r=>{
+  const u=String(r.unit).replace(/'/g,"\\'");
+  return '<tr class="cursor-pointer hover:bg-cyan-50/60" onclick="openOverviewDetail(\''+u+'\',\'\')"><td class="font-black text-cyan-800">'+toPersianDigits(esc(r.unit))+'</td><td>'+toPersianDigits(esc(r.floor||'-'))+'</td><td>'+esc(r.first||'-')+'</td><td>'+esc(r.last||'-')+'</td><td class="font-black">'+formatToman(r.total)+'</td><td class="text-emerald-700 font-bold" onclick="event.stopPropagation();openOverviewDetail(\''+u+'\',\'paid\')">'+formatToman(r.paid)+'</td><td class="text-rose-600 font-bold" onclick="event.stopPropagation();openOverviewDetail(\''+u+'\',\'unpaid\')">'+formatToman(r.debt)+'</td><td>'+toPersianDigits(r.count)+'</td></tr>';
+ }).join('');
+}
+
+function renderDetailReport(){
+ const tb=document.getElementById('detailReportTbody'); if(!tb) return;
+ const qUnit=toEnglishDigits(document.getElementById('filterDtUnit').value.trim());
+ const qUnitRaw=document.getElementById('filterDtUnit').value.trim();
+ const qName=document.getElementById('filterDtName').value.trim();
+ const qStatus=document.getElementById('filterDtStatus').value;
+ let data=App.bills.slice().sort((a,b)=>(parseInt(toEnglishDigits(a.unit))||0)-(parseInt(toEnglishDigits(b.unit))||0));
+ if(qUnitRaw){
+  data=data.filter(b=> toEnglishDigits(b.unit).trim()===qUnit );
+ }
+ if(qName){
+  data=data.filter(b=>{
+   const fn=b.first||splitFullName(b.name).first, ln=b.last||splitFullName(b.name).last;
+   const full=(fn+' '+ln);
+   return full.includes(qName) || fn.includes(qName) || ln.includes(qName);
+  });
+ }
+ if(qStatus){
+  if(qStatus==='paid') data=data.filter(b=>b.paid);
+  if(qStatus==='unpaid') data=data.filter(b=>!b.paid);
+ }
+ if(!data.length){tb.innerHTML='<tr><td colspan="9" class="py-6 text-center text-slate-500">قبضی یافت نشد</td></tr>';return;}
+ tb.innerHTML=data.map(b=>{
+  const fn=b.first||splitFullName(b.name).first, ln=b.last||splitFullName(b.name).last;
+  return '<tr class="'+(b.paid?'paidrow':'')+'"><td class="font-black">'+toPersianDigits(esc(b.unit))+'</td><td>'+toPersianDigits(esc(b.floor||'-'))+'</td><td>'+esc(fn)+'</td><td>'+esc(ln)+'</td><td>'+esc(b.type)+'</td><td class="font-black '+(b.paid?'text-emerald-700':'text-rose-600')+'">'+formatToman(b.amount)+'</td><td>'+toPersianDigits(esc(b.date||''))+'</td><td>'+toPersianDigits(esc(b.payDate||'-'))+'</td><td><span class="badge-chip '+(b.paid?'badge-paid':'badge-unpaid')+'">'+(b.paid?'پرداخت':'بدهی')+'</span></td></tr>';
+ }).join('');
+}
+async function beautifyExcelBlob(blob){
+ try{
+  if(typeof JSZip==='undefined') return blob;
+  const zip=await JSZip.loadAsync(await blob.arrayBuffer());
+  const stylesFile=zip.file('xl/styles.xml');
+  if(!stylesFile) return blob;
+  let styles=await stylesFile.async('string');
+  let fillsCount=(styles.match(/<fills[^>]*count="(\d+)"/ )||[])[1];
+  let fontsCount=(styles.match(/<fonts[^>]*count="(\d+)"/ )||[])[1];
+  let bordersCount=(styles.match(/<borders[^>]*count="(\d+)"/ )||[])[1];
+  let xfsCount=(styles.match(/<cellXfs[^>]*count="(\d+)"/ )||[])[1];
+  if(!fillsCount||!fontsCount||!bordersCount||!xfsCount) return blob;
+  const fillBase=parseInt(fillsCount,10), fontBase=parseInt(fontsCount,10), borderBase=parseInt(bordersCount,10), xfBase=parseInt(xfsCount,10);
+  styles=styles.replace(/<fills([^>]*)count="\d+"([^>]*)>/, '<fills$1count="'+(fillBase+2)+'"$2>')
+   .replace('</fills>','<fill><patternFill patternType="solid"><fgColor rgb="FFFFFFFF"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FF0284C7"/><bgColor indexed="64"/></patternFill></fill></fills>');
+  styles=styles.replace(/<fonts([^>]*)count="\d+"([^>]*)>/, '<fonts$1count="'+(fontBase+1)+'"$2>')
+   .replace('</fonts>','<font><b/><color rgb="FFFFFFFF"/></font></fonts>');
+  styles=styles.replace(/<borders([^>]*)count="\d+"([^>]*)>/, '<borders$1count="'+(borderBase+1)+'"$2>')
+   .replace('</borders>','<border><left style="thin"><color rgb="FFD1D5DB"/></left><right style="thin"><color rgb="FFD1D5DB"/></right><top style="thin"><color rgb="FFD1D5DB"/></top><bottom style="thin"><color rgb="FFD1D5DB"/></bottom><diagonal/></border></borders>');
+  const dataXf='<xf numFmtId="0" fontId="0" fillId="'+fillBase+'" borderId="'+borderBase+'" applyAlignment="1" applyBorder="1"><alignment horizontal="center" vertical="center" readingOrder="2" wrapText="1"/></xf>';
+  const headXf='<xf numFmtId="0" fontId="'+fontBase+'" fillId="'+(fillBase+1)+'" borderId="'+borderBase+'" applyAlignment="1" applyBorder="1" applyFont="1" applyFill="1"><alignment horizontal="center" vertical="center" readingOrder="2" wrapText="1"/></xf>';
+  styles=styles.replace(/<cellXfs([^>]*)count="\d+"([^>]*)>/, '<cellXfs$1count="'+(xfBase+2)+'"$2>')
+   .replace('</cellXfs>',dataXf+headXf+'</cellXfs>');
+  zip.file('xl/styles.xml',styles);
+  const sheetFiles=Object.keys(zip.files).filter(n=>/^xl\/worksheets\/sheet\d+\.xml$/.test(n));
+  for(const name of sheetFiles){
+   let xml=await zip.file(name).async('string');
+   if(!xml.includes('rightToLeft="1"')){
+    if(xml.includes('<sheetView')) xml=xml.replace(/<sheetView([^>]*)>/,'<sheetView$1 rightToLeft="1">');
+    else if(xml.includes('<sheetViews>')) xml=xml.replace('<sheetViews>','<sheetViews><sheetView workbookViewId="0" rightToLeft="1"/>');
+   }
+   xml=xml.replace(/<c([^>]*?)r="([A-Z]+)(\d+)"([^>]*)>/g,(m,a,col,row,b)=>{
+    let style=(String(row)==='1')?(xfBase+1):xfBase;
+    let cleaned=(a+b).replace(/\s+s="\d+"/g,'');
+    return '<c'+cleaned+' r="'+col+row+'" s="'+style+'">';
+   });
+   zip.file(name,xml);
+  }
+  return await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+ }catch(e){ console.warn('Excel beautify failed',e); return blob; }
+}
+
+async function downloadReport(mode,format){
+ const isOverview=mode==='overview';
+ const title=isOverview?'گزارش کلی واحدها':'گزارش جزئی قبوض';
+ document.getElementById('renderSheetTitle').textContent=title;
+ document.getElementById('renderSheetDate').textContent=getTodayShamsi();
+ const statsExp='واحدها: '+toPersianDigits(new Set(App.residents.map(r=>r.unit)).size)+' | قبض: '+toPersianDigits(App.bills.length);
+ document.getElementById('renderSheetStats').textContent=statsExp;
+ let headers=[], rows=[];
+ if(isOverview){
+  const qRaw=document.getElementById('filterOvSearch').value.trim();
+  const qEng=toEnglishDigits(qRaw).trim();
+  let data=getOverviewAggregated();
+  if(qRaw) data=data.filter(r=> (qEng && toEnglishDigits(r.unit).trim()===qEng) || (r.first||'').includes(qRaw) || (r.last||'').includes(qRaw) );
+  headers=['واحد','طبقه','نام','نام خانوادگی','مبلغ کل','پرداخت‌شده','بدهی','تعداد قبض'];
+  rows=data.map(r=>[toPersianDigits(r.unit), toPersianDigits(r.floor||'-'), r.first||'-', r.last||'-', r.total, r.paid, r.debt, r.count]);
+  // build HTML for image/pdf
+  document.getElementById('renderTableWrapper').innerHTML='<table class="render-table"><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+ }else{
+  const qUnit=toEnglishDigits(document.getElementById('filterDtUnit').value.trim());
+  const qUnitRaw=document.getElementById('filterDtUnit').value.trim();
+  const qName=document.getElementById('filterDtName').value.trim();
+  const qStatus=document.getElementById('filterDtStatus').value;
+  let data=App.bills.slice();
+  if(qUnitRaw) data=data.filter(b=>toEnglishDigits(b.unit).trim()===qUnit);
+  if(qName) data=data.filter(b=>{const fn=b.first||splitFullName(b.name).first, ln=b.last||splitFullName(b.name).last; return (fn+' '+ln).includes(qName)||fn.includes(qName)||ln.includes(qName);});
+  if(qStatus) data=data.filter(b=> qStatus==='paid'?b.paid: !b.paid);
+  headers=['واحد','طبقه','نام','نام خانوادگی','عنوان','مبلغ','تاریخ صدور','تاریخ پرداخت','وضعیت'];
+  rows=data.map(b=>{
+   const fn=b.first||splitFullName(b.name).first, ln=b.last||splitFullName(b.name).last;
+   return [toPersianDigits(b.unit), toPersianDigits(b.floor||'-'), fn, ln, b.type, b.amount, b.date||'', b.payDate||'-', b.paid?'پرداخت‌شده':'بدهی'];
+  });
+  document.getElementById('renderTableWrapper').innerHTML='<table class="render-table"><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map((r,i)=>'<tr class="'+(data[i].paid?'paidrow':'')+'">'+r.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+ }
+ if(format==='excel'){
+  const wsData=[headers].concat(rows);
+  const ws=XLSX.utils.aoa_to_sheet(wsData);
+  // عرض ستون‌ها متناسب با طول واقعی نوشته‌ها، با حداقل/حداکثر منطقی
+  ws['!cols']=headers.map((h,ci)=>{
+   const vals=[h].concat(rows.map(r=>r[ci]));
+   const maxLen=vals.reduce((m,v)=>Math.max(m,String(v??'').replace(/[\u200c\u200f]/g,'').length),0);
+   return {wch:Math.max(10,Math.min(34,maxLen+3))};
+  });
+  // ارتفاع ردیف‌ها برای نمایش مرتب و کامل نوشته‌ها
+  ws['!rows']=[{hpt:24}].concat(rows.map(()=>({hpt:21})));
+  // RTL sheet view
+  ws['!dir']='rtl';
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws, isOverview?'کلی':'جزئی');
+  const out=XLSX.write(wb,{type:'array',bookType:'xlsx'});
+  let excelBlob=new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  excelBlob=await beautifyExcelBlob(excelBlob);
+  await saveBlob(excelBlob,(isOverview?'Gozaresh-Kolli-':'Gozaresh-Jozi-')+getTodayShamsi().replace(/\//g,'-')+'.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  return;
+ }
+ // pdf/jpg via html2canvas
+ const box=document.getElementById('exportRenderBox');
+ box.style.left='0'; box.style.top='0'; box.style.position='fixed'; box.style.zIndex='9999';
+ await new Promise(r=>setTimeout(r,300));
+ const canvas=await html2canvas(box.querySelector('.render-sheet'),{scale:2,backgroundColor:'#ffffff',useCORS:true});
+ box.style.left='-9999px'; box.style.position='absolute'; box.style.zIndex='auto';
+ if(format==='jpg'){
+  const dataUrl=canvas.toDataURL('image/jpeg',0.92);
+  const blob=await (await fetch(dataUrl)).blob();
+  await saveBlob(blob,(isOverview?'Gozaresh-Kolli-':'Gozaresh-Jozi-')+getTodayShamsi().replace(/\//g,'-')+'.jpg','JPEG','image/jpeg');
+ }else{
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({orientation: canvas.width>canvas.height?'landscape':'portrait', unit:'pt', format:[canvas.width*0.75, canvas.height*0.75]});
+  const imgData=canvas.toDataURL('image/jpeg',0.92);
+  pdf.addImage(imgData,'JPEG',0,0,canvas.width*0.75, canvas.height*0.75);
+  const out=pdf.output('arraybuffer');
+  await saveBlob(new Blob([out],{type:'application/pdf'}),(isOverview?'Gozaresh-Kolli-':'Gozaresh-Jozi-')+getTodayShamsi().replace(/\//g,'-')+'.pdf','PDF','application/pdf');
+ }
+}
+function normalizeHeader(h){return toEnglishDigits(String(h||'')).trim().replace(/\s+/g,' ').replace(/[\u200c\u200f]/g,'');}
+function guessResHeaderMap(headers){
+ const map={}; const norm=headers.map(normalizeHeader);
+ const find=(alts)=>{for(let i=0;i<norm.length;i++){for(const a of alts){if(norm[i].includes(a)) return i;}} return -1;};
+ map.unit=find(['واحد','unit']);
+ map.floor=find(['طبقه','floor']);
+ map.first=find(['نام و نام','نام ‌و نام','نام خانوادگی']);// ambiguous
+ // more precise
+ const idxName=norm.findIndex(h=>h==='نام' || h.includes(' نام ') || (h.includes('نام') && !h.includes('نام خانوادگی') && !h.includes('نام و نام')));
+ // fallback try exact
+ let fIdx=-1,lIdx=-1;
+ norm.forEach((h,i)=>{
+  if(h==='نام' || h==='نام کوچک' || h==='first') fIdx=i;
+  if(h==='نام خانوادگی' || h==='نام‌خانوادگی' || h.includes('خانوادگی') || h==='last') lIdx=i;
+  if(h.includes('نام و نام خانوادگی')||h.includes('نام و نام‌خانوادگی')){fIdx=i; /* will split */ lIdx=-2;}
+ });
+ if(fIdx===-2){map.first=fIdx; map.last=-2;}
+ else {map.first=fIdx!==-1?fIdx:find(['نام']); map.last=lIdx!==-1?lIdx:find(['خانوادگی','فامیلی']);}
+ map.count=find(['تعداد','نفرات','count']);
+ map.type=find(['نوع','مالک','مستاجر','type']);
+ map.phone=find(['تلفن','موبایل','phone']);
+ map.date=find(['تاریخ','date']);
+ return map;
+}
+function guessBillHeaderMap(headers){
+ const norm=headers.map(normalizeHeader);
+ const exact=(names)=>{for(let i=0;i<norm.length;i++){if(names.includes(norm[i])) return i;}return -1;};
+ const find=(alts)=>{for(let i=0;i<norm.length;i++){for(const a of alts){if(norm[i].includes(a)) return i;}} return -1;};
+ const map={};
+ map.unit=find(['واحد','unit']);
+ map.floor=find(['طبقه','floor']);
+ // Prefer separate «نام» and «نام خانوادگی» columns.
+ map.first=exact(['نام','نام کوچک','first','firstname','نام‌کوچک']);
+ map.last=exact(['نام خانوادگی','نام‌خانوادگی','فامیلی','last','lastname']);
+ // Backward compatibility for old files that have one combined name column.
+ map.fullName=find(['نام و نام خانوادگی','نام و نام‌خانوادگی','نام خانوادگی و نام','نام کامل','fullname']);
+ if(map.first===-1 && map.last===-1 && map.fullName===-1){
+   map.first=find(['نام']);
+   map.last=find(['خانوادگی','فامیلی']);
+ }
+ map.issueDate=find(['تاریخ صدور','تاريخ صدور','صدور']);
+ let payIdx=find(['تاریخ پرداخت','تاريخ پرداخت','پرداخت']);
+ let issueIdx=-1;
+ for(let i=0;i<norm.length;i++){if(norm[i].includes('تاریخ صدور')||norm[i]==='صدور') issueIdx=i;}
+ if(issueIdx===-1){for(let i=0;i<norm.length;i++){if(norm[i].includes('صدور')&&!norm[i].includes('پرداخت')) issueIdx=i;}}
+ if(issueIdx!==-1) map.issueDate=issueIdx;
+ map.water=find(['آب','water']);
+ map.electricity=find(['برق','electric']);
+ map.reserve=find(['ذخیره','صندوق','reserve','fund']);
+ map.other=find(['سایر','متفرقه','other']);
+ map.payDate=payIdx;
+ map.desc=find(['توضیح','شرح','desc','note']);
+ return map;
+}
+
+function onExcelResidentsFileSelected(e){
+ const f=e.target.files[0]; if(!f) return;
+ document.getElementById('resFileName').textContent=f.name;
+ const reader=new FileReader();
+ reader.onload=ev=>{
+  try{
+   const wb=XLSX.read(ev.target.result,{type:'array'});
+   const ws=wb.Sheets[wb.SheetNames[0]];
+   const json=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+   if(!json.length) return toast('فایل خالی است',false);
+   const headers=json[0].map(h=>String(h||'').trim());
+   const rows=json.slice(1).filter(r=>r.some(c=>String(c).trim()!==''));
+   App.excelResidentsHeaders=headers; App.excelResidentsRows=rows;
+   buildResidentsMappingUI();
+  }catch(err){toast('خطا در خواندن فایل',false);}
+ };
+ reader.readAsArrayBuffer(f);
+ e.target.value='';
+}
+function buildResidentsMappingUI(){
+ const headers=App.excelResidentsHeaders;
+ const guess=guessResHeaderMap(headers);
+ App.resMap=guess;
+ const fields=[
+  {key:'unit',label:'واحد *',req:true},
+  {key:'floor',label:'طبقه'},
+  {key:'first',label:'نام *',req:true},
+  {key:'last',label:'نام خانوادگی *',req:true},
+  {key:'count',label:'تعداد نفرات'},
+  {key:'type',label:'نوع (مالک/مستاجر)'},
+  {key:'phone',label:'تلفن'},
+  {key:'date',label:'تاریخ ثبت'},
+ ];
+ const grid=document.getElementById('resColumnMappingGrid');
+ grid.innerHTML=fields.map(f=>{
+  const opts='<option value="-1">— عدم نگاشت —</option>'+headers.map((h,i)=>'<option value="'+i+'" '+(App.resMap[f.key]===i?'selected':'')+'>'+esc(h||('ستون '+(i+1)))+'</option>').join('');
+  return '<div class="mapping-row"><span class="ml">'+esc(f.label)+'</span><select data-key="'+f.key+'" class="input-field flex-1 rounded-lg px-2 py-1 text-xs">'+opts+'</select></div>';
+ }).join('');
+ document.getElementById('resImportMappingBox').classList.remove('hidden');
+ grid.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
+  const k=e.target.dataset.key; App.resMap[k]=parseInt(e.target.value);
+ }));
+}
+function commitResidentsExcelImport(){
+ const map=App.resMap;
+ if(map.unit===-1||map.first===-1||map.last===-1) return toast('نگاشت واحد و نام الزامی است',false);
+ let added=0, skipped=0;
+ const existingKeys=new Set(App.residents.map(r=> toEnglishDigits(r.unit).trim()+'|'+toEnglishDigits(r.floor||'').trim()+'|'+r.first.trim()+'|'+r.last.trim()+'|'+r.type.trim()));
+ for(const row of App.excelResidentsRows){
+  const get=(idx)=> idx>=0 && row[idx]!==undefined ? String(row[idx]).trim() : '';
+  const unit=toEnglishDigits(get(map.unit)).trim();
+  let first='', last='';
+  if(map.first===-2){ // combined name
+   const full=get(map.first); const sp=splitFullName(full); first=sp.first; last=sp.last;
+  }else{
+   first=get(map.first);
+   last=map.last>=0? get(map.last): '';
+   if(!last && first.includes(' ')){ const sp=splitFullName(first); first=sp.first; last=sp.last; }
+  }
+  if(!unit||!first||!last){skipped++;continue;}
+  const floor=map.floor>=0? toEnglishDigits(get(map.floor)).trim() : '';
+  const count=map.count>=0? String(parseInt(toEnglishDigits(get(map.count)))||1) : '1';
+  let type='مالک';
+  if(map.type>=0){ const v=get(map.type); if(v.includes('مستاجر')||v.toLowerCase().includes('tenant')) type='مستاجر'; else if(v.includes('مالک')||v.toLowerCase().includes('owner')) type='مالک'; }
+  const phone=map.phone>=0? toEnglishDigits(get(map.phone)).trim(): '';
+  const dateRaw=map.date>=0? get(map.date): '';
+  const regDate= dateRaw? normalizeDateToShamsi(dateRaw, true) : getTodayShamsi();
+  const key=unit+'|'+floor+'|'+first.trim()+'|'+last.trim()+'|'+type;
+  if(existingKeys.has(key)){skipped++;continue;}
+  existingKeys.add(key);
+  const hasActive=App.residents.some(r=>toEnglishDigits(r.unit).trim()===unit && r.isActive);
+  const hasCurrent=App.residents.some(r=>toEnglishDigits(r.unit).trim()===unit && r.isCurrent);
+  App.residents.push({id:uid(),unit,floor,first:first.trim(),last:last.trim(),count,type,phone,regDate,isActive:!hasActive,isCurrent:type==='مالک'&&!hasCurrent});
+  added++;
+ }
+ persistStorage();renderResidentsList();
+ toast('وارد شد: '+toPersianDigits(added)+' | تکراری/نامعتبر حذف: '+toPersianDigits(skipped)+' ✓');
+ document.getElementById('resImportMappingBox').classList.add('hidden');
+}
+function downloadResidentsTemplate(){
+ const headers=['واحد','طبقه','نام','نام خانوادگی','تعداد','نوع','تلفن','تاریخ ثبت'];
+ const data=[
+  ['101','1','علی','احمدی','3','مالک','09123456789',getTodayShamsi()],
+  ['102','1','رضا','حسینی','2','مستاجر','09129876543',getTodayShamsi()],
+ ];
+ const ws=XLSX.utils.aoa_to_sheet([headers].concat(data));
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'ساکنین');
+ const out=XLSX.write(wb,{type:'array',bookType:'xlsx'});
+ let excelBlob=new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+ beautifyExcelBlob(excelBlob).then(b=>saveBlob(b,'Namune-Sakinin.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
+}
+function onExcelBillsFileSelected(e){
+ const f=e.target.files[0]; if(!f) return;
+ document.getElementById('billFileName').textContent=f.name;
+ const reader=new FileReader();
+ reader.onload=ev=>{
+  try{
+   const wb=XLSX.read(ev.target.result,{type:'array',cellDates:true});
+   const ws=wb.Sheets[wb.SheetNames[0]];
+   const json=XLSX.utils.sheet_to_json(ws,{header:1,defval:'', raw:false}); // keep raw? but cellDates true handles dates
+   // Actually need raw values for amounts and dates; use header 1 with defval
+   const jsonRaw=XLSX.utils.sheet_to_json(ws,{header:1,defval:'', raw:true});
+   // jsonRaw first row headers, rest rows
+   if(!jsonRaw.length) return toast('فایل خالی است',false);
+   const headers=jsonRaw[0].map(h=>String(h||'').trim());
+   const rows=jsonRaw.slice(1).filter(r=>r.some(c=> String(c).trim()!=='' ));
+   App.excelBillsHeaders=headers; App.excelBillsRows=rows;
+   buildBillsMappingUI();
+  }catch(err){toast('خطا در خواندن فایل',false); console.error(err);}
+ };
+ reader.readAsArrayBuffer(f);
+ e.target.value='';
+}
+function buildBillsMappingUI(){
+ const headers=App.excelBillsHeaders;
+ const guess=guessBillHeaderMap(headers);
+ App.billMap=guess;
+ const fields=[
+  {key:'unit',label:'واحد *',req:true},
+  {key:'floor',label:'طبقه'},
+  {key:'first',label:'نام *',req:true},
+  {key:'last',label:'نام خانوادگی *',req:true},
+  {key:'issueDate',label:'تاریخ صدور'},
+  {key:'water',label:'آب (مبلغ)'},
+  {key:'electricity',label:'برق (مبلغ)'},
+  {key:'reserve',label:'ذخیره صندوق (مبلغ)'},
+  {key:'other',label:'سایر (مبلغ)'},
+  {key:'payDate',label:'تاریخ پرداخت'},
+  {key:'desc',label:'توضیحات (برای سایر)'},
+ ];
+ const grid=document.getElementById('billsColumnMappingGrid');
+ grid.innerHTML=fields.map(f=>{
+  const opts='<option value="-1">— عدم نگاشت —</option>'+headers.map((h,i)=>'<option value="'+i+'" '+(App.billMap[f.key]===i?'selected':'')+'>'+esc(h||('ستون '+(i+1)))+'</option>').join('');
+  return '<div class="mapping-row"><span class="ml">'+esc(f.label)+(f.req?' <span class="text-rose-600">*</span>':'')+'</span><select data-key="'+f.key+'" class="input-field flex-1 rounded-lg px-2 py-1 text-xs">'+opts+'</select></div>';
+ }).join('');
+ document.getElementById('billsImportMappingBox').classList.remove('hidden');
+ grid.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
+  const k=e.target.dataset.key; App.billMap[k]=parseInt(e.target.value); updateBillsPreview();
+ }));
+ updateBillsPreview();
+}
+function updateBillsPreview(){
+ const headers=App.excelBillsHeaders, rows=App.excelBillsRows, map=App.billMap;
+ if(!rows.length) return;
+ const preview=document.getElementById('billsImportPreview');
+ const summary=document.getElementById('billsImportSummary');
+ let totalBills=0;
+ rows.slice(0,20).forEach(r=>{
+  const get=(idx)=> idx>=0 && r[idx]!==undefined ? r[idx] : '';
+  const w=parseAmount(get(map.water)), e=parseAmount(get(map.electricity)), s=parseAmount(get(map.reserve)), o=parseAmount(get(map.other));
+  if(w) totalBills++; if(e) totalBills++; if(s) totalBills++; if(o) totalBills++;
+ });
+ summary.textContent='کل '+toPersianDigits(App.excelBillsRows.length)+' ردیف → '+toPersianDigits(totalBills)+' قبض (بر اساس ۲۰ ردیف اول تخمین)';
+ const cols=['واحد','طبقه','نام','صدور','آب','برق','صندوق','سایر','پرداخت','توضیحات'];
+ let html='<table class="preview-mini-table"><thead><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
+ rows.slice(0,6).forEach(r=>{
+  const get=(idx)=> idx>=0 && r[idx]!==undefined ? String(r[idx]).trim() : '';
+  const unit=get(map.unit), floor=get(map.floor), name=get(map.fullName);
+  const issueRaw= map.issueDate>=0? r[map.issueDate] : '';
+  const payRaw= map.payDate>=0? r[map.payDate] : '';
+  const issue = issueRaw? excelValueToShamsi(issueRaw,false) : getTodayShamsi();
+  const pay = payRaw? excelValueToShamsi(payRaw,false) : '';
+  const w=parseAmount(map.water>=0? r[map.water]:''), el=parseAmount(map.electricity>=0? r[map.electricity]:''), rs=parseAmount(map.reserve>=0? r[map.reserve]:''), ot=parseAmount(map.other>=0? r[map.other]:'');
+  const desc=get(map.desc);
+  const isPaid=!!pay;
+  html+='<tr class="'+(isPaid?'pv-paid':'')+'"><td>'+esc(unit||'-')+'</td><td>'+esc(floor||'-')+'</td><td>'+esc(name||'-')+'</td><td>'+toPersianDigits(esc(issue||'-'))+'</td><td>'+(w?formatToman(w):'-')+'</td><td>'+(el?formatToman(el):'-')+'</td><td>'+(rs?formatToman(rs):'-')+'</td><td>'+(ot?formatToman(ot):'-')+'</td><td>'+(pay?toPersianDigits(esc(pay)):'—')+'</td><td>'+esc(desc||'-')+'</td></tr>';
+ });
+ html+='</tbody></table>';
+ preview.innerHTML=html;
+}
+function commitBillsExcelImport(){
+ const map=App.billMap;
+ const hasSeparateName=map.first>=0 && map.last>=0;
+ const hasCombinedName=map.fullName>=0;
+ if(map.unit===-1 || (!hasSeparateName && !hasCombinedName)) return toast('نگاشت واحد و نام و نام خانوادگی الزامی است',false);
+ if(map.water===-1 && map.electricity===-1 && map.reserve===-1 && map.other===-1) return toast('حداقل یکی از ستون‌های مبلغ (آب/برق/صندوق/سایر) را نگاشت کنید',false);
+ let created=0, skipped=0;
+ for(const row of App.excelBillsRows){
+  const get=(idx)=> idx>=0 && row[idx]!==undefined ? String(row[idx]).trim() : '';
+  const getRaw=(idx)=> idx>=0 && row[idx]!==undefined ? row[idx] : '';
+  const unitRaw=get(map.unit); if(!unitRaw){skipped++;continue;}
+  const unit=toEnglishDigits(unitRaw).trim();
+  const floor=map.floor>=0?toEnglishDigits(get(map.floor)).trim():'';
+  let first='',last='';
+  if(hasSeparateName){ first=get(map.first); last=get(map.last); }
+  else { const sp=splitFullName(get(map.fullName)); first=sp.first; last=sp.last; }
+  if(!first||!last){skipped++;continue;}
+  const fullNameRaw=(first+' '+last).trim();
+  const issueRaw=map.issueDate>=0?getRaw(map.issueDate):'';
+  const payRaw=map.payDate>=0?getRaw(map.payDate):'';
+  const issueDate=issueRaw!==''&&issueRaw!==null&&String(issueRaw).trim()!==''?excelValueToShamsi(issueRaw,true):getTodayShamsi();
+  const payDateShamsi=payRaw!==''&&payRaw!==null&&String(payRaw).trim()!==''?excelValueToShamsi(payRaw,false):'';
+  const isPaid=!!payDateShamsi;
+  const descRaw=map.desc>=0?get(map.desc).trim():'';
+  const amounts=[{type:'آب',amt:parseAmount(map.water>=0?getRaw(map.water):'')},{type:'برق',amt:parseAmount(map.electricity>=0?getRaw(map.electricity):'')},{type:'ذخیره صندوق',amt:parseAmount(map.reserve>=0?getRaw(map.reserve):'')},{type:'سایر',amt:parseAmount(map.other>=0?getRaw(map.other):'' )}];
+  let rowHas=false;
+  for(const a of amounts){
+   if(!a.amt) continue; rowHas=true;
+   App.bills.push({id:uid(),unit,floor,name:fullNameRaw,first,last,type:a.type,amount:a.amt,date:issueDate,payDate:isPaid?payDateShamsi:'',paid:isPaid,note:a.type==='سایر'?descRaw:''});
+   created++;
+  }
+  if(!rowHas) skipped++;
+ }
+ persistStorage(); renderBillsList();renderFinancialOverview();renderOverviewReport();renderDetailReport();renderOverviewBillsTable();
+ toast(toPersianDigits(created)+' قبض صادر شد (نام و نام خانوادگی جداگانه اعمال شد)'+(skipped?' | '+toPersianDigits(skipped)+' ردیف خالی':'')+' ✓');
+ document.getElementById('billsImportMappingBox').classList.add('hidden');
+}
+
+function downloadBillsTemplate(){
+ const headers=['واحد','طبقه','نام','نام خانوادگی','تاریخ صدور','آب','برق','ذخیره صندوق','سایر','تاریخ پرداخت','توضیحات'];
+ const data=[
+  ['101','1','علی','احمدی',getTodayShamsi(),'50000','','20000','','',''],
+  ['102','2','رضا','حسینی',getTodayShamsi(),'','75000','', '30000', getTodayShamsi(),'تعمیر پمپ'],
+  ['103','3','سارا','کریمی',getTodayShamsi(),'30000','40000','15000','5000','','قبض سایر: شارژ اضافه'],
+ ];
+ const ws=XLSX.utils.aoa_to_sheet([headers].concat(data));
+ ws['!cols']=[{wch:8},{wch:8},{wch:16},{wch:18},{wch:12},{wch:12},{wch:12},{wch:14},{wch:12},{wch:12},{wch:20}];
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'قبوض');
+ const out=XLSX.write(wb,{type:'array',bookType:'xlsx'});
+ let excelBlob=new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+ beautifyExcelBlob(excelBlob).then(b=>saveBlob(b,'Namune-Ghobooz-10Sotoon.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
+}
+function renderAll(){
+ deduplicateResidents(false);
+ renderResidentsList();
+ renderBillsList();
+ renderExpenseList();
+ renderFinancialOverview();
+ renderOverviewReport();
+ renderDetailReport();
+ populateTargetUnits();
+ updateHeaderStats();
+ applyTheme();
+}
+document.addEventListener('DOMContentLoaded',()=>{
+ loadStorage();
+ applyTheme();
+ renderAll();
+ checkSharedReceipt();
+ // close modals on backdrop click
+ document.querySelectorAll('.modal-backdrop').forEach(m=>m.addEventListener('click',e=>{if(e.target===m) m.classList.remove('open');}));
+});
+</script>
+
+<script>
+(function() {
+    function triggerReveals() {
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            var rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                el.classList.add('in', 'is-visible');
+            }
+        });
+    }
+    // Trigger on load and after a short delay to catch timing issues
+    if (document.readyState === 'complete') {
+        triggerReveals();
+        setTimeout(triggerReveals, 100);
+    } else {
+        window.addEventListener('load', function() {
+            triggerReveals();
+            setTimeout(triggerReveals, 100);
+        });
+    }
+})();
+</script>
+<script data-recording-tracker="true">
+(function() {
+  var meta = {"generationId":"34b46d3f-92bc-4561-b167-ccc9d5e8f200","tournamentId":"263f48f5-9f4f-4f17-bf99-acbf74a3aa3c"};
+  var startTime = Date.now();
+  var interactions = [];
+  var cursorPath = [];
+  var lastCursorSample = 0;
+  var lastScrollSample = 0;
+  var pageHeight = document.documentElement.scrollHeight;
+  var viewport = { width: window.innerWidth, height: window.innerHeight };
+
+  var MAX_RECORDING_MS = 600000;
+  var MAX_INTERACTIONS = 5000;
+  var MAX_CURSOR_POINTS = 10000;
+  var recordingStopped = false;
+
+  function isCapped() {
+    if (recordingStopped) return true;
+    if (Date.now() - startTime >= MAX_RECORDING_MS) { recordingStopped = true; return true; }
+    return false;
+  }
+
+  try {
+    fetch('/api/page-views', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tournamentId: meta.tournamentId, modelId: meta.generationId }),
+      keepalive: true
+    });
+  } catch (ex) {}
+
+  window.addEventListener('resize', function() {
+    viewport = { width: window.innerWidth, height: window.innerHeight };
+    pageHeight = document.documentElement.scrollHeight;
+  });
+
+  document.addEventListener('click', function(e) {
+    if (isCapped() || interactions.length >= MAX_INTERACTIONS) return;
+    var el = e.target;
+    var tag = el.tagName ? el.tagName.toLowerCase() : '';
+    var text = (el.textContent || '').trim().substring(0, 80);
+    var classes = el.className && typeof el.className === 'string' ? el.className.substring(0, 120) : '';
+    interactions.push({
+      type: 'click',
+      t: Date.now() - startTime,
+      x: Math.round(e.clientX),
+      y: Math.round(e.clientY),
+      element: { tag: tag, text: text, classes: classes }
+    });
+  }, true);
+
+  window.addEventListener('scroll', function() {
+    if (isCapped() || interactions.length >= MAX_INTERACTIONS) return;
+    var now = Date.now();
+    if (now - lastScrollSample < 200) return;
+    lastScrollSample = now;
+    var scrollY = Math.round(window.scrollY || window.pageYOffset || 0);
+    var depthPct = pageHeight > viewport.height
+      ? Math.min(100, Math.round(((scrollY + viewport.height) / pageHeight) * 100))
+      : 100;
+    interactions.push({
+      type: 'scroll',
+      t: now - startTime,
+      y: scrollY,
+      depth_pct: depthPct
+    });
+  }, { passive: true });
+
+  document.addEventListener('mousemove', function(e) {
+    if (isCapped() || cursorPath.length >= MAX_CURSOR_POINTS) return;
+    var now = Date.now();
+    if (now - lastCursorSample < 250) return;
+    lastCursorSample = now;
+    cursorPath.push([Math.round(e.clientX), Math.round(e.clientY), now - startTime]);
+  }, { passive: true });
+
+  document.addEventListener('keydown', function(e) {
+    if (isCapped() || interactions.length >= MAX_INTERACTIONS) return;
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+    interactions.push({
+      type: 'keydown',
+      t: Date.now() - startTime,
+      key: e.key
+    });
+  }, true);
+
+  window.__getInteractionData = function() {
+    var ph = document.documentElement.scrollHeight;
+    var maxScroll = 0;
+    var clickElements = {};
+    var firstClick = null;
+    var firstScroll = null;
+    var totalDistance = 0;
+
+    for (var i = 0; i < interactions.length; i++) {
+      var ev = interactions[i];
+      if (ev.type === 'scroll') {
+        if (ev.depth_pct > maxScroll) maxScroll = ev.depth_pct;
+        if (!firstScroll) firstScroll = ev.t;
+      }
+      if (ev.type === 'click') {
+        if (!firstClick) firstClick = ev.t;
+        var key = ev.element.tag + ':' + ev.element.text.substring(0, 30);
+        clickElements[key] = true;
+      }
+    }
+
+    for (var j = 1; j < cursorPath.length; j++) {
+      var dx = cursorPath[j][0] - cursorPath[j-1][0];
+      var dy = cursorPath[j][1] - cursorPath[j-1][1];
+      totalDistance += Math.sqrt(dx*dx + dy*dy);
+    }
+
+    var duration = Date.now() - startTime;
+    var clickHeatmap = [];
+    for (var k = 0; k < interactions.length; k++) {
+      if (interactions[k].type === 'click') {
+        clickHeatmap.push([interactions[k].x, interactions[k].y]);
+      }
+    }
+
+    return {
+      generation_id: meta.generationId,
+      tournament_id: meta.tournamentId,
+      started_at: new Date(startTime).toISOString(),
+      ended_at: new Date().toISOString(),
+      duration_ms: duration,
+      viewport: viewport,
+      page_height: ph,
+      interactions: interactions,
+      cursor_path: cursorPath,
+      click_heatmap: clickHeatmap,
+      summary: {
+        total_clicks: clickHeatmap.length,
+        total_scrolls: interactions.filter(function(e) { return e.type === 'scroll'; }).length,
+        max_scroll_depth_pct: maxScroll,
+        unique_elements_clicked: Object.keys(clickElements).length,
+        time_to_first_click_ms: firstClick,
+        time_to_first_scroll_ms: firstScroll,
+        cursor_distance_px: Math.round(totalDistance),
+        active_time_ms: duration
+      }
+    };
+  };
+})();
+</script>
+
+
+<script>
+/* Enforce Persian RTL order for dynamically opened sections and generated tables. */
+(function(){
+  function applyFinalRTL(){
+    document.querySelectorAll('.sub-tab-btn').forEach(function(btn){
+      var p=btn.parentElement;
+      if(p){p.style.direction='rtl';p.setAttribute('dir','rtl');}
+      btn.style.direction='rtl';
+    });
+    document.querySelectorAll('table.custom-table, table.preview-mini-table, table.render-table').forEach(function(t){
+      t.style.direction='rtl';
+      t.setAttribute('dir','rtl');
+    });
+    document.querySelectorAll('table.custom-table tr, table.preview-mini-table tr, table.render-table tr').forEach(function(r){
+      r.style.direction='rtl';
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',applyFinalRTL); else applyFinalRTL();
+  new MutationObserver(applyFinalRTL).observe(document.documentElement,{subtree:true,childList:true});
+})();
+</script>
+</body></html>
