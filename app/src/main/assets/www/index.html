@@ -49,8 +49,8 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(500px 3
 .badge-tenant{background:#cffafe;color:#0e7490;border:1px solid #67e8f9}
 .badge-paid{background:#d1fae5;color:#047857;border:1px solid #6ee7b7;box-shadow:0 0 8px rgba(16,185,129,.3)}
 .badge-unpaid{background:#ffe4e6;color:#be123c;border:1px solid #fda4af}
-.toast-box{position:fixed;left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%) scale(.92);transition:transform .25s ease,opacity .25s ease;z-index:5000;max-width:88%;text-align:center;justify-content:center;opacity:0;pointer-events:none}.toast-box.show{transform:translate(-50%,-50%) scale(1);opacity:1}.toast-box{min-width:190px;box-shadow:0 12px 40px rgba(15,23,42,.25)}
-
+.toast-box{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(220%);transition:transform .35s cubic-bezier(.18,.89,.32,1.28);z-index:400;max-width:90%}
+.toast-box.show{transform:translateX(-50%) translateY(0)}
 .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.68);backdrop-filter:blur(6px);z-index:250;display:none;align-items:center;justify-content:center;padding:14px;animation:fadeIn .25s ease}
 .modal-backdrop.open{display:flex}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -92,9 +92,9 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(500px 3
 .render-header{display:flex;align-items:center;justify-content:space-between;border-bottom:2.5px solid #0284c7;padding-bottom:12px;margin-bottom:14px}
 .render-title{font-size:20px;font-weight:900;color:#0369a1}
 .render-meta{font-size:12px;color:#334155;font-weight:800;line-height:1.6}
-.render-table{width:100%;border-collapse:collapse;font-size:12.5px}
-.render-table th{background:#0284c7;color:#fff;padding:10px 6px;font-size:13px;font-weight:900;text-align:center;border:1.5px solid #0369a1;white-space:nowrap}
-.render-table td{padding:9px 6px;text-align:center;border:1px solid #cbd5e1;color:#0f172a;font-weight:800;white-space:nowrap}
+.render-table{width:100%;border-collapse:collapse;font-size:15px;table-layout:auto}
+.render-table th{background:#0284c7;color:#fff;padding:12px 8px;font-size:15px;font-weight:900;text-align:center;vertical-align:middle;border:1.5px solid #0369a1;white-space:normal}
+.render-table td{padding:11px 8px;text-align:center;vertical-align:middle;border:1px solid #cbd5e1;color:#0f172a;font-size:14px;font-weight:900;white-space:normal;overflow-wrap:anywhere}
 .render-table tbody tr:nth-child(even) td{background:#f0fdf4}
 .render-table tbody tr.paidrow td{background:#d1fae5}
 .stat-mini{background:var(--box-bg);border:1px solid var(--box-border);outline:1px solid rgba(6,182,212,.2);border-radius:14px;padding:6px 4px;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:background .35s}
@@ -113,46 +113,12 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(500px 3
 .preview-mini-table th{background:#0ea5e9;color:#fff;padding:6px 4px;white-space:nowrap}
 .preview-mini-table td{padding:5px 4px;border-bottom:1px solid #e2e8f0;text-align:center;white-space:nowrap}
 .preview-mini-table tr.pv-paid td{background:#d1fae5;color:#065f46}
-
-
-/* OFFLINE APK — GLOBAL PERSIAN RTL LAYOUT */
-html,body{direction:rtl!important;text-align:right;}
-body,#phoneContainer,main,header,nav,section,article,aside,form,.acc-panel,.acc-inner,.glass-card,.modal-backdrop,.modal-card,[role="dialog"],[role="tabpanel"]{direction:rtl!important;}
-/* All grid boxes: first DOM item is visually on the right */
-.grid,[class*="grid-cols-"],[class*="grid-flow-"]{direction:rtl!important;}
-/* All horizontal flex rows follow Persian visual order; flex-column remains vertical */
-.flex{direction:rtl!important;}
-/* Main and inner navigation/tab rows */
-nav,.main-nav-btn,.sub-tab-btn,[role="tablist"],[role="tab"],.tabs,.tab-list,.sub-tabs,.inner-tabs,.section-tabs,.modal-tabs{direction:rtl!important;}
-/* Forms / boxes */
-input,select,textarea,label{direction:rtl!important;}
-/* Tables and dynamically-created Excel tables */
-table,thead,tbody,tfoot,tr,th,td{direction:rtl!important;}
-/* Keep existing intentional text alignment; only force generic table content RTL */
-table th,table td{text-align:inherit;}
-/* Excel import/export and mapping/preview containers */
-.mapping-row,.render-container-box,.render-sheet,.render-header,.render-table,.preview-mini-table,[id*="excel"],[id*="Excel"],[class*="excel"],[class*="Excel"]{direction:rtl!important;}
-/* Horizontal scroll containers should start from the RTL side */
-.overflow-x-auto,.overflow-auto,.scroll-styled{direction:rtl!important;}
-/* Do not alter numeric/URL field writing direction */
-input[type="number"],input[type="tel"],input[type="email"],input[type="url"]{direction:ltr!important;}
 </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.relative{position:relative}.sticky{position:sticky}.top-0{top:0px}.z-10{z-index:10}.z-30{z-index:30}.z-50{z-index:50}.mb-1{margin-bottom:0.25rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-2\.5{margin-top:0.625rem}.mb-0\.5{margin-bottom:0.125rem}.mb-1\.5{margin-bottom:0.375rem}.mt-0\.5{margin-top:0.125rem}.mt-1\.5{margin-top:0.375rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-2{height:0.5rem}.h-2\.5{height:0.625rem}.h-4{height:1rem}.h-full{height:100%}.max-h-80{max-height:20rem}.max-h-56{max-height:14rem}.max-h-64{max-height:16rem}.max-h-72{max-height:18rem}.max-h-\[60vh\]{max-height:60vh}.max-h-28{max-height:7rem}.max-h-48{max-height:12rem}.max-h-\[65vh\]{max-height:65vh}.max-h-\[70vh\]{max-height:70vh}.w-10{width:2.5rem}.w-full{width:100%}.w-28{width:7rem}.w-0{width:0px}.w-2{width:0.5rem}.w-4{width:1rem}.w-auto{width:auto}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.cursor-pointer{cursor:pointer}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.grid-cols-8{grid-template-columns:repeat(8, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-2\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.625rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-3\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.875rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.875rem * var(--tw-space-y-reverse))}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-cyan-100{--tw-border-opacity:1;border-color:rgb(207 250 254 / var(--tw-border-opacity, 1))}.border-cyan-200{--tw-border-opacity:1;border-color:rgb(165 243 252 / var(--tw-border-opacity, 1))}.border-emerald-200{--tw-border-opacity:1;border-color:rgb(167 243 208 / var(--tw-border-opacity, 1))}.border-white\/60{border-color:rgb(255 255 255 / 0.6)}.border-white\/70{border-color:rgb(255 255 255 / 0.7)}.border-white\/80{border-color:rgb(255 255 255 / 0.8)}.border-amber-200{--tw-border-opacity:1;border-color:rgb(253 230 138 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.border-white\/40{border-color:rgb(255 255 255 / 0.4)}.border-amber-300{--tw-border-opacity:1;border-color:rgb(252 211 77 / var(--tw-border-opacity, 1))}.border-amber-400{--tw-border-opacity:1;border-color:rgb(251 191 36 / var(--tw-border-opacity, 1))}.border-cyan-300{--tw-border-opacity:1;border-color:rgb(103 232 249 / var(--tw-border-opacity, 1))}.border-cyan-400{--tw-border-opacity:1;border-color:rgb(34 211 238 / var(--tw-border-opacity, 1))}.border-emerald-100{--tw-border-opacity:1;border-color:rgb(209 250 229 / var(--tw-border-opacity, 1))}.border-emerald-300{--tw-border-opacity:1;border-color:rgb(110 231 183 / var(--tw-border-opacity, 1))}.border-emerald-400{--tw-border-opacity:1;border-color:rgb(52 211 153 / var(--tw-border-opacity, 1))}.border-orange-100{--tw-border-opacity:1;border-color:rgb(255 237 213 / var(--tw-border-opacity, 1))}.border-purple-100{--tw-border-opacity:1;border-color:rgb(243 232 255 / var(--tw-border-opacity, 1))}.border-purple-200{--tw-border-opacity:1;border-color:rgb(233 213 255 / var(--tw-border-opacity, 1))}.border-rose-200{--tw-border-opacity:1;border-color:rgb(254 205 211 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-white\/50{border-color:rgb(255 255 255 / 0.5)}.bg-black\/20{background-color:rgb(0 0 0 / 0.2)}.bg-cyan-50\/80{background-color:rgb(236 254 255 / 0.8)}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-slate-200\/80{background-color:rgb(226 232 240 / 0.8)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/70{background-color:rgb(255 255 255 / 0.7)}.bg-white\/75{background-color:rgb(255 255 255 / 0.75)}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.bg-amber-50{--tw-bg-opacity:1;background-color:rgb(255 251 235 / var(--tw-bg-opacity, 1))}.bg-cyan-50\/90{background-color:rgb(236 254 255 / 0.9)}.bg-purple-600{--tw-bg-opacity:1;background-color:rgb(147 51 234 / var(--tw-bg-opacity, 1))}.bg-rose-600{--tw-bg-opacity:1;background-color:rgb(225 29 72 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-amber-50\/50{background-color:rgb(255 251 235 / 0.5)}.bg-cyan-50{--tw-bg-opacity:1;background-color:rgb(236 254 255 / var(--tw-bg-opacity, 1))}.bg-cyan-50\/50{background-color:rgb(236 254 255 / 0.5)}.bg-emerald-50\/60{background-color:rgb(236 253 245 / 0.6)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-purple-50{--tw-bg-opacity:1;background-color:rgb(250 245 255 / var(--tw-bg-opacity, 1))}.bg-rose-50{--tw-bg-opacity:1;background-color:rgb(255 241 242 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-white\/85{background-color:rgb(255 255 255 / 0.85)}.object-contain{object-fit:contain}.p-0\.5{padding:0.125rem}.p-1{padding:0.25rem}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-2{padding-bottom:0.5rem}.pb-2\.5{padding-bottom:0.625rem}.pb-20{padding-bottom:5rem}.pt-3{padding-top:0.75rem}.pr-0\.5{padding-right:0.125rem}.pt-1\.5{padding-top:0.375rem}.pt-2{padding-top:0.5rem}.pb-1{padding-bottom:0.25rem}.pt-1{padding-top:0.25rem}.text-left{text-align:left}.text-center{text-align:center}.text-\[10\.5px\]{font-size:10.5px}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-black{font-weight:900}.font-bold{font-weight:700}.leading-3{line-height:.75rem}.leading-5{line-height:1.25rem}.leading-tight{line-height:1.25}.leading-6{line-height:1.5rem}.text-cyan-800{--tw-text-opacity:1;color:rgb(21 94 117 / var(--tw-text-opacity, 1))}.text-cyan-900{--tw-text-opacity:1;color:rgb(22 78 99 / var(--tw-text-opacity, 1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-emerald-800{--tw-text-opacity:1;color:rgb(6 95 70 / var(--tw-text-opacity, 1))}.text-rose-500{--tw-text-opacity:1;color:rgb(244 63 94 / var(--tw-text-opacity, 1))}.text-rose-600{--tw-text-opacity:1;color:rgb(225 29 72 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-amber-700{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.text-amber-800{--tw-text-opacity:1;color:rgb(146 64 14 / var(--tw-text-opacity, 1))}.text-amber-900{--tw-text-opacity:1;color:rgb(120 53 15 / var(--tw-text-opacity, 1))}.text-cyan-100{--tw-text-opacity:1;color:rgb(207 250 254 / var(--tw-text-opacity, 1))}.text-cyan-700{--tw-text-opacity:1;color:rgb(14 116 144 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-amber-950{--tw-text-opacity:1;color:rgb(69 26 3 / var(--tw-text-opacity, 1))}.text-cyan-950{--tw-text-opacity:1;color:rgb(8 51 68 / var(--tw-text-opacity, 1))}.text-emerald-900{--tw-text-opacity:1;color:rgb(6 78 59 / var(--tw-text-opacity, 1))}.text-emerald-950{--tw-text-opacity:1;color:rgb(2 44 34 / var(--tw-text-opacity, 1))}.text-orange-800{--tw-text-opacity:1;color:rgb(154 52 18 / var(--tw-text-opacity, 1))}.text-orange-900{--tw-text-opacity:1;color:rgb(124 45 18 / var(--tw-text-opacity, 1))}.text-purple-700{--tw-text-opacity:1;color:rgb(126 34 206 / var(--tw-text-opacity, 1))}.text-purple-900{--tw-text-opacity:1;color:rgb(88 28 135 / var(--tw-text-opacity, 1))}.text-purple-950{--tw-text-opacity:1;color:rgb(59 7 100 / var(--tw-text-opacity, 1))}.text-rose-700{--tw-text-opacity:1;color:rgb(190 18 60 / var(--tw-text-opacity, 1))}.accent-emerald-600{accent-color:#059669}.accent-purple-600{accent-color:#9333ea}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.drop-shadow{--tw-drop-shadow:drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur{--tw-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.hover\:bg-black\/30:hover{background-color:rgb(0 0 0 / 0.3)}.hover\:bg-emerald-50:hover{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.hover\:bg-purple-700:hover{--tw-bg-opacity:1;background-color:rgb(126 34 206 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-700:hover{--tw-bg-opacity:1;background-color:rgb(190 18 60 / var(--tw-bg-opacity, 1))}.hover\:bg-amber-100\/60:hover{background-color:rgb(254 243 199 / 0.6)}.hover\:bg-cyan-100\/60:hover{background-color:rgb(207 250 254 / 0.6)}.hover\:bg-emerald-100:hover{--tw-bg-opacity:1;background-color:rgb(209 250 229 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-100:hover{--tw-bg-opacity:1;background-color:rgb(255 228 230 / var(--tw-bg-opacity, 1))}.hover\:text-slate-700:hover{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}@media (min-width: 640px){.sm\:mt-0{margin-top:0px}}
-</style>
-<style id="three-final-fixes">
-/* FINAL THREE FIXES */
-html,body{width:100%;max-width:100%;overflow-x:hidden!important;overscroll-behavior-x:none!important;}
-.phone-container{width:100%!important;max-width:100vw!important;overflow-x:hidden!important;}
-main{max-width:100%;overflow-x:hidden;}
-.overflow-x-auto{overflow-x:auto!important;max-width:100%;overscroll-behavior-x:contain;}
-/* Center every exported/rendered table cell */
-.render-table th,.render-table td,.custom-table th,.custom-table td,.preview-mini-table th,.preview-mini-table td{text-align:center!important;vertical-align:middle!important;}
-</style>
-</head>
-<body dir="rtl">
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.relative{position:relative}.sticky{position:sticky}.top-0{top:0px}.z-10{z-index:10}.z-30{z-index:30}.z-50{z-index:50}.mb-1{margin-bottom:0.25rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-2\.5{margin-top:0.625rem}.mb-0\.5{margin-bottom:0.125rem}.mb-1\.5{margin-bottom:0.375rem}.mt-0\.5{margin-top:0.125rem}.mt-1\.5{margin-top:0.375rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-2{height:0.5rem}.h-2\.5{height:0.625rem}.h-4{height:1rem}.h-full{height:100%}.max-h-80{max-height:20rem}.max-h-56{max-height:14rem}.max-h-64{max-height:16rem}.max-h-72{max-height:18rem}.max-h-\[60vh\]{max-height:60vh}.max-h-28{max-height:7rem}.max-h-48{max-height:12rem}.max-h-\[65vh\]{max-height:65vh}.max-h-\[70vh\]{max-height:70vh}.w-10{width:2.5rem}.w-full{width:100%}.w-28{width:7rem}.w-0{width:0px}.w-2{width:0.5rem}.w-4{width:1rem}.w-auto{width:auto}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.cursor-pointer{cursor:pointer}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.grid-cols-8{grid-template-columns:repeat(8, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-2\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.625rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-3\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.875rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.875rem * var(--tw-space-y-reverse))}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-cyan-100{--tw-border-opacity:1;border-color:rgb(207 250 254 / var(--tw-border-opacity, 1))}.border-cyan-200{--tw-border-opacity:1;border-color:rgb(165 243 252 / var(--tw-border-opacity, 1))}.border-emerald-200{--tw-border-opacity:1;border-color:rgb(167 243 208 / var(--tw-border-opacity, 1))}.border-white\/60{border-color:rgb(255 255 255 / 0.6)}.border-white\/70{border-color:rgb(255 255 255 / 0.7)}.border-white\/80{border-color:rgb(255 255 255 / 0.8)}.border-amber-200{--tw-border-opacity:1;border-color:rgb(253 230 138 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.border-white\/40{border-color:rgb(255 255 255 / 0.4)}.border-amber-300{--tw-border-opacity:1;border-color:rgb(252 211 77 / var(--tw-border-opacity, 1))}.border-amber-400{--tw-border-opacity:1;border-color:rgb(251 191 36 / var(--tw-border-opacity, 1))}.border-cyan-300{--tw-border-opacity:1;border-color:rgb(103 232 249 / var(--tw-border-opacity, 1))}.border-cyan-400{--tw-border-opacity:1;border-color:rgb(34 211 238 / var(--tw-border-opacity, 1))}.border-emerald-100{--tw-border-opacity:1;border-color:rgb(209 250 229 / var(--tw-border-opacity, 1))}.border-emerald-300{--tw-border-opacity:1;border-color:rgb(110 231 183 / var(--tw-border-opacity, 1))}.border-emerald-400{--tw-border-opacity:1;border-color:rgb(52 211 153 / var(--tw-border-opacity, 1))}.border-orange-100{--tw-border-opacity:1;border-color:rgb(255 237 213 / var(--tw-border-opacity, 1))}.border-purple-100{--tw-border-opacity:1;border-color:rgb(243 232 255 / var(--tw-border-opacity, 1))}.border-purple-200{--tw-border-opacity:1;border-color:rgb(233 213 255 / var(--tw-border-opacity, 1))}.border-rose-200{--tw-border-opacity:1;border-color:rgb(254 205 211 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-white\/50{border-color:rgb(255 255 255 / 0.5)}.bg-black\/20{background-color:rgb(0 0 0 / 0.2)}.bg-cyan-50\/80{background-color:rgb(236 254 255 / 0.8)}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-slate-200\/80{background-color:rgb(226 232 240 / 0.8)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/70{background-color:rgb(255 255 255 / 0.7)}.bg-white\/75{background-color:rgb(255 255 255 / 0.75)}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.bg-amber-50{--tw-bg-opacity:1;background-color:rgb(255 251 235 / var(--tw-bg-opacity, 1))}.bg-cyan-50\/90{background-color:rgb(236 254 255 / 0.9)}.bg-purple-600{--tw-bg-opacity:1;background-color:rgb(147 51 234 / var(--tw-bg-opacity, 1))}.bg-rose-600{--tw-bg-opacity:1;background-color:rgb(225 29 72 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-amber-50\/50{background-color:rgb(255 251 235 / 0.5)}.bg-cyan-50{--tw-bg-opacity:1;background-color:rgb(236 254 255 / var(--tw-bg-opacity, 1))}.bg-cyan-50\/50{background-color:rgb(236 254 255 / 0.5)}.bg-emerald-50\/60{background-color:rgb(236 253 245 / 0.6)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-purple-50{--tw-bg-opacity:1;background-color:rgb(250 245 255 / var(--tw-bg-opacity, 1))}.bg-rose-50{--tw-bg-opacity:1;background-color:rgb(255 241 242 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-white\/85{background-color:rgb(255 255 255 / 0.85)}.object-contain{object-fit:contain}.p-0\.5{padding:0.125rem}.p-1{padding:0.25rem}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-2{padding-bottom:0.5rem}.pb-2\.5{padding-bottom:0.625rem}.pb-20{padding-bottom:5rem}.pt-3{padding-top:0.75rem}.pr-0\.5{padding-right:0.125rem}.pt-1\.5{padding-top:0.375rem}.pt-2{padding-top:0.5rem}.pb-1{padding-bottom:0.25rem}.pt-1{padding-top:0.25rem}.text-left{text-align:left}.text-center{text-align:center}.text-\[10\.5px\]{font-size:10.5px}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-black{font-weight:900}.font-bold{font-weight:700}.leading-3{line-height:.75rem}.leading-5{line-height:1.25rem}.leading-tight{line-height:1.25}.leading-6{line-height:1.5rem}.text-cyan-800{--tw-text-opacity:1;color:rgb(21 94 117 / var(--tw-text-opacity, 1))}.text-cyan-900{--tw-text-opacity:1;color:rgb(22 78 99 / var(--tw-text-opacity, 1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-emerald-800{--tw-text-opacity:1;color:rgb(6 95 70 / var(--tw-text-opacity, 1))}.text-rose-500{--tw-text-opacity:1;color:rgb(244 63 94 / var(--tw-text-opacity, 1))}.text-rose-600{--tw-text-opacity:1;color:rgb(225 29 72 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-amber-700{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.text-amber-800{--tw-text-opacity:1;color:rgb(146 64 14 / var(--tw-text-opacity, 1))}.text-amber-900{--tw-text-opacity:1;color:rgb(120 53 15 / var(--tw-text-opacity, 1))}.text-cyan-100{--tw-text-opacity:1;color:rgb(207 250 254 / var(--tw-text-opacity, 1))}.text-cyan-700{--tw-text-opacity:1;color:rgb(14 116 144 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-amber-950{--tw-text-opacity:1;color:rgb(69 26 3 / var(--tw-text-opacity, 1))}.text-cyan-950{--tw-text-opacity:1;color:rgb(8 51 68 / var(--tw-text-opacity, 1))}.text-emerald-900{--tw-text-opacity:1;color:rgb(6 78 59 / var(--tw-text-opacity, 1))}.text-emerald-950{--tw-text-opacity:1;color:rgb(2 44 34 / var(--tw-text-opacity, 1))}.text-orange-800{--tw-text-opacity:1;color:rgb(154 52 18 / var(--tw-text-opacity, 1))}.text-orange-900{--tw-text-opacity:1;color:rgb(124 45 18 / var(--tw-text-opacity, 1))}.text-purple-700{--tw-text-opacity:1;color:rgb(126 34 206 / var(--tw-text-opacity, 1))}.text-purple-900{--tw-text-opacity:1;color:rgb(88 28 135 / var(--tw-text-opacity, 1))}.text-purple-950{--tw-text-opacity:1;color:rgb(59 7 100 / var(--tw-text-opacity, 1))}.text-rose-700{--tw-text-opacity:1;color:rgb(190 18 60 / var(--tw-text-opacity, 1))}.accent-emerald-600{accent-color:#059669}.accent-purple-600{accent-color:#9333ea}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.drop-shadow{--tw-drop-shadow:drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur{--tw-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.hover\:bg-black\/30:hover{background-color:rgb(0 0 0 / 0.3)}.hover\:bg-emerald-50:hover{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.hover\:bg-purple-700:hover{--tw-bg-opacity:1;background-color:rgb(126 34 206 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-700:hover{--tw-bg-opacity:1;background-color:rgb(190 18 60 / var(--tw-bg-opacity, 1))}.hover\:bg-amber-100\/60:hover{background-color:rgb(254 243 199 / 0.6)}.hover\:bg-cyan-100\/60:hover{background-color:rgb(207 250 254 / 0.6)}.hover\:bg-emerald-100:hover{--tw-bg-opacity:1;background-color:rgb(209 250 229 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-100:hover{--tw-bg-opacity:1;background-color:rgb(255 228 230 / var(--tw-bg-opacity, 1))}.hover\:text-slate-700:hover{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}@media (min-width: 640px){.sm\:mt-0{margin-top:0px}}</style><script src="https://cdn.jsdelivr.net/npm/rrweb@2.0.0-alpha.4/dist/rrweb.min.js"></script></head>
+<body>
 <div class="phone-container" id="phoneContainer" style="background: linear-gradient(rgb(255, 251, 235) 0%, rgb(253, 230, 138) 30%, rgb(245, 158, 11) 65%, rgb(146, 64, 14) 100%) local;">
 <div id="sharedReceiptBanner" class="hidden bg-emerald-600 text-white px-3.5 py-2.5 text-xs font-bold flex items-center justify-between shadow-lg sticky top-0 z-50">
-<div class="flex items-center gap-2"><span class="text-base">📥</span><span>رسید از برنامه دیگر دریافت شد؛ قبض‌های پرداخت‌نشده آماده انتخاب هستند.</span></div>
+<div class="flex items-center gap-2"><span class="text-base">📥</span><span>رسید جدید دریافت شد! قبض را پیدا کرده و دکمه <b>الصاق</b> را بزنید.</span></div>
 <div class="flex items-center gap-1.5"><button onclick="applySharedReceiptDirectly()" class="bg-white text-emerald-800 hover:bg-emerald-50 px-2 py-0.5 rounded text-[11px] font-black">انتخاب قبض</button><button onclick="dismissSharedReceiptBanner()" class="bg-black/20 hover:bg-black/30 px-2 py-0.5 rounded text-[10px]">بستن</button></div>
 </div>
 <header class="px-3.5 pt-3 pb-2.5 border-b border-white/60 bg-white/75 backdrop-blur-md relative z-10">
@@ -172,7 +138,6 @@ main{max-width:100%;overflow-x:hidden;}
 <button onclick="openApkBuildModal()" class="hdr-btn apk">📦 <span>پکیج نصب APK</span></button>
 <button onclick="handleInstallApp()" class="hdr-btn">📲 <span>نصب</span></button>
 <button onclick="handleWipeAllData()" class="hdr-btn danger">🗑️ <span>حذف دیتا</span></button>
-<button onclick="exitApp()" class="hdr-btn danger">🚪 <span>خروج</span></button>
 </div>
 </div>
 <div class="mt-2.5 grid grid-cols-4 gap-1.5 text-center">
@@ -451,7 +416,7 @@ main{max-width:100%;overflow-x:hidden;}
 </div></div>
 <div id="viewReceiptImageModal" class="modal-backdrop"><div class="glass-card modal-card p-3 rounded-2xl w-full max-w-md bg-white shadow-2xl border-2 border-cyan-400 space-y-2"><div class="flex items-center justify-between pb-1 border-b border-slate-200"><span id="viewReceiptTitle" class="text-xs font-black text-cyan-900">رسید پرداخت</span><button onclick="closeReceiptImageViewModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">×</button></div><div class="max-h-[70vh] overflow-auto flex items-center justify-center p-1 bg-slate-100 rounded-xl"><img id="fullReceiptImage" class="max-h-[65vh] w-auto rounded-lg object-contain" alt="عکس رسید"></div></div></div>
 <!-- APK -->
-<div id="apkBuildModal" class="modal-backdrop"><div class="glass-card modal-card p-4 rounded-2xl w-full max-w-md space-y-3 bg-white shadow-2xl scroll-styled" style="border:2px solid #f97316;max-height:92vh;overflow-y:auto">
+<div id="apkBuildModal" class="modal-backdrop open"><div class="glass-card modal-card p-4 rounded-2xl w-full max-w-md space-y-3 bg-white shadow-2xl scroll-styled" style="border:2px solid #f97316;max-height:92vh;overflow-y:auto">
 <div class="flex items-center justify-between border-b border-orange-100 pb-2"><h4 class="text-xs font-black text-orange-900">📦 پکیج نصب واقعی اندروید (APK/PWA)</h4><button onclick="closeApkBuildModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">×</button></div>
 <div class="grid grid-cols-3 gap-1.5 text-xs"><div><label class="text-[10px] font-bold text-slate-600 block mb-1">نام اپ</label><input id="apkAppName" value="مدیریت بلوک" class="input-field w-full rounded-lg px-2 py-1 text-xs"></div><div><label class="text-[10px] font-bold text-slate-600 block mb-1">پکیج</label><input id="apkPackageId" value="com.block.manager" dir="ltr" class="input-field w-full rounded-lg px-2 py-1 text-[10px] text-left"></div><div><label class="text-[10px] font-bold text-slate-600 block mb-1">نسخه</label><input id="apkVersion" value="1.0.0" dir="ltr" class="input-field w-full rounded-lg px-2 py-1 text-xs text-center"></div></div>
 <div class="apk-card space-y-2"><div class="text-[11px] font-black text-orange-900">🚀 روش ۱ — نصب فوری</div><div class="text-[10px] text-slate-600 leading-5">این نسخه یک <b>وب‌اپ واقعی قابل نصب (PWA)</b> است؛ روی گوشی نصب می‌شود، آیکون می‌گیرد و آفلاین کار می‌کند.</div><button onclick="handleInstallApp()" class="w-full py-2.5 rounded-xl text-xs font-black text-white" style="background:linear-gradient(135deg,#f97316,#c2410c)">📲 نصب فوری روی گوشی</button></div>
@@ -473,6 +438,13 @@ function normalizeDateToShamsi(value,fallbackToday=true){
  if(!value) return fallbackToday?getTodayShamsi():'';
  if(value instanceof Date && !isNaN(value)) return jFmt(gregorianToJalali(value.getFullYear(),value.getMonth()+1,value.getDate()));
  const raw=toEnglishDigits(String(value)).trim(); if(!raw) return fallbackToday?getTodayShamsi():'';
+ // Excel exports sometimes store a Jalali date as eight digits, e.g. 14050506.
+ const compact=raw.replace(/[^0-9]/g,'');
+ if(/^1[34][0-9]{6}$/.test(compact)){
+  const y=compact.slice(0,4), m=compact.slice(4,6), d=compact.slice(6,8);
+  const mm=Number(m), dd=Number(d);
+  if(mm>=1&&mm<=12&&dd>=1&&dd<=31) return y+'/'+m+'/'+d;
+ }
  const parts=raw.split(/[\/\-\.\s]+/).filter(Boolean);
  if(parts.length===3){
   let a=+parts[0],b=+parts[1],c=+parts[2];
@@ -514,7 +486,7 @@ function setupPwaManifest(){
 setupPwaManifest();
 const STORAGE_RESIDENTS='blok_res_v8',STORAGE_BILLS='blok_bills_v8',STORAGE_EXPENSES='blok_exp_v8',STORAGE_THEME='blok_theme_v8';
 let currentTheme={bgIdx:0,tabIdx:0,glowIdx:0,boxIdx:0};
-const App={residents:[],bills:[],expenses:[],selectedResidentType:'مالک',selectedBillType:'آب',modalBillId:null,editId:null,currentReceiptImageBase64:null,pendingSharedReceipt:null,pendingSharedReceiptImage:null,excelResidentsRows:[],excelResidentsHeaders:[],excelBillsRows:[],excelBillsHeaders:[],resMap:{},billMap:{}};
+const App={residents:[],bills:[],expenses:[],selectedResidentType:'مالک',selectedBillType:'آب',modalBillId:null,editId:null,currentReceiptImageBase64:null,pendingSharedReceipt:null,excelResidentsRows:[],excelResidentsHeaders:[],excelBillsRows:[],excelBillsHeaders:[],resMap:{},billMap:{}};
 let activeMainTab='residents',activeFinanceSub='bill',overviewFilter='all',deferredInstallPrompt=null,reportMode='overview';
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;});
 function safeGet(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
@@ -580,18 +552,6 @@ function openBackupModal(){switchBackupSub('export');document.getElementById('ba
 function closeBackupModal(){document.getElementById('backupModal').classList.remove('open');}
 function switchBackupSub(sub){document.getElementById('btnSubBkExport').classList.toggle('active',sub==='export');document.getElementById('btnSubBkImport').classList.toggle('active',sub==='import');document.getElementById('bkSubExport').classList.toggle('hidden',sub!=='export');document.getElementById('bkSubImport').classList.toggle('hidden',sub!=='export');}
 async function saveBlob(blob,name,desc,mime){
- if(window.AndroidFileSaver && window.AndroidFileSaver.saveFile){
-  try{
-   const buffer=await blob.arrayBuffer();
-   const bytes=new Uint8Array(buffer);
-   let binary='';
-   const chunk=0x8000;
-   for(let i=0;i<bytes.length;i+=chunk){binary+=String.fromCharCode.apply(null,bytes.subarray(i,Math.min(i+chunk,bytes.length)));}
-   window.AndroidFileSaver.saveFile(btoa(binary),name,mime||blob.type||'application/octet-stream');
-   toast('محل ذخیره فایل را انتخاب کنید…');
-   return true;
-  }catch(e){console.error('Android save error',e);}
- }
  if(window.showSaveFilePicker){
   try{
    const h=await window.showSaveFilePicker({suggestedName:name,types:[{description:desc,accept:{[mime]:[name.substring(name.lastIndexOf('.'))]}}]});
@@ -894,29 +854,13 @@ function deleteBill(id){if(confirm('حذف قبض؟')){App.bills=App.bills.filte
 function openReceiptModal(id){
  App.modalBillId=id;
  const b=App.bills.find(x=>x.id==id);if(!b)return;
- // When opened from Android Share, prepare the received receipt immediately for this selected bill.
- if(App.pendingSharedReceipt || App.pendingSharedReceiptImage){
-   b.receiptText=App.pendingSharedReceipt||b.receiptText||'';
-   b.receiptImage=App.pendingSharedReceiptImage||b.receiptImage||null;
-   persistStorage();
-   renderBillsList();
-   App.pendingSharedReceipt=null;
-   App.pendingSharedReceiptImage=null;
-   dismissSharedReceiptBanner();
-   App.modalBillId=null;
-   toast('رسید پرداخت به قبض واحد '+toPersianDigits(b.unit)+' الصاق شد ✓');
-   return;
- }
  document.getElementById('receiptModalInfo').textContent='قبض واحد '+toPersianDigits(b.unit)+' | طبقه '+toPersianDigits(b.floor||'-')+' - '+b.type+' - '+formatToman(b.amount);
- const sharedText=App.pendingSharedReceipt||'';
- const sharedImage=App.pendingSharedReceiptImage||null;
- document.getElementById('inpReceiptModalVal').value=sharedText||b.receiptText||'';
- App.currentReceiptImageBase64=sharedImage||b.receiptImage||null;
- if(App.currentReceiptImageBase64){document.getElementById('receiptImagePreview').src=App.currentReceiptImageBase64;document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');}
+ document.getElementById('inpReceiptModalVal').value=b.receiptText||'';
+ App.currentReceiptImageBase64=b.receiptImage||null;
+ if(b.receiptImage){document.getElementById('receiptImagePreview').src=b.receiptImage;document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');}
  else document.getElementById('receiptImagePreviewContainer').classList.add('hidden');
- document.getElementById('insertSharedReceiptBtnContainer').classList.toggle('hidden',!App.pendingSharedReceipt && !App.pendingSharedReceiptImage);
+ document.getElementById('insertSharedReceiptBtnContainer').classList.toggle('hidden',!App.pendingSharedReceipt);
  document.getElementById('receiptModal').classList.add('open');
- if(sharedText||sharedImage) toast('رسید دریافت‌شده آماده الصاق به این قبض است ✓');
 }
 function closeReceiptModal(){document.getElementById('receiptModal').classList.remove('open');App.modalBillId=null;App.currentReceiptImageBase64=null;try{document.getElementById('inpReceiptFile').value='';}catch(e){}document.getElementById('receiptImagePreviewContainer').classList.add('hidden');}
 function clearReceiptImage(){App.currentReceiptImageBase64=null;document.getElementById('receiptImagePreviewContainer').classList.add('hidden');try{document.getElementById('inpReceiptFile').value='';}catch(e){}}
@@ -944,31 +888,13 @@ function saveReceiptModal(){
  const b=App.bills.find(x=>x.id==App.modalBillId);if(!b)return;
  b.receiptText=document.getElementById('inpReceiptModalVal').value.trim();
  b.receiptImage=App.currentReceiptImageBase64;
- persistStorage();renderBillsList();App.pendingSharedReceipt=null;App.pendingSharedReceiptImage=null;closeReceiptModal();dismissSharedReceiptBanner();toast('رسید ذخیره شد ✓');
+ persistStorage();renderBillsList();closeReceiptModal();toast('رسید ذخیره شد ✓');
 }
-function pasteSharedReceiptText(){
- document.getElementById('inpReceiptModalVal').value=App.pendingSharedReceipt||'';
- if(App.pendingSharedReceiptImage){App.currentReceiptImageBase64=App.pendingSharedReceiptImage;document.getElementById('receiptImagePreview').src=App.pendingSharedReceiptImage;document.getElementById('receiptImagePreviewContainer').classList.remove('hidden');}
- document.getElementById('insertSharedReceiptBtnContainer').classList.add('hidden');
- App.pendingSharedReceipt=null;App.pendingSharedReceiptImage=null;dismissSharedReceiptBanner();
-}
-function handleIncomingSharedData(text,imageData){
- try{
-  App.pendingSharedReceipt=(text||'').trim();
-  App.pendingSharedReceiptImage=imageData||null;
-  toggleMainTab('finance');
-  toggleFinanceSub('confirm');
-  const st=document.getElementById('filterConfirmStatus');if(st)st.value='unpaid';
-  renderBillsList();
-  const banner=document.getElementById('sharedReceiptBanner');if(banner)banner.classList.remove('hidden');
-  toast('رسید دریافت شد؛ قبض‌های پرداخت‌نشده نمایش داده شد ✓');
- }catch(e){toast('دریافت رسید انجام نشد',false);}
-}
+function pasteSharedReceiptText(){document.getElementById('inpReceiptModalVal').value=App.pendingSharedReceipt||'';document.getElementById('insertSharedReceiptBtnContainer').classList.add('hidden');App.pendingSharedReceipt=null;dismissSharedReceiptBanner();}
 function viewReceiptImage(id){const b=App.bills.find(x=>x.id==id);if(b&&b.receiptImage){document.getElementById('fullReceiptImage').src=b.receiptImage;document.getElementById('viewReceiptTitle').textContent='رسید واحد '+toPersianDigits(b.unit)+' - '+b.type;document.getElementById('viewReceiptImageModal').classList.add('open');}}
 function closeReceiptImageViewModal(){document.getElementById('viewReceiptImageModal').classList.remove('open');}
 function checkSharedReceipt(){
  try{
-  App.pendingSharedReceiptImage=null;
   const p=new URLSearchParams(location.search);
   const t=p.get('receipt')||p.get('text')||p.get('title')||p.get('url');
   if(t){App.pendingSharedReceipt=t;document.getElementById('sharedReceiptBanner').classList.remove('hidden');}
@@ -976,11 +902,6 @@ function checkSharedReceipt(){
 }
 function applySharedReceiptDirectly(){toggleMainTab('finance');toggleFinanceSub('confirm');document.getElementById('filterConfirmStatus').value='unpaid';renderBillsList();toast('روی دکمه 📎 رسید قبض مورد نظر بزنید');}
 function dismissSharedReceiptBanner(){document.getElementById('sharedReceiptBanner').classList.add('hidden');}
-function exitApp(){
- try{persistStorage();}catch(e){}
- if(window.AndroidApp&&AndroidApp.exitApp){try{AndroidApp.exitApp();return;}catch(e){}}
- toast('تغییرات ذخیره شد ✓');
-}
 function renderExpenseList(){
  const list=document.getElementById('expenseItemsList');if(!list)return;
  document.getElementById('expTotalBadge').textContent=formatToman(App.expenses.reduce((s,e)=>s+(+e.amount||0),0))+' تومان';
@@ -1088,32 +1009,23 @@ function getOverviewAggregated(){
  });
  return Object.values(map).sort((a,b)=>(parseInt(a.unit)||0)-(parseInt(b.unit)||0));
 }
-function openOverviewDetail(unit,status){
- const u=toEnglishDigits(String(unit||'')).trim();
- toggleMainTab('excel');
- switchReportMode('detail');
- const unitEl=document.getElementById('filterDtUnit');
- const nameEl=document.getElementById('filterDtName');
- const statusEl=document.getElementById('filterDtStatus');
- if(unitEl) unitEl.value=toPersianDigits(u);
- if(nameEl) nameEl.value='';
- if(statusEl) statusEl.value=status||'';
- renderDetailReport();
- setTimeout(()=>{const box=document.getElementById('viewDetailBox');if(box)box.scrollIntoView({behavior:'smooth',block:'start'});},60);
-}
 function renderOverviewReport(){
  const tb=document.getElementById('overviewReportTbody'); if(!tb) return;
  const qRaw=document.getElementById('filterOvSearch').value.trim();
  const qEng=toEnglishDigits(qRaw).trim();
  let data=getOverviewAggregated();
- if(qRaw) data=data.filter(r=>(qEng&&toEnglishDigits(r.unit).trim()===qEng)||(r.first||'').includes(qRaw)||(r.last||'').includes(qRaw)||((r.first+' '+r.last).includes(qRaw)));
+ if(qRaw){
+  data=data.filter(r=>{
+   if(qEng && toEnglishDigits(r.unit).trim()===qEng) return true;
+   if((r.first||'').includes(qRaw)) return true;
+   if((r.last||'').includes(qRaw)) return true;
+   if((r.first+' '+r.last).includes(qRaw)) return true;
+   return false;
+  });
+ }
  if(!data.length){tb.innerHTML='<tr><td colspan="8" class="py-6 text-center text-slate-500">داده‌ای یافت نشد</td></tr>';return;}
- tb.innerHTML=data.map(r=>{
-  const u=String(r.unit).replace(/'/g,"\\'");
-  return '<tr class="cursor-pointer hover:bg-cyan-50/60" onclick="openOverviewDetail(\''+u+'\',\'\')"><td class="font-black text-cyan-800">'+toPersianDigits(esc(r.unit))+'</td><td>'+toPersianDigits(esc(r.floor||'-'))+'</td><td>'+esc(r.first||'-')+'</td><td>'+esc(r.last||'-')+'</td><td class="font-black">'+formatToman(r.total)+'</td><td class="text-emerald-700 font-bold" onclick="event.stopPropagation();openOverviewDetail(\''+u+'\',\'paid\')">'+formatToman(r.paid)+'</td><td class="text-rose-600 font-bold" onclick="event.stopPropagation();openOverviewDetail(\''+u+'\',\'unpaid\')">'+formatToman(r.debt)+'</td><td>'+toPersianDigits(r.count)+'</td></tr>';
- }).join('');
+ tb.innerHTML=data.map(r=>'<tr><td class="font-black text-cyan-800">'+toPersianDigits(esc(r.unit))+'</td><td>'+toPersianDigits(esc(r.floor||'-'))+'</td><td>'+esc(r.first||'-')+'</td><td>'+esc(r.last||'-')+'</td><td class="font-black">'+formatToman(r.total)+'</td><td class="text-emerald-700 font-bold">'+formatToman(r.paid)+'</td><td class="text-rose-600 font-bold">'+formatToman(r.debt)+'</td><td>'+toPersianDigits(r.count)+'</td></tr>').join('');
 }
-
 function renderDetailReport(){
  const tb=document.getElementById('detailReportTbody'); if(!tb) return;
  const qUnit=toEnglishDigits(document.getElementById('filterDtUnit').value.trim());
@@ -1141,48 +1053,6 @@ function renderDetailReport(){
   return '<tr class="'+(b.paid?'paidrow':'')+'"><td class="font-black">'+toPersianDigits(esc(b.unit))+'</td><td>'+toPersianDigits(esc(b.floor||'-'))+'</td><td>'+esc(fn)+'</td><td>'+esc(ln)+'</td><td>'+esc(b.type)+'</td><td class="font-black '+(b.paid?'text-emerald-700':'text-rose-600')+'">'+formatToman(b.amount)+'</td><td>'+toPersianDigits(esc(b.date||''))+'</td><td>'+toPersianDigits(esc(b.payDate||'-'))+'</td><td><span class="badge-chip '+(b.paid?'badge-paid':'badge-unpaid')+'">'+(b.paid?'پرداخت':'بدهی')+'</span></td></tr>';
  }).join('');
 }
-async function beautifyExcelBlob(blob){
- try{
-  if(typeof JSZip==='undefined') return blob;
-  const zip=await JSZip.loadAsync(await blob.arrayBuffer());
-  const stylesFile=zip.file('xl/styles.xml');
-  if(!stylesFile) return blob;
-  let styles=await stylesFile.async('string');
-  let fillsCount=(styles.match(/<fills[^>]*count="(\d+)"/ )||[])[1];
-  let fontsCount=(styles.match(/<fonts[^>]*count="(\d+)"/ )||[])[1];
-  let bordersCount=(styles.match(/<borders[^>]*count="(\d+)"/ )||[])[1];
-  let xfsCount=(styles.match(/<cellXfs[^>]*count="(\d+)"/ )||[])[1];
-  if(!fillsCount||!fontsCount||!bordersCount||!xfsCount) return blob;
-  const fillBase=parseInt(fillsCount,10), fontBase=parseInt(fontsCount,10), borderBase=parseInt(bordersCount,10), xfBase=parseInt(xfsCount,10);
-  styles=styles.replace(/<fills([^>]*)count="\d+"([^>]*)>/, '<fills$1count="'+(fillBase+2)+'"$2>')
-   .replace('</fills>','<fill><patternFill patternType="solid"><fgColor rgb="FFFFFFFF"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FF0284C7"/><bgColor indexed="64"/></patternFill></fill></fills>');
-  styles=styles.replace(/<fonts([^>]*)count="\d+"([^>]*)>/, '<fonts$1count="'+(fontBase+1)+'"$2>')
-   .replace('</fonts>','<font><b/><color rgb="FFFFFFFF"/></font></fonts>');
-  styles=styles.replace(/<borders([^>]*)count="\d+"([^>]*)>/, '<borders$1count="'+(borderBase+1)+'"$2>')
-   .replace('</borders>','<border><left style="thin"><color rgb="FFD1D5DB"/></left><right style="thin"><color rgb="FFD1D5DB"/></right><top style="thin"><color rgb="FFD1D5DB"/></top><bottom style="thin"><color rgb="FFD1D5DB"/></bottom><diagonal/></border></borders>');
-  const dataXf='<xf numFmtId="0" fontId="0" fillId="'+fillBase+'" borderId="'+borderBase+'" applyAlignment="1" applyBorder="1"><alignment horizontal="center" vertical="center" readingOrder="2" wrapText="1"/></xf>';
-  const headXf='<xf numFmtId="0" fontId="'+fontBase+'" fillId="'+(fillBase+1)+'" borderId="'+borderBase+'" applyAlignment="1" applyBorder="1" applyFont="1" applyFill="1"><alignment horizontal="center" vertical="center" readingOrder="2" wrapText="1"/></xf>';
-  styles=styles.replace(/<cellXfs([^>]*)count="\d+"([^>]*)>/, '<cellXfs$1count="'+(xfBase+2)+'"$2>')
-   .replace('</cellXfs>',dataXf+headXf+'</cellXfs>');
-  zip.file('xl/styles.xml',styles);
-  const sheetFiles=Object.keys(zip.files).filter(n=>/^xl\/worksheets\/sheet\d+\.xml$/.test(n));
-  for(const name of sheetFiles){
-   let xml=await zip.file(name).async('string');
-   if(!xml.includes('rightToLeft="1"')){
-    if(xml.includes('<sheetView')) xml=xml.replace(/<sheetView([^>]*)>/,'<sheetView$1 rightToLeft="1">');
-    else if(xml.includes('<sheetViews>')) xml=xml.replace('<sheetViews>','<sheetViews><sheetView workbookViewId="0" rightToLeft="1"/>');
-   }
-   xml=xml.replace(/<c([^>]*?)r="([A-Z]+)(\d+)"([^>]*)>/g,(m,a,col,row,b)=>{
-    let style=(String(row)==='1')?(xfBase+1):xfBase;
-    let cleaned=(a+b).replace(/\s+s="\d+"/g,'');
-    return '<c'+cleaned+' r="'+col+row+'" s="'+style+'">';
-   });
-   zip.file(name,xml);
-  }
-  return await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
- }catch(e){ console.warn('Excel beautify failed',e); return blob; }
-}
-
 async function downloadReport(mode,format){
  const isOverview=mode==='overview';
  const title=isOverview?'گزارش کلی واحدها':'گزارش جزئی قبوض';
@@ -1219,21 +1089,12 @@ async function downloadReport(mode,format){
  if(format==='excel'){
   const wsData=[headers].concat(rows);
   const ws=XLSX.utils.aoa_to_sheet(wsData);
-  // عرض ستون‌ها متناسب با طول واقعی نوشته‌ها، با حداقل/حداکثر منطقی
-  ws['!cols']=headers.map((h,ci)=>{
-   const vals=[h].concat(rows.map(r=>r[ci]));
-   const maxLen=vals.reduce((m,v)=>Math.max(m,String(v??'').replace(/[\u200c\u200f]/g,'').length),0);
-   return {wch:Math.max(10,Math.min(34,maxLen+3))};
-  });
-  // ارتفاع ردیف‌ها برای نمایش مرتب و کامل نوشته‌ها
-  ws['!rows']=[{hpt:24}].concat(rows.map(()=>({hpt:21})));
+  window.styleExportWorksheet(ws,wsData);
   // RTL sheet view
   ws['!dir']='rtl';
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws, isOverview?'کلی':'جزئی');
   const out=XLSX.write(wb,{type:'array',bookType:'xlsx'});
-  let excelBlob=new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-  excelBlob=await beautifyExcelBlob(excelBlob);
-  await saveBlob(excelBlob,(isOverview?'Gozaresh-Kolli-':'Gozaresh-Jozi-')+getTodayShamsi().replace(/\//g,'-')+'.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  await saveBlob(new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), (isOverview?'Gozaresh-Kolli-':'Gozaresh-Jozi-')+getTodayShamsi().replace(/\//g,'-')+'.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
   return;
  }
  // pdf/jpg via html2canvas
@@ -1281,35 +1142,33 @@ function guessResHeaderMap(headers){
 }
 function guessBillHeaderMap(headers){
  const norm=headers.map(normalizeHeader);
- const exact=(names)=>{for(let i=0;i<norm.length;i++){if(names.includes(norm[i])) return i;}return -1;};
  const find=(alts)=>{for(let i=0;i<norm.length;i++){for(const a of alts){if(norm[i].includes(a)) return i;}} return -1;};
+ // need: unit, floor, fullName, issueDate, water, electricity, reserve, other, payDate, desc
  const map={};
  map.unit=find(['واحد','unit']);
  map.floor=find(['طبقه','floor']);
- // Prefer separate «نام» and «نام خانوادگی» columns.
- map.first=exact(['نام','نام کوچک','first','firstname','نام‌کوچک']);
- map.last=exact(['نام خانوادگی','نام‌خانوادگی','فامیلی','last','lastname']);
- // Backward compatibility for old files that have one combined name column.
- map.fullName=find(['نام و نام خانوادگی','نام و نام‌خانوادگی','نام خانوادگی و نام','نام کامل','fullname']);
- if(map.first===-1 && map.last===-1 && map.fullName===-1){
-   map.first=find(['نام']);
-   map.last=find(['خانوادگی','فامیلی']);
- }
+ map.fullName=find(['نام و نام خانوادگی','نام و نام‌خانوادگی','نام خانوادگی و نام','نام کامل','نام']);
  map.issueDate=find(['تاریخ صدور','تاريخ صدور','صدور']);
+ // avoid matching payDate for issueDate if both present: prefer exact
  let payIdx=find(['تاریخ پرداخت','تاريخ پرداخت','پرداخت']);
  let issueIdx=-1;
- for(let i=0;i<norm.length;i++){if(norm[i].includes('تاریخ صدور')||norm[i]==='صدور') issueIdx=i;}
- if(issueIdx===-1){for(let i=0;i<norm.length;i++){if(norm[i].includes('صدور')&&!norm[i].includes('پرداخت')) issueIdx=i;}}
+ for(let i=0;i<norm.length;i++){
+  if(norm[i].includes('تاریخ صدور')||norm[i]==='صدور') issueIdx=i;
+ }
+ if(issueIdx===-1){
+  // fallback find صدور but not پرداخت
+  for(let i=0;i<norm.length;i++){ if(norm[i].includes('صدور') && !norm[i].includes('پرداخت')) issueIdx=i;}
+ }
  if(issueIdx!==-1) map.issueDate=issueIdx;
  map.water=find(['آب','water']);
  map.electricity=find(['برق','electric']);
  map.reserve=find(['ذخیره','صندوق','reserve','fund']);
+ // distinguish reserve vs other: reserve contains ذخیره or صندوق, other contains سایر or متفرقه
  map.other=find(['سایر','متفرقه','other']);
  map.payDate=payIdx;
  map.desc=find(['توضیح','شرح','desc','note']);
  return map;
 }
-
 function onExcelResidentsFileSelected(e){
  const f=e.target.files[0]; if(!f) return;
  document.getElementById('resFileName').textContent=f.name;
@@ -1398,8 +1257,7 @@ function downloadResidentsTemplate(){
  const ws=XLSX.utils.aoa_to_sheet([headers].concat(data));
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'ساکنین');
  const out=XLSX.write(wb,{type:'array',bookType:'xlsx'});
- let excelBlob=new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
- beautifyExcelBlob(excelBlob).then(b=>saveBlob(b,'Namune-Sakinin.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
+ saveBlob(new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),'Namune-Sakinin.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 }
 function onExcelBillsFileSelected(e){
  const f=e.target.files[0]; if(!f) return;
@@ -1430,8 +1288,7 @@ function buildBillsMappingUI(){
  const fields=[
   {key:'unit',label:'واحد *',req:true},
   {key:'floor',label:'طبقه'},
-  {key:'first',label:'نام *',req:true},
-  {key:'last',label:'نام خانوادگی *',req:true},
+  {key:'fullName',label:'نام و نام خانوادگی *',req:true},
   {key:'issueDate',label:'تاریخ صدور'},
   {key:'water',label:'آب (مبلغ)'},
   {key:'electricity',label:'برق (مبلغ)'},
@@ -1482,55 +1339,62 @@ function updateBillsPreview(){
 }
 function commitBillsExcelImport(){
  const map=App.billMap;
- const hasSeparateName=map.first>=0 && map.last>=0;
- const hasCombinedName=map.fullName>=0;
- if(map.unit===-1 || (!hasSeparateName && !hasCombinedName)) return toast('نگاشت واحد و نام و نام خانوادگی الزامی است',false);
+ if(map.unit===-1 || map.fullName===-1) return toast('نگاشت واحد و نام الزامی است',false);
  if(map.water===-1 && map.electricity===-1 && map.reserve===-1 && map.other===-1) return toast('حداقل یکی از ستون‌های مبلغ (آب/برق/صندوق/سایر) را نگاشت کنید',false);
  let created=0, skipped=0;
  for(const row of App.excelBillsRows){
   const get=(idx)=> idx>=0 && row[idx]!==undefined ? String(row[idx]).trim() : '';
   const getRaw=(idx)=> idx>=0 && row[idx]!==undefined ? row[idx] : '';
-  const unitRaw=get(map.unit); if(!unitRaw){skipped++;continue;}
+  const unitRaw=get(map.unit);
+  if(!unitRaw){skipped++;continue;}
   const unit=toEnglishDigits(unitRaw).trim();
-  const floor=map.floor>=0?toEnglishDigits(get(map.floor)).trim():'';
-  let first='',last='';
-  if(hasSeparateName){ first=get(map.first); last=get(map.last); }
-  else { const sp=splitFullName(get(map.fullName)); first=sp.first; last=sp.last; }
-  if(!first||!last){skipped++;continue;}
-  const fullNameRaw=(first+' '+last).trim();
-  const issueRaw=map.issueDate>=0?getRaw(map.issueDate):'';
-  const payRaw=map.payDate>=0?getRaw(map.payDate):'';
-  const issueDate=issueRaw!==''&&issueRaw!==null&&String(issueRaw).trim()!==''?excelValueToShamsi(issueRaw,true):getTodayShamsi();
-  const payDateShamsi=payRaw!==''&&payRaw!==null&&String(payRaw).trim()!==''?excelValueToShamsi(payRaw,false):'';
-  const isPaid=!!payDateShamsi;
-  const descRaw=map.desc>=0?get(map.desc).trim():'';
-  const amounts=[{type:'آب',amt:parseAmount(map.water>=0?getRaw(map.water):'')},{type:'برق',amt:parseAmount(map.electricity>=0?getRaw(map.electricity):'')},{type:'ذخیره صندوق',amt:parseAmount(map.reserve>=0?getRaw(map.reserve):'')},{type:'سایر',amt:parseAmount(map.other>=0?getRaw(map.other):'' )}];
+  const floor=map.floor>=0? toEnglishDigits(get(map.floor)).trim() : '';
+  const fullNameRaw=get(map.fullName).trim();
+  if(!fullNameRaw){skipped++;continue;}
+  const {first,last}=splitFullName(fullNameRaw);
+  // dates: support excel date numbers
+  const issueRaw = map.issueDate>=0? getRaw(map.issueDate) : '';
+  const payRaw = map.payDate>=0? getRaw(map.payDate) : '';
+  const issueDate = issueRaw!=='' && issueRaw!==null && String(issueRaw).trim()!=='' ? excelValueToShamsi(issueRaw,true) : getTodayShamsi();
+  const payDateShamsi = payRaw!=='' && payRaw!==null && String(payRaw).trim()!=='' ? excelValueToShamsi(payRaw,false) : '';
+  const isPaid = !!payDateShamsi;
+  const descRaw=map.desc>=0? get(map.desc).trim() : '';
+  const amounts=[
+   {type:'آب', amt: parseAmount(map.water>=0? getRaw(map.water):'' )},
+   {type:'برق', amt: parseAmount(map.electricity>=0? getRaw(map.electricity):'' )},
+   {type:'ذخیره صندوق', amt: parseAmount(map.reserve>=0? getRaw(map.reserve):'' )},
+   {type:'سایر', amt: parseAmount(map.other>=0? getRaw(map.other):'' )},
+  ];
   let rowHas=false;
   for(const a of amounts){
-   if(!a.amt) continue; rowHas=true;
-   App.bills.push({id:uid(),unit,floor,name:fullNameRaw,first,last,type:a.type,amount:a.amt,date:issueDate,payDate:isPaid?payDateShamsi:'',paid:isPaid,note:a.type==='سایر'?descRaw:''});
+   if(!a.amt) continue;
+   rowHas=true;
+   const note = a.type==='سایر' ? descRaw : '';
+   App.bills.push({
+    id:uid(), unit, floor, name:fullNameRaw, first, last, type:a.type, amount:a.amt,
+    date:issueDate, payDate:isPaid?payDateShamsi:'', paid:isPaid, note
+   });
    created++;
   }
   if(!rowHas) skipped++;
  }
- persistStorage(); renderBillsList();renderFinancialOverview();renderOverviewReport();renderDetailReport();renderOverviewBillsTable();
- toast(toPersianDigits(created)+' قبض صادر شد (نام و نام خانوادگی جداگانه اعمال شد)'+(skipped?' | '+toPersianDigits(skipped)+' ردیف خالی':'')+' ✓');
+ persistStorage();
+ renderBillsList();renderFinancialOverview();renderOverviewReport();renderDetailReport();renderOverviewBillsTable();
+ toast(toPersianDigits(created)+' قبض صادر شد (طبقه و تاریخ اعمال شد)'+ (skipped? ' | '+toPersianDigits(skipped)+' ردیف خالی':'') +' ✓');
  document.getElementById('billsImportMappingBox').classList.add('hidden');
 }
-
 function downloadBillsTemplate(){
- const headers=['واحد','طبقه','نام','نام خانوادگی','تاریخ صدور','آب','برق','ذخیره صندوق','سایر','تاریخ پرداخت','توضیحات'];
+ const headers=['واحد','طبقه','نام و نام خانوادگی','تاریخ صدور','آب','برق','ذخیره صندوق','سایر','تاریخ پرداخت','توضیحات'];
  const data=[
-  ['101','1','علی','احمدی',getTodayShamsi(),'50000','','20000','','',''],
-  ['102','2','رضا','حسینی',getTodayShamsi(),'','75000','', '30000', getTodayShamsi(),'تعمیر پمپ'],
-  ['103','3','سارا','کریمی',getTodayShamsi(),'30000','40000','15000','5000','','قبض سایر: شارژ اضافه'],
+  ['101','1','علی احمدی',getTodayShamsi(),'50000','','20000','','',''],
+  ['102','2','رضا حسینی',getTodayShamsi(),'','75000','', '30000', getTodayShamsi(),'تعمیر پمپ'],
+  ['103','3','سارا کریمی',getTodayShamsi(),'30000','40000','15000','5000','','قبض سایر: شارژ اضافه'],
  ];
  const ws=XLSX.utils.aoa_to_sheet([headers].concat(data));
- ws['!cols']=[{wch:8},{wch:8},{wch:16},{wch:18},{wch:12},{wch:12},{wch:12},{wch:14},{wch:12},{wch:12},{wch:20}];
+ ws['!cols']=[{wch:8},{wch:8},{wch:20},{wch:12},{wch:12},{wch:12},{wch:14},{wch:12},{wch:12},{wch:20}];
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'قبوض');
  const out=XLSX.write(wb,{type:'array',bookType:'xlsx'});
- let excelBlob=new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
- beautifyExcelBlob(excelBlob).then(b=>saveBlob(b,'Namune-Ghobooz-10Sotoon.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
+ saveBlob(new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),'Namune-Ghobooz-10Sotoon.xlsx','Excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 }
 function renderAll(){
  deduplicateResidents(false);
@@ -1724,25 +1588,94 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 
-<script>
-/* Enforce Persian RTL order for dynamically opened sections and generated tables. */
+<style id="universal-table-export-style">
+.table-export-toolbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0;padding:7px;border:1px solid #bae6fd;border-radius:12px;background:rgba(240,249,255,.96)}
+.table-export-toolbar button{border:0;border-radius:9px;padding:7px 10px;font-size:12px;font-weight:900;color:#fff;background:#0369a1}
+.table-export-toolbar button:nth-child(2){background:#b91c1c}.table-export-toolbar button:nth-child(3){background:#047857}.table-export-toolbar button:nth-child(4){background:#6d28d9}
+.universal-export-render{position:fixed;left:-100000px;top:0;z-index:-1;background:#fff;color:#0f172a;padding:18px;direction:rtl;font-family:Vazirmatn,sans-serif;width:max-content;max-width:1200px}
+.universal-export-render table{border-collapse:collapse;table-layout:auto;width:auto;max-width:1160px;font-size:15px;font-weight:900}
+.universal-export-render th,.universal-export-render td{border:1.5px solid #64748b;padding:10px 12px;text-align:center!important;vertical-align:middle;white-space:normal;overflow-wrap:anywhere;font-size:15px;font-weight:900;color:#0f172a}
+.universal-export-render th{background:#0369a1!important;color:#fff!important}
+.universal-export-render tr:nth-child(even) td{background:#f0f9ff}
+</style>
+<script id="universal-table-export">
+window.styleExportWorksheet=function(ws,rows){
+ const n=Math.max(0,...rows.map(r=>r.length));
+ ws['!cols']=Array.from({length:n},(_,c)=>({wch:Math.min(42,Math.max(10,...rows.map(r=>Array.from(String(r[c]??'')).length+3)))}));
+ ws['!rows']=rows.map(()=>({hpt:24}));
+ rows.forEach((row,r)=>row.forEach((value,c)=>{
+  const ref=XLSX.utils.encode_cell({r,c});
+  if(!ws[ref])ws[ref]={t:'s',v:String(value??'')};
+  ws[ref].s={alignment:{horizontal:'center',vertical:'center',wrapText:true},font:{bold:true,sz:r===0?13:12},...(r===0?{fill:{patternType:'solid',fgColor:{rgb:'0369A1'}},font:{bold:true,sz:13,color:{rgb:'FFFFFF'}}}:{})};
+ }));
+ ws['!dir']='rtl';
+};
 (function(){
-  function applyFinalRTL(){
-    document.querySelectorAll('.sub-tab-btn').forEach(function(btn){
-      var p=btn.parentElement;
-      if(p){p.style.direction='rtl';p.setAttribute('dir','rtl');}
-      btn.style.direction='rtl';
-    });
-    document.querySelectorAll('table.custom-table, table.preview-mini-table, table.render-table').forEach(function(t){
-      t.style.direction='rtl';
-      t.setAttribute('dir','rtl');
-    });
-    document.querySelectorAll('table.custom-table tr, table.preview-mini-table tr, table.render-table tr').forEach(function(r){
-      r.style.direction='rtl';
-    });
+ const excluded = t => !t || t.closest('#exportRenderBox') || t.classList.contains('render-table') || t.classList.contains('preview-mini-table') || t.closest('.table-export-toolbar') || t.dataset.noUniversalExport==='true';
+ function titleFor(t){const sec=t.closest('section,[role="tabpanel"],.tab-panel,.glass-card');let h=sec&&sec.querySelector('h1,h2,h3,h4,[data-title]');return (h&&h.textContent.trim())||'گزارش جدول';}
+ function ensureToolbar(t){
+  if(excluded(t)||t.dataset.universalExportReady==='1')return;
+  if(!t.querySelector('tr'))return;
+  t.dataset.universalExportReady='1';
+  const bar=document.createElement('div');bar.className='table-export-toolbar';
+  const title=titleFor(t);
+  [['📊 اکسل','excel'],['📕 PDF','pdf'],['🖼️ JPG','jpg'],['📤 اشتراک‌گذاری','share']].forEach(([label,kind])=>{
+   const b=document.createElement('button');b.type='button';b.textContent=label;
+   b.addEventListener('click',()=>exportTable(t,title,kind));bar.appendChild(b);
+  });
+  t.parentNode.insertBefore(bar,t);
+ }
+ function tableRows(t){
+  return Array.from(t.querySelectorAll('tr')).map(tr=>Array.from(tr.querySelectorAll('th,td')).map(td=>(td.innerText||td.textContent||'').replace(/\s+/g,' ').trim())).filter(r=>r.some(Boolean));
+ }
+ function autoWidths(rows){
+  const n=Math.max(0,...rows.map(r=>r.length));const widths=[];
+  for(let c=0;c<n;c++){let m=8;rows.forEach(r=>{m=Math.max(m,Array.from(String(r[c]??'')).length)});widths.push({wch:Math.min(42,Math.max(10,m+3))});}
+  return widths;
+ }
+ function blobToBase64(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result).split(',')[1]||'');r.onerror=reject;r.readAsDataURL(blob);});}
+ async function shareOrSave(blob,name,mime,forceShare){
+  if(forceShare){
+   try{
+    const b64=await blobToBase64(blob);
+    if(window.AndroidShare&&typeof window.AndroidShare.shareFile==='function'){window.AndroidShare.shareFile(name,mime,b64);return;}
+    if(navigator.share&&navigator.canShare){const f=new File([blob],name,{type:mime});if(navigator.canShare({files:[f]})){await navigator.share({files:[f],title:name});return;}}
+   }catch(e){console.warn('Share failed',e);}
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',applyFinalRTL); else applyFinalRTL();
-  new MutationObserver(applyFinalRTL).observe(document.documentElement,{subtree:true,childList:true});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(url);},1200);
+  if(typeof toast==='function')toast(forceShare?'اشتراک‌گذاری مستقیم در دسترس نبود؛ فایل ذخیره شد':'فایل خروجی آماده شد');
+ }
+ async function exportTable(t,title,kind){
+  try{
+   const safe=(title||'جدول').replace(/[\\/:*?"<>|]/g,'-').slice(0,45);
+   const rows=tableRows(t);if(!rows.length){alert('جدولی برای خروجی وجود ندارد');return;}
+   const stamp=(typeof getTodayShamsi==='function'?getTodayShamsi():'').replace(/\//g,'-');
+   const fileBase=safe+'-'+stamp;
+   if(kind==='excel'){
+    if(!window.XLSX){alert('کتابخانه Excel بارگذاری نشده است');return;}
+    const ws=XLSX.utils.aoa_to_sheet(rows);window.styleExportWorksheet(ws,rows);
+    const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'گزارش');
+    const out=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+    await shareOrSave(new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),fileBase+'.xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',false);return;
+   }
+   const holder=document.createElement('div');holder.className='universal-export-render';
+   const heading=document.createElement('div');heading.textContent=title+' | '+stamp;heading.style.cssText='font-size:20px;font-weight:900;text-align:center;margin-bottom:14px';
+   const clone=t.cloneNode(true);clone.querySelectorAll('button,input,select,textarea').forEach(e=>e.remove());
+   holder.append(heading,clone);document.body.appendChild(holder);
+   await new Promise(r=>setTimeout(r,120));
+   const canvas=await html2canvas(holder,{scale:2,backgroundColor:'#ffffff',useCORS:true,windowWidth:Math.min(1400,holder.scrollWidth+30)});
+   holder.remove();
+   let blob,mime,name;
+   if(kind==='jpg'){blob=await new Promise(res=>canvas.toBlob(res,'image/jpeg',0.94));mime='image/jpeg';name=fileBase+'.jpg';}
+   else {const {jsPDF}=window.jspdf;const pdf=new jsPDF({orientation:canvas.width>canvas.height?'landscape':'portrait',unit:'pt',format:[canvas.width*.375,canvas.height*.375]});pdf.addImage(canvas.toDataURL('image/jpeg',.94),'JPEG',0,0,canvas.width*.375,canvas.height*.375);blob=pdf.output('blob');mime='application/pdf';name=fileBase+'.pdf';}
+   if(!blob)throw new Error('ساخت فایل ناموفق بود');
+   await shareOrSave(blob,name,mime,kind==='share');
+  }catch(e){console.error(e);alert('ساخت خروجی ناموفق بود. دوباره تلاش کنید.');}
+ }
+ function scan(root){if(root.matches&&root.matches('table'))ensureToolbar(root);if(root.querySelectorAll)root.querySelectorAll('table').forEach(ensureToolbar);}
+ function start(){scan(document);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)scan(n);}))).observe(document.body,{childList:true,subtree:true});}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
 </script>
+
 </body></html>
