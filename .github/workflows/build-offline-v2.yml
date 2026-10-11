@@ -3,7 +3,8 @@ name: Build Offline APK v2
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -24,8 +25,6 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          packages: platform-tools
 
       - name: Install Gradle 8.7
         uses: gradle/actions/setup-gradle@v4
@@ -39,47 +38,72 @@ jobs:
 
           WEB="app/src/main/assets/www"
           VENDOR="$WEB/vendor"
-          mkdir -p "$VENDOR"
 
-          curl -L --fail --retry 3 -o "$VENDOR/xlsx.full.min.js" \
-            "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+          mkdir -p "$VENDOR" "$VENDOR/vazirmatn"
 
-          curl -L --fail --retry 3 -o "$VENDOR/html2canvas.min.js" \
+          echo "Downloading JavaScript libraries..."
+
+          curl -fLsS --retry 3 \
+            -o "$VENDOR/xlsx.full.min.js" \
+            "https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"
+
+          curl -fLsS --retry 3 \
+            -o "$VENDOR/html2canvas.min.js" \
             "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
 
-          curl -L --fail --retry 3 -o "$VENDOR/jspdf.umd.min.js" \
+          curl -fLsS --retry 3 \
+            -o "$VENDOR/jspdf.umd.min.js" \
             "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
 
-          curl -L --fail --retry 3 -o "$VENDOR/jszip.min.js" \
+          curl -fLsS --retry 3 \
+            -o "$VENDOR/jszip.min.js" \
             "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
 
-          curl -L --fail --retry 3 -o "$VENDOR/tailwind.cdn.js" \
+          curl -fLsS --retry 3 \
+            -o "$VENDOR/tailwind.cdn.js" \
             "https://cdn.tailwindcss.com"
 
-          mkdir -p "$VENDOR/vazirmatn"
+          echo "Checking downloaded libraries..."
 
-          npm pack vazirmatn@33.003 --silent
+          test -s "$VENDOR/xlsx.full.min.js"
+          test -s "$VENDOR/html2canvas.min.js"
+          test -s "$VENDOR/jspdf.umd.min.js"
+          test -s "$VENDOR/jszip.min.js"
+          test -s "$VENDOR/tailwind.cdn.js"
 
-          PKG="vazirmatn-33.003.tgz"
-          test -f "$PKG"
+          echo "Downloading Vazirmatn font package..."
 
-          mkdir -p vazirmatn-package
-          tar -xzf "$PKG" -C vazirmatn-package
+          npm pack vazirmatn@33.0.3
 
-          CSS="$(find vazirmatn-package -type f -name 'Vazirmatn-font-face.css' | head -n 1)"
+          PKG="vazirmatn-33.0.3.tgz"
+
+          if [ ! -s "$PKG" ]; then
+            echo "ERROR: Vazirmatn archive was not created."
+            ls -la
+            exit 1
+          fi
+
+          mkdir -p package
+
+          tar -xzf "$PKG"
+
+          echo "Searching for Vazirmatn CSS..."
+
+          CSS="$(find package -type f -name 'Vazirmatn-font-face.css' -print -quit)"
 
           if [ -z "$CSS" ]; then
-            echo "Vazirmatn CSS not found"
+            echo "ERROR: Vazirmatn-font-face.css was not found."
+            find package -maxdepth 4 -type f | head -80
             exit 1
           fi
 
           cp "$CSS" "$VENDOR/vazirmatn/Vazirmatn-font-face.css"
 
-          CSSDIR="$(dirname "$CSS")"
+          find package -type f \
+            \( -name '*.woff2' -o -name '*.woff' -o -name '*.ttf' \) \
+            -exec cp {} "$VENDOR/vazirmatn/" \;
 
-          cp "$CSSDIR"/*.woff2 "$VENDOR/vazirmatn/" 2>/dev/null || true
-          cp "$CSSDIR"/*.woff "$VENDOR/vazirmatn/" 2>/dev/null || true
-          cp "$CSSDIR"/*.ttf "$VENDOR/vazirmatn/" 2>/dev/null || true
+          echo "Rewriting web references to local files..."
 
           python3 - <<'PY'
           from pathlib import Path
@@ -87,8 +111,8 @@ jobs:
 
           p = Path("app/src/main/assets/www/index.html")
 
-          if not p.exists():
-              raise SystemExit("index.html not found")
+          if not p.is_file():
+              raise SystemExit("ERROR: index.html was not found.")
 
           s = p.read_text(encoding="utf-8")
 
@@ -100,6 +124,9 @@ jobs:
                   "vendor/tailwind.cdn.js",
 
               "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js":
+                  "vendor/xlsx.full.min.js",
+
+              "https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js":
                   "vendor/xlsx.full.min.js",
 
               "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js":
@@ -115,17 +142,15 @@ jobs:
           for old, new in replacements.items():
               s = s.replace(old, new)
 
-          # Remove the optional external rrweb script.
           s = re.sub(
-              r'<script[^>]+src=["\']https://cdn\.jsdelivr\.net/npm/rrweb@[^"\']+["\'][^>]*>\s*</script>',
+              r'<script\b[^>]*\bsrc=["\']https://cdn\.jsdelivr\.net/npm/rrweb@[^"\']+["\'][^>]*>\s*</script\s*>',
               '',
               s,
               flags=re.I
           )
 
-          # Replace the generated manifest placeholder if it exists.
           s = re.sub(
-              r'<link[^>]+id=["\']manifest-placeholder["\'][^>]*>',
+              r'<link\b[^>]*\bid=["\']manifest-placeholder["\'][^>]*>',
               '<link rel="manifest" href="manifest.webmanifest">',
               s,
               count=1,
@@ -133,8 +158,10 @@ jobs:
           )
 
           p.write_text(s, encoding="utf-8")
-          print("Offline HTML dependency paths updated.")
+          print("Local reference replacement completed.")
           PY
+
+          echo "Fixing local font paths..."
 
           python3 - <<'PY'
           from pathlib import Path
@@ -145,47 +172,49 @@ jobs:
               "Vazirmatn-font-face.css"
           )
 
-          if p.exists():
-              s = p.read_text(encoding="utf-8")
+          s = p.read_text(encoding="utf-8")
 
-              s = re.sub(
-                  r'url\((["\']?)([^)"\']+)\1\)',
-                  lambda m: (
-                      "url("
-                      + m.group(1)
-                      + Path(m.group(2)).name
-                      + m.group(1)
-                      + ")"
-                  ),
-                  s
-              )
+          s = re.sub(
+              r'url\((\s*["\']?)([^)"\']+)(["\']?\s*)\)',
+              lambda m: (
+                  "url("
+                  + m.group(1)
+                  + Path(m.group(2).strip()).name
+                  + m.group(3)
+                  + ")"
+              ),
+              s
+          )
 
-              p.write_text(s, encoding="utf-8")
-              print("Vazirmatn font paths updated.")
+          p.write_text(s, encoding="utf-8")
+          print("Font paths updated.")
           PY
 
-      - name: Verify required files
-        shell: bash
-        run: |
-          set -euo pipefail
+          echo "Checking required local files..."
 
-          test -f app/src/main/assets/www/index.html
-          test -f app/src/main/AndroidManifest.xml
+          test -s "$VENDOR/xlsx.full.min.js"
+          test -s "$VENDOR/html2canvas.min.js"
+          test -s "$VENDOR/jspdf.umd.min.js"
+          test -s "$VENDOR/jszip.min.js"
+          test -s "$VENDOR/tailwind.cdn.js"
+          test -s "$VENDOR/vazirmatn/Vazirmatn-font-face.css"
 
-          echo "Required Android and HTML files exist."
+          echo "All required dependency files are present."
 
       - name: Verify no runtime CDN dependencies
         shell: bash
         run: |
           set -euo pipefail
 
-          if grep -nE 'https?://(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.tailwindcss\.com)' \
+          if grep -nE \
+            'https?://(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.tailwindcss\.com)' \
             app/src/main/assets/www/index.html; then
-            echo "External runtime dependency remains in index.html"
+
+            echo "ERROR: An external runtime dependency remains in index.html."
             exit 1
           fi
 
-          echo "No matching external CDN URLs remain in index.html."
+          echo "No matching external CDN references found in index.html."
 
       - name: Build APK
         run: gradle assembleDebug --stacktrace
